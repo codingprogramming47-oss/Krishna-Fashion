@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Return &amp; Exchange Policy — Krishna Fashion</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="main.css" />
+  <style>
+    .policy-page {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 3rem 1.5rem 5rem;
+    }
+    .policy-card {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border-light);
+      box-shadow: var(--shadow-md);
+      overflow: hidden;
+      margin-bottom: 1.5rem;
+    }
+    .policy-card-header {
+      background: linear-gradient(135deg, var(--maroon-dark), #3D0715);
+      padding: 2.5rem 2.5rem 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .policy-card-header::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M20 0L25 8L33 8L27 13L29 21L20 16L11 21L13 13L7 8L15 8z'/%3E%3C/g%3E%3C/svg%3E");
+      pointer-events: none;
+    }
+    .policy-card-header .policy-icon {
+      width: 52px; height: 52px;
+      background: rgba(201,168,76,0.2);
+      border: 1.5px solid rgba(201,168,76,0.4);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--gold-light);
+      font-size: 1.3rem;
+      margin-bottom: 1rem;
+      position: relative;
+    }
+    .policy-card-header h1 {
+      font-family: var(--font-display);
+      font-size: clamp(1.8rem, 3vw, 2.4rem);
+      color: var(--cream);
+      font-weight: 700;
+      margin-bottom: 0.4rem;
+      position: relative;
+    }
+    .policy-card-header p {
+      color: rgba(245,237,214,0.6);
+      font-size: 0.85rem;
+      position: relative;
+    }
+    .policy-body {
+      padding: 2.5rem;
+    }
+    .policy-updated {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: var(--beige-dark);
+      color: var(--text-light);
+      font-size: 0.75rem;
+      padding: 0.3rem 0.75rem;
+      border-radius: 20px;
+      margin-bottom: 1.75rem;
+    }
+
+    /* Section blocks */
+    .policy-blocks {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+    .policy-block {
+      border-radius: var(--radius-md);
+      padding: 1.5rem;
+      border: 1.5px solid transparent;
+    }
+    .policy-block-accept {
+      background: #F0FDF4;
+      border-color: #BBF7D0;
+    }
+    .policy-block-conditions {
+      background: var(--beige);
+      border-color: var(--border);
+    }
+    .policy-block-reject {
+      background: #FFF5F5;
+      border-color: #FED7D7;
+    }
+    .policy-block-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+    }
+    .policy-block-icon {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.9rem;
+      flex-shrink: 0;
+    }
+    .icon-green  { background: #D1FAE5; color: #059669; }
+    .icon-gold   { background: rgba(201,168,76,0.2); color: var(--gold-dark); }
+    .icon-red    { background: #FEE2E2; color: #DC2626; }
+    .policy-block-title {
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+      font-weight: 600;
+    }
+    .title-green { color: #065F46; }
+    .title-gold  { color: var(--maroon-dark); }
+    .title-red   { color: #991B1B; }
+    .policy-list {
+      list-style: none;
+      padding: 0; margin: 0;
+      display: flex; flex-direction: column;
+      gap: 0.55rem;
+    }
+    .policy-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.65rem;
+      font-size: 0.88rem;
+      line-height: 1.6;
+    }
+    .policy-list li .li-dot {
+      width: 20px; height: 20px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.6rem;
+      flex-shrink: 0;
+      margin-top: 0.1rem;
+    }
+    .dot-green { background: #D1FAE5; color: #059669; }
+    .dot-gold  { background: rgba(201,168,76,0.2); color: var(--gold-dark); }
+    .dot-red   { background: #FEE2E2; color: #DC2626; }
+    .li-text { color: var(--text-mid); }
+
+    /* Important notice */
+    .important-notice {
+      background: linear-gradient(135deg, rgba(123,29,46,0.06), rgba(201,168,76,0.06));
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 1.5rem;
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+      margin-top: 1.25rem;
+    }
+    .important-notice i {
+      color: var(--gold);
+      font-size: 1.1rem;
+      margin-top: 0.1rem;
+      flex-shrink: 0;
+    }
+    .important-notice p {
+      font-size: 0.85rem;
+      color: var(--text-mid);
+      line-height: 1.7;
+      margin: 0;
+    }
+    .important-notice strong { color: var(--maroon-dark); }
+
+    /* How to initiate */
+    .steps-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+    .step-card {
+      background: var(--white);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-md);
+      padding: 1.25rem;
+      text-align: center;
+    }
+    .step-num {
+      width: 32px; height: 32px;
+      background: var(--maroon);
+      color: var(--cream);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.78rem;
+      font-weight: 700;
+      margin: 0 auto 0.75rem;
+    }
+    .step-card h4 {
+      font-family: var(--font-display);
+      font-size: 0.9rem;
+      color: var(--maroon-dark);
+      margin-bottom: 0.4rem;
+    }
+    .step-card p {
+      font-size: 0.78rem;
+      color: var(--text-light);
+      line-height: 1.5;
+    }
+
+    @media (max-width: 640px) {
+      .policy-card-header { padding: 2rem 1.5rem 1.5rem; }
+      .policy-body { padding: 1.75rem 1.5rem; }
+      .steps-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="page-loader" class="page-loader">
+    <span class="brand-name">Krishna</span>
+    <div class="spinner"></div>
+  </div>
+
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="navbar">
+      <a href="index.html" class="nav-logo">
+        <span class="brand-name">Krishna</span>
+        <span class="brand-tagline">Ethnic Fashion</span>
+      </a>
+      <nav class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="shop.html">Shop</a>
+        <a href="shop.html?category=Wedding+Wear">Wedding</a>
+        <a href="shop.html?category=Festive+Collection">Festive</a>
+        <a href="shop.html?tag=New">New In</a>
+      </nav>
+      <div class="nav-actions">
+        <a href="wishlist.html" title="Wishlist"><i class="fa-regular fa-heart"></i></a>
+        <a href="cart.html" style="position:relative" title="Cart">
+          <i class="fa-solid fa-bag-shopping"></i>
+          <span class="cart-badge" style="display:none">0</span>
+        </a>
+        <button class="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MOBILE NAV -->
+  <nav class="mobile-nav">
+    <div class="mobile-nav-header">
+      <span class="brand-name">Krishna</span>
+      <button class="mobile-nav-close"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="mobile-nav-links">
+      <a href="index.html">Home</a>
+      <a href="shop.html">All Products</a>
+      <a href="cart.html">Cart</a>
+      <a href="wishlist.html">Wishlist</a>
+    </div>
+  </nav>
+
+  <!-- PAGE BANNER -->
+  <div class="page-banner">
+    <h1>Return &amp; Exchange Policy</h1>
+    <p>Please read carefully before placing your order</p>
+  </div>
+
+  <!-- CONTENT -->
+  <div class="policy-page">
+
+    <div class="policy-card">
+      <div class="policy-card-header">
+        <div class="policy-icon"><i class="fa-solid fa-rotate-left"></i></div>
+        <h1>Return &amp; Exchange Policy</h1>
+        <p>At Krishna Fashion, customer satisfaction is important to us</p>
+      </div>
+
+      <div class="policy-body">
+        <div class="policy-updated">
+          <i class="fa-regular fa-calendar"></i> Effective Date: January 2025
+        </div>
+
+        <div class="policy-blocks">
+
+          <!-- ACCEPTED -->
+          <div class="policy-block policy-block-accept">
+            <div class="policy-block-header">
+              <div class="policy-block-icon icon-green">
+                <i class="fa-solid fa-check"></i>
+              </div>
+              <h3 class="policy-block-title title-green">We Accept Exchange Only If</h3>
+            </div>
+            <ul class="policy-list">
+              <li>
+                <span class="li-dot dot-green"><i class="fa-solid fa-check"></i></span>
+                <span class="li-text">Wrong product received — item does not match your order</span>
+              </li>
+              <li>
+                <span class="li-dot dot-green"><i class="fa-solid fa-check"></i></span>
+                <span class="li-text">Damaged product received — visible damage upon delivery</span>
+              </li>
+              <li>
+                <span class="li-dot dot-green"><i class="fa-solid fa-check"></i></span>
+                <span class="li-text">Manufacturing defect — fault in stitching, fabric, or finishing</span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- MANDATORY CONDITIONS -->
+          <div class="policy-block policy-block-conditions">
+            <div class="policy-block-header">
+              <div class="policy-block-icon icon-gold">
+                <i class="fa-solid fa-clipboard-list"></i>
+              </div>
+              <h3 class="policy-block-title title-gold">Mandatory Conditions</h3>
+            </div>
+            <ul class="policy-list">
+              <li>
+                <span class="li-dot dot-gold"><i class="fa-solid fa-clock"></i></span>
+                <span class="li-text"><strong>Exchange request within 3 days</strong> of delivery — requests after this window will not be accepted</span>
+              </li>
+              <li>
+                <span class="li-dot dot-gold"><i class="fa-solid fa-video"></i></span>
+                <span class="li-text"><strong>Unboxing video required</strong> — a clear video of the parcel being opened is mandatory for all exchange claims</span>
+              </li>
+              <li>
+                <span class="li-dot dot-gold"><i class="fa-solid fa-tag"></i></span>
+                <span class="li-text">Product must be <strong>unused and unwashed</strong>, with all original tags and packaging intact</span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- NOT ACCEPTED -->
+          <div class="policy-block policy-block-reject">
+            <div class="policy-block-header">
+              <div class="policy-block-icon icon-red">
+                <i class="fa-solid fa-xmark"></i>
+              </div>
+              <h3 class="policy-block-title title-red">We Do Not Accept Exchange / Return For</h3>
+            </div>
+            <ul class="policy-list">
+              <li>
+                <span class="li-dot dot-red"><i class="fa-solid fa-xmark"></i></span>
+                <span class="li-text">Size issues — please refer to the size guide before ordering</span>
+              </li>
+              <li>
+                <span class="li-dot dot-red"><i class="fa-solid fa-xmark"></i></span>
+                <span class="li-text">Slight color variation — minor differences due to screen display settings</span>
+              </li>
+              <li>
+                <span class="li-dot dot-red"><i class="fa-solid fa-xmark"></i></span>
+                <span class="li-text">Sale items — products purchased during discount sales are final</span>
+              </li>
+              <li>
+                <span class="li-dot dot-red"><i class="fa-solid fa-xmark"></i></span>
+                <span class="li-text">Used or washed items — products that have been worn or laundered</span>
+              </li>
+            </ul>
+          </div>
+
+        </div>
+
+        <!-- Important notice -->
+        <div class="important-notice">
+          <i class="fa-solid fa-circle-exclamation"></i>
+          <p><strong>Important:</strong> Always record an unboxing video before opening your parcel. Without a valid unboxing video, we will not be able to process any exchange request, even for damaged or wrong items.</p>
+        </div>
+
+        <!-- How to initiate -->
+        <h3 style="font-family:var(--font-display);font-size:1.1rem;color:var(--maroon-dark);font-weight:600;margin:2rem 0 0">
+          <i class="fa-solid fa-arrow-right-arrow-left" style="color:var(--gold);margin-right:0.5rem"></i>
+          How to Initiate an Exchange
+        </h3>
+        <div class="steps-row">
+          <div class="step-card">
+            <div class="step-num">1</div>
+            <h4>Record Video</h4>
+            <p>Record a clear unboxing video before opening the package</p>
+          </div>
+          <div class="step-card">
+            <div class="step-num">2</div>
+            <h4>WhatsApp Us</h4>
+            <p>Send the video and your order details to our WhatsApp within 3 days</p>
+          </div>
+          <div class="step-card">
+            <div class="step-num">3</div>
+            <h4>We Confirm</h4>
+            <p>Our team reviews and confirms the exchange pickup date</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Contact CTA -->
+    <div style="text-align:center;padding:1rem 0">
+      <p style="font-size:0.88rem;color:var(--text-light);margin-bottom:1rem">Have a question about your order?</p>
+      <a href="https://wa.me/917600257892" class="btn btn-primary" target="_blank" rel="noopener">
+        <i class="fa-brands fa-whatsapp"></i> Chat on WhatsApp
+      </a>
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="footer-grid">
+
+      <!-- Brand column -->
+      <div class="footer-col footer-brand">
+        <a href="index.html" class="nav-logo">
+          <span class="brand-name">Krishna</span>
+          <span class="brand-tagline" style="color:rgba(255,255,255,0.4)">Fashion</span>
+        </a>
+        <p id="footer-about">Celebrating the beauty of Indian ethnic wear with handcrafted, premium quality clothing for every occasion.</p>
+        <div class="footer-social" id="footer-social">
+          <!-- Populated dynamically from Firestore footerContent.socials -->
+        </div>
+      </div>
+
+      <!-- Shop column — from Firestore footerContent / products -->
+      <div class="footer-col">
+        <h4>Shop</h4>
+        <ul id="footer-shop-links">
+          <li><span style="color:rgba(255,255,255,0.3);font-size:0.8rem">Loading…</span></li>
+        </ul>
+      </div>
+
+      <!-- Help column — from Firestore footerContent.helpLinks -->
+      <div class="footer-col">
+        <h4>Help</h4>
+        <ul id="footer-help-links">
+          <li><span style="color:rgba(255,255,255,0.3);font-size:0.8rem">Loading…</span></li>
+        </ul>
+      </div>
+
+      <!-- Contact column -->
+      <div class="footer-col">
+        <h4>Contact Us</h4>
+        <div class="footer-contact-item" id="footer-phone-row" style="display:none">
+          <i class="fa-solid fa-phone"></i>
+          <span id="footer-phone"></span>
+        </div>
+        <div class="footer-contact-item" id="footer-email-row" style="display:none">
+          <i class="fa-solid fa-envelope"></i>
+          <span id="footer-email"></span>
+        </div>
+        <div class="footer-contact-item" id="footer-address-row" style="display:none">
+          <i class="fa-solid fa-location-dot"></i>
+          <span id="footer-address"></span>
+        </div>
+        <div class="footer-contact-item" id="footer-whatsapp-row" style="display:none">
+          <i class="fa-brands fa-whatsapp"></i>
+          <span id="footer-whatsapp"></span>
+        </div>
+      </div>
+
+    </div>
+    <div class="footer-bottom">
+      <p id="footer-copyright">© 2026 Krishna Fashion. All rights reserved. Made with ❤️ in India.</p>
+      <div class="footer-bottom-links" id="footer-bottom-links">
+        <!-- Populated dynamically from Firestore footerContent.bottomLinks -->
+      </div>
+    </div>
+  </footer>
+
+  <a id="whatsapp-float-link" href="#" class="whatsapp-float" style="pointer-events:none;opacity:0.4" target="_blank" rel="noopener">
+    <span class="whatsapp-label">Chat with us</span>
+    <div class="whatsapp-float-btn"><i class="fa-brands fa-whatsapp"></i></div>
+  </a>
+  <button class="scroll-top" aria-label="Scroll to top"><i class="fa-solid fa-arrow-up"></i></button>
+
+  <script type="module">
+    import { initNavbar, initScrollTop, hideLoader, LS } from './utils.js';
+    import { updateCartBadge } from './products.js';
+    import { getConfig } from './firebase.js';
+
+    function set(id, val) { const el = document.getElementById(id); if (el && val) el.textContent = val; }
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      setTimeout(hideLoader, 400);
+      initNavbar();
+      initScrollTop();
+      updateCartBadge();
+
+      const [footerContent, siteSettings] = await Promise.all([
+        getConfig('footerContent'),
+        getConfig('settings'),
+      ]);
+
+      // ── FOOTER ──
+      if (footerContent) {
+        if (footerContent.about)     set('footer-about',     footerContent.about);
+        if (footerContent.copyright) set('footer-copyright', footerContent.copyright);
+        if (footerContent.whatsappLabel) set('whatsapp-label', footerContent.whatsappLabel);
+
+        // Social icons
+        if (footerContent.socials?.length) {
+          const socialEl = document.getElementById('footer-social');
+          if (socialEl) {
+            socialEl.innerHTML = footerContent.socials.map(s =>
+              `<a href="${s.href || '#'}" aria-label="${s.label || ''}"
+                  ${s.href && s.href !== '#' ? 'target="_blank" rel="noopener"' : ''}>
+                 <i class="${s.icon}"></i></a>`
+            ).join('');
+          }
+        }
+
+        // Contact rows — only shown if value exists in DB
+        const showRow = (rowId, spanId, val) => {
+          if (!val) return;
+          set(spanId, val);
+          const row = document.getElementById(rowId);
+          if (row) row.style.display = '';
+        };
+        showRow('footer-phone-row',   'footer-phone',   footerContent.phone);
+        showRow('footer-email-row',   'footer-email',   footerContent.email);
+        showRow('footer-address-row', 'footer-address', footerContent.address);
+
+        const waNum = siteSettings?.whatsappNumber || '';
+        if (waNum || footerContent.phone) {
+          showRow('footer-whatsapp-row', 'footer-whatsapp',
+            footerContent.phone ? `WhatsApp: ${footerContent.phone}` : `WhatsApp: +${waNum}`);
+        }
+
+        // Help links
+        const DEFAULT_HELP = [
+          { label: 'Returns & Exchange', href: 'return.html'  },
+          { label: 'Privacy Policy',     href: 'privacy.html' },
+        ];
+        const helpLinks = footerContent.helpLinks?.length ? footerContent.helpLinks : DEFAULT_HELP;
+        const helpList  = document.getElementById('footer-help-links');
+        if (helpList) {
+          helpList.innerHTML = helpLinks.map(l =>
+            `<li><a href="${l.href || '#'}">${l.label}</a></li>`
+          ).join('');
+        }
+
+        // Shop links
+        const DEFAULT_SHOP = [
+          { label: 'Dresses',       href: 'shop.html?category=Dresses'      },
+          { label: 'Co-ord Sets',   href: 'shop.html?category=Co-ord+Sets'  },
+          { label: 'Wedding Wear',  href: 'shop.html?category=Wedding+Wear' },
+        ];
+        const shopLinks = footerContent.shopLinks?.length ? footerContent.shopLinks : DEFAULT_SHOP;
+        const shopList  = document.getElementById('footer-shop-links');
+        if (shopList) {
+          shopList.innerHTML = shopLinks.map(l =>
+            `<li><a href="${l.href || '#'}">${l.label}</a></li>`
+          ).join('');
+        }
+
+        // Bottom links
+        const DEFAULT_BOTTOM = [
+          { label: 'Privacy Policy',      href: 'privacy.html' },
+          { label: 'Returns & Exchange',  href: 'return.html'  },
+        ];
+        const bottomLinks = footerContent.bottomLinks?.length ? footerContent.bottomLinks : DEFAULT_BOTTOM;
+        const bottomEl    = document.getElementById('footer-bottom-links');
+        if (bottomEl) {
+          bottomEl.innerHTML = bottomLinks.map(l =>
+            `<a href="${l.href || '#'}">${l.label}</a>`
+          ).join('');
+        }
+      }
+
+      // ── WHATSAPP FLOAT ──
+      const liveWaNum = siteSettings?.whatsappNumber || '';
+      const waFloatLink = document.getElementById('whatsapp-float-link');
+      if (liveWaNum && waFloatLink) {
+        waFloatLink.href = `https://wa.me/${liveWaNum}`;
+        waFloatLink.style.pointerEvents = '';
+        waFloatLink.style.opacity = '';
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Your Cart — Krishna Fashion</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="main.css" />
+  <link rel="stylesheet" href="cart.css" />
+</head>
+<body>
+
+  <!-- PAGE LOADER -->
+  <div id="page-loader" class="page-loader">
+    <span class="brand-name">Krishna</span>
+    <div class="spinner"></div>
+  </div>
+
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="navbar">
+      <a href="index.html" class="nav-logo">
+        <span class="brand-name">Krishna</span>
+        <span class="brand-tagline">Fashion</span>
+      </a>
+      <nav class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="shop.html">Shop</a>
+        <a href="shop.html?category=Wedding+Wear">Wedding</a>
+        <a href="shop.html?category=Festive+Collection">Festive</a>
+        <a href="shop.html?tag=New">New In</a>
+      </nav>
+      <div class="nav-actions">
+        <a href="wishlist.html" title="Wishlist"><i class="fa-regular fa-heart"></i></a>
+        <a href="cart.html" style="position:relative" title="Cart">
+          <i class="fa-solid fa-bag-shopping"></i>
+          <span class="cart-badge" style="display:none">0</span>
+        </a>
+        <button class="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MOBILE NAV -->
+  <nav class="mobile-nav">
+    <div class="mobile-nav-header">
+      <span class="brand-name">Krishna</span>
+      <button class="mobile-nav-close"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="mobile-nav-links">
+      <a href="index.html">Home</a>
+      <a href="shop.html">All Products</a>
+      <a href="wishlist.html">Wishlist</a>
+      <a href="orders.html">My Orders</a>
+      </div>
+  </nav>
+
+  <!-- EMPTY CART STATE -->
+  <div id="cart-empty" class="empty-state" style="display:none; padding:6rem 1rem">
+    <i class="fa-solid fa-bag-shopping" style="font-size:3.5rem;color:var(--border)"></i>
+    <h3>Your bag is empty</h3>
+    <p>Looks like you haven't added anything yet. Start exploring!</p>
+    <a href="shop.html" class="btn btn-primary" style="margin-top:1.5rem">
+      <i class="fa-solid fa-bag-shopping"></i> Shop Now
+    </a>
+  </div>
+
+  <!-- FILLED CART -->
+  <div id="cart-filled">
+    <div class="cart-layout">
+      <h2 class="cart-page-title">My Shopping Bag</h2>
+
+      <!-- Cart Items -->
+      <div>
+        <div class="cart-items" id="cart-items">
+          <!-- Rendered by cart.js -->
+        </div>
+
+        <!-- Continue Shopping -->
+        <div style="margin-top:1.5rem">
+          <a href="shop.html" class="btn btn-outline btn-sm">
+            <i class="fa-solid fa-arrow-left"></i> Continue Shopping
+          </a>
+        </div>
+      </div>
+
+      <!-- Order Summary -->
+      <div class="order-summary">
+        <h3>Order Summary</h3>
+
+        <div class="summary-row">
+          <span>Subtotal</span>
+          <span id="sum-subtotal">₹0</span>
+        </div>
+        <div class="summary-row summary-discount">
+          <span>You Save</span>
+          <span id="sum-savings">₹0</span>
+        </div>
+        <div class="summary-row" style="display:none">
+          <span>Shipping</span>
+          <span id="sum-shipping">FREE</span>
+        </div>
+        <div class="summary-row" id="sum-coupon-row" style="display:none">
+          <span>Coupon Discount</span>
+          <span id="sum-coupon">₹0</span>
+        </div>
+        <div class="summary-row summary-total">
+          <span>Total</span>
+          <span id="sum-total">₹0</span>
+        </div>
+
+        <!-- Coupon -->
+        <div class="coupon-row">
+          <input type="text" class="form-control" id="coupon-input" placeholder="Enter coupon code" />
+          <button class="btn btn-outline btn-sm" onclick="applyCouponBtn()">Apply</button>
+        </div>
+        <p id="coupon-hint" style="font-size:0.72rem;color:var(--text-light);margin-bottom:1rem;display:none"></p>
+
+
+
+        <a href="checkout.html" class="btn btn-primary btn-full" id="checkout-btn">
+          <i class="fa-brands fa-whatsapp"></i> Proceed to Checkout
+        </a>
+        <p style="font-size:0.72rem;color:var(--text-light);text-align:center;margin-top:0.5rem">
+          <i class="fa-brands fa-whatsapp" style="color:#25D366"></i> Order is placed via WhatsApp at checkout
+        </p>
+
+
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="site-footer" style="margin-top:4rem">
+    <div class="footer-grid">
+
+      <!-- Brand column -->
+      <div class="footer-col footer-brand">
+        <a href="index.html" class="nav-logo">
+          <span class="brand-name">Krishna</span>
+          <span class="brand-tagline" style="color:rgba(255,255,255,0.4)">Fashion</span>
+        </a>
+        <p id="footer-about">Celebrating the beauty of Indian ethnic wear with handcrafted, premium quality clothing.</p>
+        <div class="footer-social" id="footer-social">
+          <!-- Populated dynamically from Firestore footerContent.socials -->
+        </div>
+      </div>
+
+      <!-- Shop column — categories from DB -->
+      <div class="footer-col">
+        <h4>Shop</h4>
+        <ul id="footer-shop-links">
+          <!-- Populated dynamically from product categories -->
+          <li><span style="color:rgba(255,255,255,0.3);font-size:0.8rem">Loading…</span></li>
+        </ul>
+      </div>
+
+      <!-- Help column — from Firestore footerContent.helpLinks -->
+      <div class="footer-col">
+        <h4>Help</h4>
+        <ul id="footer-help-links">
+          <!-- Populated dynamically from Firestore footerContent.helpLinks -->
+          <li><span style="color:rgba(255,255,255,0.3);font-size:0.8rem">Loading…</span></li>
+        </ul>
+      </div>
+
+      <!-- Contact column -->
+      <div class="footer-col">
+        <h4>Contact Us</h4>
+        <div class="footer-contact-item" id="footer-phone-row" style="display:none">
+          <i class="fa-solid fa-phone"></i>
+          <span id="footer-phone"></span>
+        </div>
+        <div class="footer-contact-item" id="footer-email-row" style="display:none">
+          <i class="fa-solid fa-envelope"></i>
+          <span id="footer-email"></span>
+        </div>
+        <div class="footer-contact-item" id="footer-address-row" style="display:none">
+          <i class="fa-solid fa-location-dot"></i>
+          <span id="footer-address"></span>
+        </div>
+        <div class="footer-contact-item" id="footer-whatsapp-row" style="display:none">
+          <i class="fa-brands fa-whatsapp"></i>
+          <span id="footer-whatsapp"></span>
+        </div>
+      </div>
+
+    </div>
+    <div class="footer-bottom">
+      <p id="footer-copyright">© 2026 Krishna Fashion. All rights reserved.</p>
+      <div class="footer-bottom-links" id="footer-bottom-links">
+        <!-- Populated dynamically from Firestore footerContent.bottomLinks -->
+      </div>
+    </div>
+  </footer>
+
+  <button class="scroll-top" aria-label="Scroll to top"><i class="fa-solid fa-arrow-up"></i></button>
+
+  <script type="module">
+    import { initNavbar, initScrollTop, hideLoader, formatCurrency, LS } from './utils.js';
+    import { renderCartPage, updateCartBadge, getCart, getCartTotals, resetCoupon } from './cart.js';
+    import { getConfig } from './firebase.js';
+    import { getProducts } from './products.js';
+
+    // Helper: safely set textContent by id
+    const set = (id, val) => { const el = document.getElementById(id); if (el && val) el.textContent = val; };
+
+    // ── FOOTER: fully dynamic from Firestore + product categories ──
+    async function initFooter() {
+      try {
+        // Run both fetches in parallel
+        const [footerContent, siteSettings, allProducts] = await Promise.all([
+          getConfig('footerContent').catch(() => null),
+          getConfig('siteSettings').catch(() => null),
+          getProducts().catch(() => []),
+        ]);
+
+        // ── Brand / About ──
+        if (footerContent?.about) set('footer-about', footerContent.about);
+        if (footerContent?.copyright) set('footer-copyright', footerContent.copyright);
+
+        // ── Social icons ──
+        const socialEl = document.getElementById('footer-social');
+        if (socialEl && footerContent?.socials?.length) {
+          socialEl.innerHTML = footerContent.socials.map(s =>
+            `<a href="${s.href || '#'}" aria-label="${s.label || ''}"
+                ${s.href && s.href !== '#' ? 'target="_blank" rel="noopener"' : ''}>
+               <i class="${s.icon}"></i>
+             </a>`
+          ).join('');
+        }
+
+        // ── Contact ──
+        const showRow = (rowId, spanId, val) => {
+          if (!val) return;
+          set(spanId, val);
+          const row = document.getElementById(rowId);
+          if (row) row.style.display = '';
+        };
+        showRow('footer-phone-row',    'footer-phone',    footerContent?.phone);
+        showRow('footer-email-row',    'footer-email',    footerContent?.email);
+        showRow('footer-address-row',  'footer-address',  footerContent?.address);
+
+        // WhatsApp row — DB only, no localStorage fallback
+        const waNum = siteSettings?.whatsappNumber || '';
+        if (waNum) {
+          // Sync confirmed DB number to localStorage so checkout.js can read it
+          const _s = LS.get('aarohi_settings') || {};
+          _s.whatsappNumber = waNum;
+          LS.set('aarohi_settings', _s);
+          const waText = footerContent?.phone
+            ? `WhatsApp: ${footerContent.phone}`
+            : `WhatsApp: +${waNum}`;
+          showRow('footer-whatsapp-row', 'footer-whatsapp', waText);
+        }
+
+        // ── Shop column — unique categories from products DB ──
+        const shopList = document.getElementById('footer-shop-links');
+        if (shopList) {
+          const cats = [...new Set(
+            allProducts.map(p => p.category).filter(Boolean)
+          )].sort();
+
+          if (cats.length) {
+            shopList.innerHTML = cats.map(cat =>
+              `<li><a href="shop.html?category=${encodeURIComponent(cat)}">${cat}</a></li>`
+            ).join('');
+          } else {
+            // Fallback: generic "All Products" link if DB returns nothing yet
+            shopList.innerHTML = `<li><a href="shop.html">All Products</a></li>`;
+          }
+        }
+
+        // ── Help column — from Firestore footerContent.helpLinks ──
+        // Expected shape: [{ label: "Returns & Exchange", href: "return.html" }, …]
+        // Falls back to a minimal safe default (no sitemap / track order / terms).
+        const DEFAULT_HELP = [
+          { label: 'Returns & Exchange', href: 'return.html'   },
+          { label: 'Privacy Policy',     href: 'privacy.html'  },
+        ];
+        const helpLinks = footerContent?.helpLinks?.length
+          ? footerContent.helpLinks
+          : DEFAULT_HELP;
+
+        const helpList = document.getElementById('footer-help-links');
+        if (helpList) {
+          helpList.innerHTML = helpLinks.map(l =>
+            `<li><a href="${l.href || '#'}">${l.label}</a></li>`
+          ).join('');
+        }
+
+        // ── Footer bottom links — from Firestore footerContent.bottomLinks ──
+        // Falls back to Privacy only (no sitemap / terms of use).
+        const DEFAULT_BOTTOM = [
+          { label: 'Privacy Policy', href: 'privacy.html' },
+        ];
+        const bottomLinks = footerContent?.bottomLinks?.length
+          ? footerContent.bottomLinks
+          : DEFAULT_BOTTOM;
+
+        const bottomEl = document.getElementById('footer-bottom-links');
+        if (bottomEl) {
+          bottomEl.innerHTML = bottomLinks.map(l =>
+            `<a href="${l.href || '#'}">${l.label}</a>`
+          ).join('');
+          // Always keep Admin link (hidden, low-contrast)
+          bottomEl.innerHTML +=
+            `<a href="admin.html"
+                style="color:rgba(255,255,255,0.18);font-size:0.65rem;letter-spacing:0.05em"
+                title="Admin Panel">Admin</a>`;
+        }
+
+      } catch (err) {
+        console.warn('[Footer] Could not load footer data from Firestore:', err);
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      setTimeout(hideLoader, 400);
+      initNavbar();
+      initScrollTop();
+      resetCoupon();
+      renderCartPage();
+      updateCartBadge();
+      initFooter();   // ← dynamic footer
+
+      // Coupon hint — only show if coupons exist in DB
+      getConfig('coupons').then(data => {
+        const list = data?.list?.filter(c => c.active !== false);
+        const hint = document.getElementById('coupon-hint');
+        if (hint && list?.length) {
+          hint.innerHTML = 'Try: ' + list.map(c => `<strong>${c.code}</strong>`).join(', ');
+          hint.style.display = '';
+        }
+      }).catch(() => {/* no hint if fetch fails */});
+
+      // Free shipping remaining
+      function updateFreeShip() {
+        const cart  = getCart();
+        const t     = getCartTotals(cart, 0);
+        const rem   = Math.max(0, 999 - t.subtotal);
+        const el    = document.getElementById('free-ship-remaining');
+        if (el) el.textContent = rem === 0 ? 'You have free shipping!' : formatCurrency(rem);
+      }
+      updateFreeShip();
+
+      // Override cart page render to also update free shipping
+      const origRender = window.cartQtyChange;
+      window.cartQtyChange = function(key, delta) {
+        origRender?.(key, delta);
+        updateFreeShip();
+      };
+    });
+  </script>
+</body>
+</html>

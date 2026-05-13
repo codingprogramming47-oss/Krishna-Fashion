@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Krishna Fashion — Ethnic Wear for Every Occasion</title>
+  <meta name="description" content="Discover handcrafted Indian ethnic wear — sarees, lehengas, kurta sets and more at Krishna Fashion." />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="main.css" />
+  <link rel="stylesheet" href="home.css" />
+</head>
+<body>
+
+  <!-- PAGE LOADER -->
+  <div id="page-loader" class="page-loader">
+    <span class="brand-name">Krishna</span>
+    <div class="spinner"></div>
+  </div>
+
+  <!-- TOP BAR -->
+  <div class="top-bar" id="top-bar-section">
+    🌸 Free shipping on all orders 🌸
+    <a href="shop.html">Shop Now →</a>
+  </div>
+
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="navbar">
+      <a href="index.html" class="nav-logo">
+        <span class="brand-name">Krishna</span>
+        <span class="brand-tagline">Fashion</span>
+      </a>
+
+      <nav class="nav-links">
+        <a href="index.html" class="active">Home</a>
+        <a href="shop.html">Shop</a>
+        <a href="shop.html?category=Wedding+Wear">Wedding</a>
+        <a href="shop.html?category=Festive+Collection">Festive</a>
+        <a href="shop.html?tag=New">New In</a>
+      </nav>
+
+      <div class="nav-actions">
+        <a href="wishlist.html" title="Wishlist"><i class="fa-regular fa-heart"></i></a>
+        <a href="cart.html" style="position:relative" title="Cart">
+          <i class="fa-solid fa-bag-shopping"></i>
+          <span class="cart-badge" style="display:none">0</span>
+        </a>
+        <button class="hamburger" aria-label="Open menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MOBILE NAV -->
+  <nav class="mobile-nav" aria-label="Mobile navigation">
+    <div class="mobile-nav-header">
+      <span class="brand-name">Krishna</span>
+      <button class="mobile-nav-close" aria-label="Close menu"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="mobile-nav-links">
+      <a href="index.html">Home</a>
+      <a href="shop.html">All Products</a>
+      <a href="shop.html?category=Dresses">Dresses</a>
+      <a href="shop.html?category=Co-ord+Sets">Co-ord Sets</a>
+      <a href="shop.html?category=Tops+%26+Tunics">Tops &amp; Tunics</a>
+      <a href="shop.html?category=Wedding+Wear">Wedding Wear</a>
+      <a href="shop.html?category=Festive+Collection">Festive Collection</a>
+      <a href="cart.html">Cart</a>
+      <a href="wishlist.html">Wishlist</a>
+      <a href="orders.html">My Orders</a>
+    </div>
+  </nav>
+
+  <!-- ═══════════════════════════════════════
+       HERO
+  ══════════════════════════════════════════ -->
+  <section class="hero">
+    <div class="hero-bg-pattern"></div>
+    <div class="hero-content">
+      <!-- Left: Text -->
+      <div class="hero-text">
+        <div class="hero-eyebrow" id="hero-eyebrow">
+          <i class="fa-solid fa-star"></i>
+          New Festive Collection 2025
+        </div>
+        <h1 class="hero-title">
+          Dress in the <em id="hero-title-em">Grace</em><br>of India
+        </h1>
+        <p class="hero-desc" id="hero-desc">
+          Handcrafted ethnic wear that celebrates tradition with modern elegance.
+          From bridal lehengas to everyday kurtas — curated just for you.
+        </p>
+        <div class="hero-cta">
+          <a id="hero-cta-primary" href="shop.html" class="btn btn-primary btn-lg">
+            <i class="fa-solid fa-bag-shopping"></i> <span id="hero-cta-primary-text">Shop Now</span>
+          </a>
+          <a id="hero-cta-secondary" href="shop.html?category=Festive+Collection" class="btn btn-outline btn-lg">
+            <span id="hero-cta-secondary-text">Festive Edit</span>
+          </a>
+        </div>
+        <div class="hero-trust-badges">
+          <span class="trust-badge" id="hero-tb1"><i class="fa-solid fa-shield-halved"></i> 100% Authentic</span>
+          <span class="trust-badge" id="hero-tb2"><i class="fa-solid fa-rotate-left"></i> Easy Returns</span>
+          <span class="trust-badge" id="hero-tb3"><i class="fa-solid fa-truck"></i> Free Shipping ₹999+</span>
+        </div>
+      </div>
+
+      <!-- Right: Image -->
+      <div class="hero-image-wrapper">
+        <img class="hero-image-main"
+             id="hero-main-img"
+             src="https://placehold.co/500x667/f5edd6/7b1d2e?text=Krishna+Fashion"
+             alt="Krishna Fashion — Ethnic Wear" />
+
+        <div class="hero-image-card hero-card-1" id="hero-card-1">
+          <div class="hero-card-icon" id="hc1-icon"><i class="fa-solid fa-star"></i></div>
+          <div>
+            <div class="hero-card-text" id="hc1-title">4.9 ★ Rating</div>
+            <div class="hero-card-sub" id="hc1-sub">From 2,400+ Reviews</div>
+          </div>
+        </div>
+
+        <div class="hero-image-card hero-card-2" id="hero-card-2">
+          <div class="hero-card-icon" id="hc2-icon"><i class="fa-solid fa-fire"></i></div>
+          <div>
+            <div class="hero-card-text" id="hc2-title">12 Sold Today</div>
+            <div class="hero-card-sub" id="hc2-sub">Ananya Kurta Set</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SOCIAL PROOF BAR -->
+  <div class="social-proof-bar">
+    <div class="social-proof-track" id="social-proof-track">
+      <!-- Populated dynamically from Firestore socialProof -->
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       CATEGORIES
+  ══════════════════════════════════════════ -->
+  <section class="section">
+    <div class="container">
+      <div class="section-divider">
+        <span></span><i class="fa-solid fa-seedling"></i><span></span>
+      </div>
+      <h2 class="section-title" id="cat-section-title">Shop by Category</h2>
+      <p class="section-subtitle" id="cat-section-subtitle">Find your perfect look from our curated collections</p>
+
+      <div class="categories-grid" id="categories-grid">
+        <!-- Populated dynamically from Firestore categoryImages + homepageSections -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       FEATURED PRODUCTS
+  ══════════════════════════════════════════ -->
+  <section class="section why-us-bg">
+    <div class="container">
+      <div class="section-divider">
+        <span></span><i class="fa-solid fa-gem"></i><span></span>
+      </div>
+      <h2 class="section-title" id="featured-section-title">Best Sellers</h2>
+      <p class="section-subtitle" id="featured-section-subtitle">Our most-loved pieces — handpicked by thousands of happy customers</p>
+      <div id="featured-grid" class="products-grid">
+        <div style="grid-column:1/-1;text-align:center;padding:3rem;color:var(--text-light)">
+          <div class="spinner"></div>
+        </div>
+      </div>
+      <div style="text-align:center;margin-top:2.5rem">
+        <a href="shop.html" class="btn btn-outline">
+          View All Products <i class="fa-solid fa-arrow-right"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       WHY US
+  ══════════════════════════════════════════ -->
+  <section class="section">
+    <div class="container">
+      <div class="section-divider">
+        <span></span><i class="fa-solid fa-heart"></i><span></span>
+      </div>
+      <h2 class="section-title">Why Krishna Fashion?</h2>
+      <p class="section-subtitle">We put craftsmanship, quality and you — first.</p>
+      <div class="why-us-grid">
+        <div class="why-card">
+          <div class="why-icon"><i class="fa-solid fa-hands-holding"></i></div>
+          <h4>Handcrafted Quality</h4>
+          <p>Every piece is crafted by skilled artisans using traditional techniques passed down for generations.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-icon"><i class="fa-solid fa-leaf"></i></div>
+          <h4>Premium Fabrics</h4>
+          <p>We source only the finest silks, cottons, and blends for unmatched comfort and elegance.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-icon"><i class="fa-solid fa-truck-fast"></i></div>
+          <h4>Fast Delivery</h4>
+          <p>Pan-India delivery in 3–7 business days. Free shipping on orders above ₹999.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-icon"><i class="fa-solid fa-rotate-left"></i></div>
+          <h4>Easy Returns</h4>
+          <p>Not happy? Return within 7 days, no questions asked. Your satisfaction is our promise.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       OFFER BANNER + COUNTDOWN
+  ══════════════════════════════════════════ -->
+  <section class="offer-banner" id="offer-banner-section">
+    <div class="offer-banner-inner">
+      <span class="offer-eyebrow" id="ob-eyebrow">Limited Time Offer</span>
+      <h2 class="offer-title" id="ob-title">Festive Season Sale</h2>
+      <p class="offer-desc" id="ob-desc">Up to 40% off on our entire festive collection. Don't miss out!</p>
+      <div class="offer-code" id="ob-code" onclick="copyCode()" title="Click to copy">FESTIVE15</div>
+      <p id="ob-code-desc" style="color:rgba(255,255,255,0.5);font-size:0.75rem;margin-top:0.5rem;">Click to copy code · 15% off sitewide</p>
+
+      <div class="countdown" id="countdown">
+        <div class="countdown-item">
+          <span class="countdown-number" id="cd-days">00</span>
+          <span class="countdown-label">Days</span>
+        </div>
+        <div class="countdown-item">
+          <span class="countdown-number" id="cd-hours">00</span>
+          <span class="countdown-label">Hours</span>
+        </div>
+        <div class="countdown-item">
+          <span class="countdown-number" id="cd-mins">00</span>
+          <span class="countdown-label">Mins</span>
+        </div>
+        <div class="countdown-item">
+          <span class="countdown-number" id="cd-secs">00</span>
+          <span class="countdown-label">Secs</span>
+        </div>
+      </div>
+
+      <a href="shop.html?category=Festive+Collection" class="btn btn-gold btn-lg" style="margin-top:1rem">
+        Shop the Sale <i class="fa-solid fa-arrow-right"></i>
+      </a>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       NEW ARRIVALS
+  ══════════════════════════════════════════ -->
+  <section class="section">
+    <div class="container">
+      <div class="section-divider">
+        <span></span><i class="fa-solid fa-sparkles"></i><span></span>
+      </div>
+      <h2 class="section-title" id="new-section-title">New Arrivals</h2>
+      <p class="section-subtitle" id="new-section-subtitle">Fresh styles just added to our collection</p>
+      <div id="new-grid" class="products-grid">
+        <div style="grid-column:1/-1;text-align:center;padding:3rem">
+          <div class="spinner"></div>
+        </div>
+      </div>
+      <div style="text-align:center;margin-top:2.5rem">
+        <a href="shop.html?tag=New" class="btn btn-primary">
+          See All New Arrivals <i class="fa-solid fa-arrow-right"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       STATS
+  ══════════════════════════════════════════ -->
+  <div class="stats-bar">
+    <div class="stats-grid">
+      <div>
+        <div class="stat-number" data-target="15000">0</div>
+        <div class="stat-label">Happy Customers</div>
+      </div>
+      <div>
+        <div class="stat-number" data-target="200">0</div>
+        <div class="stat-label">Unique Designs</div>
+      </div>
+      <div>
+        <div class="stat-number" data-target="98">0</div>
+        <div class="stat-label">% Satisfaction</div>
+      </div>
+      <div>
+        <div class="stat-number" data-target="5">0</div>
+        <div class="stat-label">Years of Craft</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       REVIEWS
+  ══════════════════════════════════════════ -->
+  <section class="section why-us-bg" id="reviews-section">
+    <div class="container">
+      <div class="section-divider">
+        <span></span><i class="fa-solid fa-quote-left"></i><span></span>
+      </div>
+      <h2 class="section-title" id="reviews-section-title">What Our Customers Say</h2>
+      <p class="section-subtitle" id="reviews-section-subtitle">Real reviews from real people who love Krishna Fashion</p>
+      <div class="reviews-grid" id="reviews-grid">
+        <!-- Populated dynamically from Firestore reviews -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       INSTAGRAM SECTION
+  ══════════════════════════════════════════ -->
+  <section class="instagram-section" id="instagram-section">
+    <div class="section-divider">
+      <span></span><i class="fa-brands fa-instagram"></i><span></span>
+    </div>
+    <h2 class="section-title" id="insta-hashtag">#KrishnaFashion</h2>
+    <p class="section-subtitle" id="insta-subtitle" style="color:rgba(245,237,214,0.7)">Tag us on Instagram and get featured!</p>
+    <div class="instagram-grid" id="instagram-grid">
+      <!-- Populated dynamically from Firestore instagram -->
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       NEWSLETTER
+  ══════════════════════════════════════════ -->
+  <section class="newsletter-section">
+    <div class="container">
+      <div class="section-divider">
+        <span></span><i class="fa-solid fa-envelope"></i><span></span>
+      </div>
+      <h2 class="section-title" id="nl-title">Stay in the Loop</h2>
+      <p class="section-subtitle" id="nl-subtitle">Get early access to new arrivals, exclusive discounts and styling tips.</p>
+      <form class="newsletter-form" onsubmit="handleNewsletter(event)">
+        <input type="email" placeholder="Your email address" required aria-label="Email address" />
+        <button type="submit" id="nl-btn">Subscribe</button>
+      </form>
+      <p id="nl-note" style="font-size:0.75rem;color:var(--text-light);margin-top:1rem">No spam, ever. Unsubscribe anytime. 🌸</p>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       FOOTER
+  ══════════════════════════════════════════ -->
+  <footer class="site-footer">
+    <div class="footer-grid">
+
+      <!-- Brand column -->
+      <div class="footer-col footer-brand">
+        <a href="index.html" class="nav-logo">
+          <span class="brand-name">Krishna</span>
+          <span class="brand-tagline" style="color:rgba(255,255,255,0.4)">Fashion</span>
+        </a>
+        <p id="footer-about">Celebrating the beauty of Indian ethnic wear with handcrafted, premium quality clothing for every occasion.</p>
+        <div class="footer-social" id="footer-social">
+          <!-- Populated dynamically from Firestore footerContent.socials -->
+        </div>
+      </div>
+
+      <!-- Shop column — categories from products DB -->
+      <div class="footer-col">
+        <h4>Shop</h4>
+        <ul id="footer-shop-links">
+          <li><span style="color:rgba(255,255,255,0.3);font-size:0.8rem">Loading…</span></li>
+        </ul>
+      </div>
+
+      <!-- Help column — from Firestore footerContent.helpLinks -->
+      <div class="footer-col">
+        <h4>Help</h4>
+        <ul id="footer-help-links">
+          <li><span style="color:rgba(255,255,255,0.3);font-size:0.8rem">Loading…</span></li>
+        </ul>
+      </div>
+
+      <!-- Contact column -->
+      <div class="footer-col">
+        <h4>Contact Us</h4>
+        <div class="footer-contact-item" id="footer-phone-row" style="display:none">
+          <i class="fa-solid fa-phone"></i>
+          <span id="footer-phone"></span>
+        </div>
+        <div class="footer-contact-item" id="footer-email-row" style="display:none">
+          <i class="fa-solid fa-envelope"></i>
+          <span id="footer-email"></span>
+        </div>
+        <div class="footer-contact-item" id="footer-address-row" style="display:none">
+          <i class="fa-solid fa-location-dot"></i>
+          <span id="footer-address"></span>
+        </div>
+        <div class="footer-contact-item" id="footer-whatsapp-row" style="display:none">
+          <i class="fa-brands fa-whatsapp"></i>
+          <span id="footer-whatsapp"></span>
+        </div>
+      </div>
+
+    </div>
+    <div class="footer-bottom">
+      <p id="footer-copyright">© 2026 Krishna Fashion. All rights reserved. Made with ❤️ in India.</p>
+      <div class="footer-bottom-links" id="footer-bottom-links">
+        <!-- Populated dynamically from Firestore footerContent.bottomLinks -->
+      </div>
+    </div>
+  </footer>
+
+  <!-- FLOATING WHATSAPP -->
+  <a id="whatsapp-float-link" href="#" class="whatsapp-float" target="_blank" rel="noopener" title="Chat on WhatsApp" style="pointer-events:none;opacity:0.4">
+    <span class="whatsapp-label" id="whatsapp-label">Chat with us</span>
+    <div class="whatsapp-float-btn"><i class="fa-brands fa-whatsapp"></i></div>
+  </a>
+
+  <!-- SCROLL TO TOP -->
+  <button class="scroll-top" aria-label="Scroll to top"><i class="fa-solid fa-arrow-up"></i></button>
+
+  <!-- ─── PAGE SCRIPTS ─── -->
+  <script type="module">
+    import { initNavbar, initScrollTop, initCountdown, hideLoader, showToast, copyToClipboard, onVisible, animateNumber, LS } from './utils.js';
+    import { getProducts, renderProductCard, initWishlistUI, updateCartBadge } from './products.js';
+    import { getConfig } from './firebase.js';
+
+    const DEFAULT_REVIEWS = [
+      { text: 'The Ananya Kurta Set is absolutely stunning! The fabric quality is incredible and the embroidery is so detailed. Got so many compliments at the wedding!', name: 'Priya Sharma', city: 'Mumbai, Maharashtra', rating: 5 },
+      { text: 'Ordered the Kavya Silk Saree for my sister\'s wedding. It\'s absolutely gorgeous! The colour is exactly as shown and the zari work is exquisite.', name: 'Meghna Patel', city: 'Ahmedabad, Gujarat', rating: 5 },
+      { text: 'Great quality, fast delivery and packaging was beautiful. The Meera Fusion Dress fits perfectly. Will definitely order more pieces from Krishna Fashion!', name: 'Reena Krishnan', city: 'Bengaluru, Karnataka', rating: 4 },
+    ];
+
+    const DEFAULT_SP = [
+      { icon: 'fa-star',         text: '<strong>4.9/5</strong> Average Rating' },
+      { icon: 'fa-users',        text: '<strong>15,000+</strong> Happy Customers' },
+      { icon: 'fa-truck',        text: 'Free Shipping on orders above <strong>₹999</strong>' },
+      { icon: 'fa-rotate-left',  text: '<strong>7-Day</strong> Easy Returns' },
+      { icon: 'fa-shield-halved',text: '<strong>100%</strong> Authentic Fabrics' },
+      { icon: 'fa-brands fa-whatsapp', text: 'WhatsApp Order Support' },
+    ];
+
+    const DEFAULT_INSTA_IMAGES = [
+      'https://placehold.co/200x200/7b1d2e/f5edd6?text=Insta+1',
+      'https://placehold.co/200x200/f5edd6/7b1d2e?text=Insta+2',
+      'https://placehold.co/200x200/c9a84c/5c1220?text=Insta+3',
+      'https://placehold.co/200x200/e8d4c0/5c1220?text=Insta+4',
+      'https://placehold.co/200x200/5c1220/f5edd6?text=Insta+5',
+      'https://placehold.co/200x200/d4c4b0/5c1220?text=Insta+6',
+    ];
+
+    function set(id, val) { const el = document.getElementById(id); if (el && val) el.textContent = val; }
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      setTimeout(hideLoader, 600);
+      initNavbar();
+      initScrollTop();
+      updateCartBadge();
+
+      // ── LOAD ALL SITE CONFIG FROM FIRESTORE IN PARALLEL ──
+      const [
+        topbar, heroContent, heroCards, heroImg, banner, sections,
+        socialProof, catSection, catImages, featSection, newSection,
+        reviews, instagram, newsletter, footerContent,
+        whyUs, statsBar, siteSettings
+      ] = await Promise.all([
+        getConfig('topbar'),
+        getConfig('heroContent'),
+        getConfig('heroCards'),
+        getConfig('heroImage'),
+        getConfig('festiveBanner'),
+        getConfig('homepageSections'),
+        getConfig('socialProof'),
+        getConfig('categoriesSection'),
+        getConfig('categoryImages'),
+        getConfig('featuredProductsSection'),
+        getConfig('newArrivalsSection'),
+        getConfig('reviews'),
+        getConfig('instagram'),
+        getConfig('newsletter'),
+        getConfig('footerContent'),
+        getConfig('whyUs'),
+        getConfig('statsBar'),
+        getConfig('settings'),
+      ]);
+
+      // ── TOP BAR ──
+      if (topbar) {
+        const tb = document.getElementById('top-bar-section');
+        if (topbar.visible === false) { if (tb) tb.style.display = 'none'; }
+        else if (tb) {
+          // Rebuild the top bar text from the admin-saved 'text' field
+          if (topbar.text) {
+            // Preserve the "Shop Now" link at the end
+            const link = tb.querySelector('a');
+            tb.textContent = topbar.text + ' ';
+            if (link) tb.appendChild(link);
+          }
+        }
+      }
+
+      // ── HERO CONTENT ──
+      if (heroContent) {
+        if (heroContent.eyebrow) {
+          const el = document.getElementById('hero-eyebrow');
+          if (el) el.innerHTML = `<i class="fa-solid fa-star"></i> ${heroContent.eyebrow}`;
+        }
+        if (heroContent.titleEm)          set('hero-title-em', heroContent.titleEm);
+        if (heroContent.desc)             set('hero-desc', heroContent.desc);
+        if (heroContent.ctaPrimaryText)   set('hero-cta-primary-text', heroContent.ctaPrimaryText);
+        if (heroContent.ctaSecondaryText) set('hero-cta-secondary-text', heroContent.ctaSecondaryText);
+        if (heroContent.ctaPrimaryLink) {
+          const el = document.getElementById('hero-cta-primary');
+          if (el) el.href = heroContent.ctaPrimaryLink;
+        }
+        if (heroContent.ctaSecondaryLink) {
+          const el = document.getElementById('hero-cta-secondary');
+          if (el) el.href = heroContent.ctaSecondaryLink;
+        }
+        if (heroContent.trustBadge1) {
+          const el = document.getElementById('hero-tb1');
+          if (el) el.innerHTML = `<i class="fa-solid fa-shield-halved"></i> ${heroContent.trustBadge1}`;
+        }
+        if (heroContent.trustBadge2) {
+          const el = document.getElementById('hero-tb2');
+          if (el) el.innerHTML = `<i class="fa-solid fa-rotate-left"></i> ${heroContent.trustBadge2}`;
+        }
+        if (heroContent.trustBadge3) {
+          const el = document.getElementById('hero-tb3');
+          if (el) el.innerHTML = `<i class="fa-solid fa-truck"></i> ${heroContent.trustBadge3}`;
+        }
+      }
+
+      // ── HERO FLOATING CARDS ──
+      if (heroCards) {
+        if (heroCards.card1) {
+          const t = document.getElementById('hc1-title');
+          const s = document.getElementById('hc1-sub');
+          const ic = document.getElementById('hc1-icon');
+          if (t)  t.textContent  = heroCards.card1.title || t.textContent;
+          if (s)  s.textContent  = heroCards.card1.sub   || s.textContent;
+          if (ic && heroCards.card1.icon) ic.innerHTML = `<i class="fa-solid ${heroCards.card1.icon}"></i>`;
+        }
+        if (heroCards.card2) {
+          const t = document.getElementById('hc2-title');
+          const s = document.getElementById('hc2-sub');
+          const ic = document.getElementById('hc2-icon');
+          if (t)  t.textContent  = heroCards.card2.title || t.textContent;
+          if (s)  s.textContent  = heroCards.card2.sub   || s.textContent;
+          if (ic && heroCards.card2.icon) ic.innerHTML = `<i class="fa-solid ${heroCards.card2.icon}"></i>`;
+        }
+      }
+
+      // ── HERO IMAGE ──
+      if (heroImg?.url) {
+        const imgEl = document.getElementById('hero-main-img');
+        if (imgEl) imgEl.src = heroImg.url;
+      }
+
+      // ── SOCIAL PROOF BAR ──
+      const spItems = socialProof?.items?.length ? socialProof.items : DEFAULT_SP;
+      const spTrack = document.getElementById('social-proof-track');
+      if (spTrack) {
+        const html = spItems.map(item =>
+          `<span class="social-proof-item"><i class="${item.icon}"></i> ${item.text}</span>`
+        ).join('');
+        spTrack.innerHTML = html + html; // duplicate for infinite scroll
+      }
+
+      // ── CATEGORIES SECTION TITLE ──
+      if (catSection?.sectionTitle)    set('cat-section-title', catSection.sectionTitle);
+      if (catSection?.sectionSubtitle) set('cat-section-subtitle', catSection.sectionSubtitle);
+
+      // ── CATEGORIES GRID ──
+      const catGrid = document.getElementById('categories-grid');
+      if (catGrid) {
+        const imgMap   = catImages?.map   || {};
+        const countMap = catImages?.counts || {};
+        const visibleCats = sections?.visibleCategories;
+        const allCats = Object.keys(imgMap);
+
+        const catsToShow = visibleCats?.length ? allCats.filter(c => visibleCats.includes(c)) : allCats;
+        const defaultImgs = {
+          'Co-ord Sets':        'https://placehold.co/300x400/f5edd6/7b1d2e?text=Co-ord+Sets',
+          'Dresses':            'https://placehold.co/300x400/e8d4c0/5c1220?text=Dresses',
+          'Tops & Tunics':      'https://placehold.co/300x400/d4c4b0/5c1220?text=Tops+%26+Tunics',
+          'Wedding Wear':       'https://placehold.co/300x400/7b1d2e/f5edd6?text=Wedding+Wear',
+          'Festive Collection': 'https://placehold.co/300x400/c9a84c/5c1220?text=Festive',
+        };
+        catGrid.innerHTML = catsToShow.map(cat => {
+          const slug = encodeURIComponent(cat);
+          const img  = imgMap[cat] || defaultImgs[cat] || `https://placehold.co/300x400/f5edd6/7b1d2e?text=${slug}`;
+          const count = countMap[cat] ? `${countMap[cat]} Styles` : '';
+          return `<a href="shop.html?category=${slug}" class="category-card" data-category="${cat}">
+            <img src="${img}" alt="${cat}" loading="lazy" />
+            <div class="category-overlay">
+              <div class="category-name">${cat}</div>
+              ${count ? `<div class="category-count">${count}</div>` : ''}
+            </div>
+          </a>`;
+        }).join('');
+      }
+
+      // ── FESTIVE BANNER ──
+      const bannerSection = document.getElementById('offer-banner-section');
+      if (banner) {
+        if (banner.visible === false) {
+          if (bannerSection) bannerSection.style.display = 'none';
+        } else {
+          const ob = (id, val) => { const el = document.getElementById(id); if (el && val) el.textContent = val; };
+          ob('ob-eyebrow',   banner.eyebrow);
+          ob('ob-title',     banner.title);
+          ob('ob-desc',      banner.desc);
+          ob('ob-code',      banner.code);
+          ob('ob-code-desc', banner.codeDesc);
+          if (banner.ctaText) {
+            const btn = bannerSection?.querySelector('a.btn-gold');
+            if (btn) btn.innerHTML = `${banner.ctaText} <i class="fa-solid fa-arrow-right"></i>`;
+          }
+          if (banner.ctaLink) {
+            const btn = bannerSection?.querySelector('a.btn-gold');
+            if (btn) btn.href = banner.ctaLink;
+          }
+        }
+      }
+
+      // ── LOAD PRODUCTS FROM FIRESTORE ──
+      const allProducts = await getProducts();
+
+      // Read which tags to use for each section (admin-configured)
+      const featuredTag = sections?.featuredTag || 'Best Seller';
+      const newTag      = sections?.newTag      || 'New';
+
+      const emptyMsg = (msg) =>
+        `<div style="grid-column:1/-1;text-align:center;padding:3rem;color:var(--text-light)">
+          <i class="fa-solid fa-bag-shopping" style="font-size:2rem;opacity:0.3;display:block;margin-bottom:0.75rem"></i>
+          <p>${msg}</p>
+        </div>`;
+
+      // ── FEATURED SECTION ──
+      if (featSection?.sectionTitle)    set('featured-section-title', featSection.sectionTitle);
+      if (featSection?.sectionSubtitle) set('featured-section-subtitle', featSection.sectionSubtitle);
+      else {
+        const el = document.getElementById('featured-section-title');
+        if (el && !featSection?.sectionTitle) el.textContent = featuredTag === 'Best Seller' ? 'Best Sellers' : featuredTag;
+      }
+      const featGrid = document.getElementById('featured-grid');
+      if (featGrid) {
+        const featProducts = allProducts.filter(p => p.tags?.includes(featuredTag));
+        featGrid.innerHTML = featProducts.length
+          ? featProducts.map(renderProductCard).join('')
+          : emptyMsg('No products yet — check back soon!');
+        initWishlistUI();
+      }
+
+      // ── NEW ARRIVALS SECTION ──
+      if (newSection?.sectionTitle)    set('new-section-title', newSection.sectionTitle);
+      if (newSection?.sectionSubtitle) set('new-section-subtitle', newSection.sectionSubtitle);
+      else {
+        const el = document.getElementById('new-section-title');
+        if (el && !newSection?.sectionTitle) el.textContent = newTag === 'New' ? 'New Arrivals' : newTag;
+      }
+      const newGrid = document.getElementById('new-grid');
+      if (newGrid) {
+        const newProducts = allProducts.filter(p => p.tags?.includes(newTag));
+        newGrid.innerHTML = newProducts.length
+          ? newProducts.map(renderProductCard).join('')
+          : emptyMsg('No products yet — check back soon!');
+        initWishlistUI();
+      }
+
+      // ── REVIEWS ──
+      const reviewItems = reviews?.items?.length ? reviews.items : DEFAULT_REVIEWS;
+      const reviewsSection = document.getElementById('reviews-section');
+      if (reviews?.visible === false) {
+        if (reviewsSection) reviewsSection.style.display = 'none';
+      } else {
+        // Admin saves 'title' and 'subtitle' (not 'sectionTitle'/'sectionSubtitle')
+        if (reviews?.title)    set('reviews-section-title', reviews.title);
+        if (reviews?.subtitle) set('reviews-section-subtitle', reviews.subtitle);
+        const grid = document.getElementById('reviews-grid');
+        if (grid) {
+          grid.innerHTML = reviewItems.map(r => {
+            // Admin saves 'stars', index previously used 'rating' — support both
+            const starCount = r.stars ?? r.rating ?? 5;
+            const stars = Array.from({ length: 5 }, (_, i) =>
+              `<i class="${i < starCount ? 'fa-solid' : 'fa-regular'} fa-star"></i>`
+            ).join('');
+            return `<div class="review-card">
+              <div class="review-stars stars">${stars}</div>
+              <p class="review-text">"${r.text}"</p>
+              <div class="review-author">
+                <div class="review-avatar">${(r.name||'?')[0].toUpperCase()}</div>
+                <div>
+                  <div class="review-name">${r.name||''}</div>
+                  <div class="review-city">${r.city||''}</div>
+                  <div class="review-verified"><i class="fa-solid fa-circle-check"></i> Verified Purchase</div>
+                </div>
+              </div>
+            </div>`;
+          }).join('');
+        }
+      }
+
+      // ── INSTAGRAM ──
+      const instaSection = document.getElementById('instagram-section');
+      if (instagram?.visible === false) {
+        if (instaSection) instaSection.style.display = 'none';
+      } else {
+        if (instagram?.hashtag) set('insta-hashtag', instagram.hashtag);
+        if (instagram?.subtitle) set('insta-subtitle', instagram.subtitle);
+        const instaGrid = document.getElementById('instagram-grid');
+        if (instaGrid) {
+          const images = instagram?.images?.length ? instagram.images : DEFAULT_INSTA_IMAGES;
+          // Admin saves key 'link' (not 'profileLink')
+          const link   = instagram?.link || instagram?.profileLink || '#';
+          instaGrid.innerHTML = images.slice(0, 6).map((src, i) =>
+            `<a class="insta-item" href="${link}" target="_blank" rel="noopener">
+              <img src="${src}" alt="Instagram ${i+1}" loading="lazy" />
+              <div class="insta-overlay"><i class="fa-brands fa-instagram"></i></div>
+            </a>`
+          ).join('');
+        }
+      }
+
+      // ── NEWSLETTER ──
+      const nlSection = document.querySelector('.newsletter-section');
+      if (newsletter?.visible === false) {
+        if (nlSection) nlSection.style.display = 'none';
+      } else {
+        if (newsletter?.title)    set('nl-title', newsletter.title);
+        if (newsletter?.subtitle) set('nl-subtitle', newsletter.subtitle);
+        if (newsletter?.note)     set('nl-note', newsletter.note);
+        if (newsletter?.btnText)  set('nl-btn', newsletter.btnText);
+      }
+
+      // ── FOOTER: fully dynamic from Firestore + product categories ──
+      // allProducts is already loaded above — no extra DB call needed
+      if (footerContent) {
+        if (footerContent.about)     set('footer-about',     footerContent.about);
+        if (footerContent.copyright) set('footer-copyright', footerContent.copyright);
+        if (footerContent.whatsappLabel) set('whatsapp-label', footerContent.whatsappLabel);
+
+        // Social icons
+        if (footerContent.socials?.length) {
+          const socialEl = document.getElementById('footer-social');
+          if (socialEl) {
+            socialEl.innerHTML = footerContent.socials.map(s =>
+              `<a href="${s.href || '#'}" aria-label="${s.label || ''}"
+                  ${s.href && s.href !== '#' ? 'target="_blank" rel="noopener"' : ''}>
+                 <i class="${s.icon}"></i></a>`
+            ).join('');
+          }
+        }
+
+        // Contact rows — only render if value exists
+        const showRow = (rowId, spanId, val) => {
+          if (!val) return;
+          set(spanId, val);
+          const row = document.getElementById(rowId);
+          if (row) row.style.display = '';
+        };
+        showRow('footer-phone-row',   'footer-phone',   footerContent.phone);
+        showRow('footer-email-row',   'footer-email',   footerContent.email);
+        showRow('footer-address-row', 'footer-address', footerContent.address);
+
+        const waNum = siteSettings?.whatsappNumber || '';
+        if (waNum || footerContent.phone) {
+          showRow('footer-whatsapp-row', 'footer-whatsapp',
+            footerContent.phone ? `WhatsApp: ${footerContent.phone}` : `WhatsApp: +${waNum}`);
+        }
+      }
+
+      // Shop column — unique categories from already-loaded allProducts (no extra fetch)
+      const shopList = document.getElementById('footer-shop-links');
+      if (shopList) {
+        const cats = [...new Set(allProducts.map(p => p.category).filter(Boolean))].sort();
+        shopList.innerHTML = cats.length
+          ? cats.map(c => `<li><a href="shop.html?category=${encodeURIComponent(c)}">${c}</a></li>`).join('')
+          : `<li><a href="shop.html">All Products</a></li>`;
+      }
+
+      // Help column — from Firestore footerContent.helpLinks
+      const DEFAULT_HELP = [
+        { label: 'Returns & Exchange', href: 'return.html'   },
+        { label: 'Privacy Policy',     href: 'privacy.html'  },
+      ];
+      const helpLinks = footerContent?.helpLinks?.length ? footerContent.helpLinks : DEFAULT_HELP;
+      const helpList  = document.getElementById('footer-help-links');
+      if (helpList) {
+        helpList.innerHTML = helpLinks.map(l =>
+          `<li><a href="${l.href || '#'}">${l.label}</a></li>`
+        ).join('');
+      }
+
+      // Footer bottom links — from Firestore footerContent.bottomLinks
+      const DEFAULT_BOTTOM = [{ label: 'Privacy Policy', href: 'privacy.html' }];
+      const bottomLinks = footerContent?.bottomLinks?.length ? footerContent.bottomLinks : DEFAULT_BOTTOM;
+      const bottomEl    = document.getElementById('footer-bottom-links');
+      if (bottomEl) {
+        bottomEl.innerHTML = bottomLinks.map(l =>
+          `<a href="${l.href || '#'}">${l.label}</a>`
+        ).join('');
+        bottomEl.innerHTML +=
+          `<a href="admin.html"
+              style="color:rgba(255,255,255,0.18);font-size:0.65rem;letter-spacing:0.05em"
+              title="Admin Panel">Admin</a>`;
+      }
+
+      // ── WHATSAPP: fetch live number from Firestore → update float button ──
+      // Button starts disabled (href="#", pointer-events:none) and is only enabled
+      // once a real number is confirmed from the DB. No hardcoded fallback.
+      const liveWaNum = siteSettings?.whatsappNumber || '';
+      const waFloatLink = document.getElementById('whatsapp-float-link');
+      if (liveWaNum && waFloatLink) {
+        // Push live number into localStorage so cart.js / placeOrderViaWhatsApp picks it up
+        const _s = LS.get('aarohi_settings') || {};
+        _s.whatsappNumber = liveWaNum;
+        LS.set('aarohi_settings', _s);
+        // Enable and update the float button
+        waFloatLink.href = `https://wa.me/${liveWaNum}`;
+        waFloatLink.style.pointerEvents = '';
+        waFloatLink.style.opacity = '';
+      }
+      // If liveWaNum is empty, button stays disabled — no silent fallback to wrong number
+
+      // ── COUNTDOWN ──
+      const countdownDate = banner?.countdownDate || new Date(Date.now() + 15 * 24 * 60 * 60 * 1000).toISOString();
+      initCountdown(countdownDate, 'countdown');
+
+      // ── WHY US SECTION ──
+      if (whyUs) {
+        const whySection = document.querySelector('.section .why-us-grid')?.closest('.section');
+        const whyTitle = whySection?.querySelector('.section-title');
+        const whySub   = whySection?.querySelector('.section-subtitle');
+        if (whyUs.title    && whyTitle) whyTitle.textContent = whyUs.title;
+        if (whyUs.subtitle && whySub)   whySub.textContent   = whyUs.subtitle;
+        if (whyUs.items?.length) {
+          const whyGrid = document.querySelector('.why-us-grid');
+          if (whyGrid) {
+            whyGrid.innerHTML = whyUs.items.map(item => `
+              <div class="why-card">
+                <div class="why-icon"><i class="fa-solid ${item.icon || 'fa-star'}"></i></div>
+                <h4>${item.title || ''}</h4>
+                <p>${item.body || ''}</p>
+              </div>`).join('');
+          }
+        }
+      }
+
+      // ── STATS BAR ──
+      if (statsBar?.items?.length) {
+        const statsGrid = document.querySelector('.stats-grid');
+        if (statsGrid) {
+          statsGrid.innerHTML = statsBar.items.map(item => `
+            <div>
+              <div class="stat-number" data-target="${item.target}" data-suffix="${item.suffix || '+'}">${0}</div>
+              <div class="stat-label">${item.label || ''}</div>
+            </div>`).join('');
+        }
+      }
+
+      // ── ANIMATE STAT NUMBERS ──
+      onVisible('.stat-number', el => {
+        const suffix = el.dataset.suffix || (el.dataset.target == '98' ? '%' : '+');
+        animateNumber(el, parseInt(el.dataset.target), suffix);
+      });
+    });
+
+    // Copy promo code — reads from Firestore banner
+    window.copyCode = async function() {
+      let code = 'FESTIVE15';
+      try {
+        const banner = await getConfig('festiveBanner');
+        if (banner?.code) code = banner.code;
+      } catch(e) {}
+      if (navigator.clipboard) navigator.clipboard.writeText(code);
+      import('./utils.js').then(({ showToast }) => showToast(`Code ${code} copied! 🎉`, 'success'));
+    };
+
+    // Newsletter
+    window.handleNewsletter = function(e) {
+      e.preventDefault();
+      import('./utils.js').then(({ showToast }) => showToast('🌸 Subscribed! Thank you for joining.', 'success'));
+      e.target.reset();
+    };
+  </script>
+</body>
+</html>

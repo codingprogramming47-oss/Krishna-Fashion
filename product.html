@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Product — Krishna Fashion</title>
+  <meta name="description" content="Shop premium Indian ethnic wear at Krishna Fashion." />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="main.css" />
+  <link rel="stylesheet" href="product.css" />
+</head>
+<body>
+
+  <!-- PAGE LOADER -->
+  <div id="page-loader" class="page-loader">
+    <span class="brand-name">Krishna</span>
+    <div class="spinner"></div>
+  </div>
+
+  <!-- TOP BAR -->
+  <div class="top-bar" id="top-bar-section">
+    🌸 Free shipping on all orders 🌸
+    <a href="shop.html">Shop Now →</a>
+  </div>
+
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="navbar">
+      <a href="index.html" class="nav-logo">
+        <span class="brand-name">Krishna</span>
+        <span class="brand-tagline">Fashion</span>
+      </a>
+      <nav class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="shop.html">Shop</a>
+        <a href="shop.html?category=Wedding+Wear">Wedding</a>
+        <a href="shop.html?category=Festive+Collection">Festive</a>
+        <a href="shop.html?tag=New">New In</a>
+      </nav>
+      <div class="nav-actions">
+        <a href="wishlist.html" title="Wishlist"><i class="fa-regular fa-heart"></i></a>
+        <a href="cart.html" style="position:relative" title="Cart">
+          <i class="fa-solid fa-bag-shopping"></i>
+          <span class="cart-badge" style="display:none">0</span>
+        </a>
+        <button class="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MOBILE NAV -->
+  <nav class="mobile-nav" aria-label="Mobile navigation">
+    <div class="mobile-nav-header">
+      <span class="brand-name">Krishna</span>
+      <button class="mobile-nav-close" aria-label="Close menu"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="mobile-nav-links">
+      <a href="index.html">Home</a>
+      <a href="shop.html">All Products</a>
+      <a href="shop.html?category=Dresses">Dresses</a>
+      <a href="shop.html?category=Co-ord+Sets">Co-ord Sets</a>
+      <a href="shop.html?category=Tops+%26+Tunics">Tops &amp; Tunics</a>
+      <a href="shop.html?category=Wedding+Wear">Wedding Wear</a>
+      <a href="shop.html?category=Festive+Collection">Festive Collection</a>
+      <a href="cart.html">Cart</a>
+      <a href="wishlist.html">Wishlist</a>
+      <a href="orders.html">My Orders</a>
+    </div>
+  </nav>
+
+  <!-- BREADCRUMB -->
+  <div class="container">
+    <div class="breadcrumb">
+      <a href="index.html">Home</a>
+      <i class="fa-solid fa-chevron-right"></i>
+      <a href="shop.html">Shop</a>
+      <i class="fa-solid fa-chevron-right"></i>
+      <span id="bc-category">Category</span>
+      <i class="fa-solid fa-chevron-right"></i>
+      <span id="bc-name">Product</span>
+    </div>
+  </div>
+
+  <!-- PRODUCT LAYOUT -->
+  <div class="product-layout container" id="product-container">
+    <!-- Skeleton while loading -->
+    <div style="background:var(--beige);border-radius:var(--radius-lg);aspect-ratio:3/4;animation:shimmer 1.5s infinite"></div>
+    <div style="padding-top:1rem">
+      <div style="height:14px;background:var(--beige);border-radius:4px;width:40%;margin-bottom:1rem;animation:shimmer 1.5s infinite"></div>
+      <div style="height:36px;background:var(--beige);border-radius:4px;width:80%;margin-bottom:1rem;animation:shimmer 1.5s infinite"></div>
+      <div style="height:60px;background:var(--beige);border-radius:8px;margin-bottom:1rem;animation:shimmer 1.5s infinite"></div>
+    </div>
+  </div>
+
+  <!-- STICKY BUY BAR -->
+  <div class="sticky-buy-bar" id="sticky-bar">
+    <div>
+      <div class="sticky-product-name" id="sticky-name">—</div>
+      <div class="sticky-price" id="sticky-price">—</div>
+    </div>
+    <button class="btn btn-primary" id="sticky-atc">
+      <i class="fa-solid fa-bag-shopping"></i> Add to Bag
+    </button>
+  </div>
+
+  <!-- RELATED PRODUCTS -->
+  <section class="related-section">
+    <div class="section-divider">
+      <span></span><i class="fa-solid fa-seedling"></i><span></span>
+    </div>
+    <h2 class="section-title" style="text-align:center">You May Also Like</h2>
+    <div class="products-grid" id="related-grid" style="margin-top:2rem"></div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="footer-grid">
+
+      <!-- Brand column -->
+      <div class="footer-col footer-brand">
+        <a href="index.html" class="nav-logo">
+          <span class="brand-name">Krishna</span>
+          <span class="brand-tagline" style="color:rgba(255,255,255,0.4)">Fashion</span>
+        </a>
+        <p id="footer-about">Celebrating the beauty of Indian ethnic wear with handcrafted, premium quality clothing for every occasion.</p>
+        <div class="footer-social" id="footer-social">
+          <!-- Populated dynamically from Firestore footerContent.socials -->
+        </div>
+      </div>
+
+      <!-- Shop column — categories from products DB -->
+      <div class="footer-col">
+        <h4>Shop</h4>
+        <ul id="footer-shop-links">
+          <li><span style="color:rgba(255,255,255,0.3);font-size:0.8rem">Loading…</span></li>
+        </ul>
+      </div>
+
+      <!-- Help column — from Firestore footerContent.helpLinks -->
+      <div class="footer-col">
+        <h4>Help</h4>
+        <ul id="footer-help-links">
+          <li><span style="color:rgba(255,255,255,0.3);font-size:0.8rem">Loading…</span></li>
+        </ul>
+      </div>
+
+      <!-- Contact column -->
+      <div class="footer-col">
+        <h4>Contact Us</h4>
+        <div class="footer-contact-item" id="footer-phone-row" style="display:none">
+          <i class="fa-solid fa-phone"></i>
+          <span id="footer-phone"></span>
+        </div>
+        <div class="footer-contact-item" id="footer-email-row" style="display:none">
+          <i class="fa-solid fa-envelope"></i>
+          <span id="footer-email"></span>
+        </div>
+        <div class="footer-contact-item" id="footer-address-row" style="display:none">
+          <i class="fa-solid fa-location-dot"></i>
+          <span id="footer-address"></span>
+        </div>
+        <div class="footer-contact-item" id="footer-whatsapp-row" style="display:none">
+          <i class="fa-brands fa-whatsapp"></i>
+          <span id="footer-whatsapp"></span>
+        </div>
+      </div>
+
+    </div>
+    <div class="footer-bottom">
+      <p id="footer-copyright">© 2026 Krishna Fashion. All rights reserved. Made with ❤️ in India.</p>
+      <div class="footer-bottom-links" id="footer-bottom-links">
+        <!-- Populated dynamically from Firestore footerContent.bottomLinks -->
+      </div>
+    </div>
+  </footer>
+
+  <a id="whatsapp-float-link" href="#" class="whatsapp-float" target="_blank" rel="noopener" title="Chat on WhatsApp" style="pointer-events:none;opacity:0.4">
+    <span class="whatsapp-label" id="whatsapp-label">Chat with us</span>
+    <div class="whatsapp-float-btn"><i class="fa-brands fa-whatsapp"></i></div>
+  </a>
+  <button class="scroll-top" aria-label="Scroll to top"><i class="fa-solid fa-arrow-up"></i></button>
+
+  <!-- SIZE GUIDE MODAL -->
+  <div class="modal-overlay" id="size-modal">
+    <div class="modal">
+      <button class="modal-close" onclick="document.getElementById('size-modal').classList.remove('open')">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+      <h3>Size Guide</h3>
+      <div style="overflow-x:auto;margin-top:1rem">
+        <table style="width:100%;border-collapse:collapse;font-size:0.85rem">
+          <thead>
+            <tr style="background:var(--beige)">
+              <th style="padding:0.6rem 1rem;text-align:left;border-bottom:1px solid var(--border)">Size</th>
+              <th style="padding:0.6rem 1rem;text-align:left;border-bottom:1px solid var(--border)">Chest (in)</th>
+              <th style="padding:0.6rem 1rem;text-align:left;border-bottom:1px solid var(--border)">Waist (in)</th>
+              <th style="padding:0.6rem 1rem;text-align:left;border-bottom:1px solid var(--border)">Hip (in)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td style="padding:0.6rem 1rem;border-bottom:1px solid var(--border-light)">XS</td><td style="padding:0.6rem 1rem;border-bottom:1px solid var(--border-light)">32</td><td style="padding:0.6rem 1rem;border-bottom:1px solid var(--border-light)">26</td><td style="padding:0.6rem 1rem;border-bottom:1px solid var(--border-light)">35</td></tr>
+            <tr><td style="padding:0.6rem 1rem;border-bottom:1px solid var(--border-light)">S</td><td style="padding:0.6rem 1rem;border-bottom:1px solid var(--border-light)">34</td><td style="padding:0.6rem 1rem;border-bottom:1px solid var(--border-light)">28</td><td style="padding:0.6rem 1rem;border-bottom:1px solid var(--border-light)">37</td></tr>
+            <tr><td style="padding:0.6rem 1rem;border-bottom:1px solid var(--border-light)">M</td><td style="padding:0.6rem 1rem;border-bottom:1px solid var(--border-light)">36</td><td style="padding:0.6rem 1rem;border-bottom:1px solid var(--border-light)">30</td><td style="padding:0.6rem 1rem;border-bottom:1px solid var(--border-light)">39</td></tr>
+            <tr><td style="padding:0.6rem 1rem;border-bottom:1px solid var(--border-light)">L</td><td style="padding:0.6rem 1rem;border-bottom:1px solid var(--border-light)">38</td><td style="padding:0.6rem 1rem;border-bottom:1px solid var(--border-light)">32</td><td style="padding:0.6rem 1rem;border-bottom:1px solid var(--border-light)">41</td></tr>
+            <tr><td style="padding:0.6rem 1rem;border-bottom:1px solid var(--border-light)">XL</td><td style="padding:0.6rem 1rem;border-bottom:1px solid var(--border-light)">40</td><td style="padding:0.6rem 1rem;border-bottom:1px solid var(--border-light)">34</td><td style="padding:0.6rem 1rem;border-bottom:1px solid var(--border-light)">43</td></tr>
+            <tr><td style="padding:0.6rem 1rem">XXL</td><td style="padding:0.6rem 1rem">42</td><td style="padding:0.6rem 1rem">36</td><td style="padding:0.6rem 1rem">45</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="font-size:0.78rem;color:var(--text-light);margin-top:1rem">Measurements are in inches. When between sizes, size up for comfort.</p>
+    </div>
+  </div>
+
+  <style>
+    @keyframes shimmer {
+      0%,100% { opacity:1; }
+      50%      { opacity:0.4; }
+    }
+  </style>
+
+  <script type="module">
+    import { initNavbar, initScrollTop, hideLoader, showToast, getParam, formatCurrency, calcDiscount, LS } from './utils.js';
+    import { getProducts, getProductById, renderProductCard, initWishlistUI, updateCartBadge, getWishlist, saveWishlist } from './products.js';
+    import { addToCart } from './cart.js';
+    import { db, getConfig } from './firebase.js';
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      setTimeout(hideLoader, 500);
+      initNavbar();
+      initScrollTop();
+      updateCartBadge();
+
+      // ── LOAD TOPBAR + FOOTER FROM FIRESTORE ──
+      const [topbar, footerContent, siteSettings, allProducts] = await Promise.all([
+        getConfig('topbar'),
+        getConfig('footerContent'),
+        getConfig('settings'),
+        getProducts(),
+      ]);
+
+      // Top bar
+      if (topbar) {
+        const tb = document.getElementById('top-bar-section');
+        if (topbar.visible === false) { if (tb) tb.style.display = 'none'; }
+        else if (tb && topbar.text) {
+          const link = tb.querySelector('a');
+          tb.textContent = topbar.text + ' ';
+          if (link) tb.appendChild(link);
+        }
+      }
+
+      // Footer — dynamic from Firestore (same as index.html)
+      const set = (id, val) => { const el = document.getElementById(id); if (el && val) el.textContent = val; };
+      if (footerContent) {
+        if (footerContent.about)     set('footer-about',     footerContent.about);
+        if (footerContent.copyright) set('footer-copyright', footerContent.copyright);
+        if (footerContent.whatsappLabel) set('whatsapp-label', footerContent.whatsappLabel);
+
+        if (footerContent.socials?.length) {
+          const socialEl = document.getElementById('footer-social');
+          if (socialEl) {
+            socialEl.innerHTML = footerContent.socials.map(s =>
+              `<a href="${s.href || '#'}" aria-label="${s.label || ''}"
+                  ${s.href && s.href !== '#' ? 'target="_blank" rel="noopener"' : ''}>
+                 <i class="${s.icon}"></i></a>`
+            ).join('');
+          }
+        }
+
+        const showRow = (rowId, spanId, val) => {
+          if (!val) return;
+          set(spanId, val);
+          const row = document.getElementById(rowId);
+          if (row) row.style.display = '';
+        };
+        showRow('footer-phone-row',   'footer-phone',   footerContent.phone);
+        showRow('footer-email-row',   'footer-email',   footerContent.email);
+        showRow('footer-address-row', 'footer-address', footerContent.address);
+
+        const waNum = siteSettings?.whatsappNumber || '';
+        if (waNum || footerContent.phone) {
+          showRow('footer-whatsapp-row', 'footer-whatsapp',
+            footerContent.phone ? `WhatsApp: ${footerContent.phone}` : `WhatsApp: +${waNum}`);
+        }
+      }
+
+      // Shop column — unique categories from products
+      const shopList = document.getElementById('footer-shop-links');
+      if (shopList) {
+        const cats = [...new Set(allProducts.map(p => p.category).filter(Boolean))].sort();
+        shopList.innerHTML = cats.length
+          ? cats.map(c => `<li><a href="shop.html?category=${encodeURIComponent(c)}">${c}</a></li>`).join('')
+          : `<li><a href="shop.html">All Products</a></li>`;
+      }
+
+      // Help column
+      const DEFAULT_HELP = [
+        { label: 'Returns & Exchange', href: 'return.html' },
+        { label: 'Privacy Policy',     href: 'privacy.html' },
+      ];
+      const helpLinks = footerContent?.helpLinks?.length ? footerContent.helpLinks : DEFAULT_HELP;
+      const helpList  = document.getElementById('footer-help-links');
+      if (helpList) {
+        helpList.innerHTML = helpLinks.map(l => `<li><a href="${l.href || '#'}">${l.label}</a></li>`).join('');
+      }
+
+      // Footer bottom links
+      const DEFAULT_BOTTOM = [{ label: 'Privacy Policy', href: 'privacy.html' }];
+      const bottomLinks = footerContent?.bottomLinks?.length ? footerContent.bottomLinks : DEFAULT_BOTTOM;
+      const bottomEl    = document.getElementById('footer-bottom-links');
+      if (bottomEl) {
+        bottomEl.innerHTML = bottomLinks.map(l => `<a href="${l.href || '#'}">${l.label}</a>`).join('');
+        bottomEl.innerHTML += `<a href="admin.html" style="color:rgba(255,255,255,0.18);font-size:0.65rem;letter-spacing:0.05em" title="Admin Panel">Admin</a>`;
+      }
+
+      // WhatsApp float button — only enable when DB number is confirmed, no hardcoded fallback
+      const liveWaNum = siteSettings?.whatsappNumber || '';
+      const waFloatLink = document.getElementById('whatsapp-float-link');
+      if (liveWaNum && waFloatLink) {
+        const _s = LS.get('aarohi_settings') || {};
+        _s.whatsappNumber = liveWaNum;
+        LS.set('aarohi_settings', _s);
+        waFloatLink.href = `https://wa.me/${liveWaNum}`;
+        waFloatLink.style.pointerEvents = '';
+        waFloatLink.style.opacity = '';
+      }
+      // If liveWaNum is empty, button stays disabled — no silent fallback to wrong number
+
+      const id = getParam('id');
+      const product = id
+        ? await getProductById(id)
+        : (await getProducts())[0];
+
+      if (!product) {
+        document.getElementById('product-container').innerHTML = `
+          <div class="empty-state" style="grid-column:1/-1;padding:6rem 1rem">
+            <i class="fa-solid fa-face-sad-tear"></i>
+            <h3>Product not found</h3>
+            <p>This product may have been removed or the link is incorrect.</p>
+            <a href="shop.html" class="btn btn-primary" style="margin-top:1.5rem">Back to Shop</a>
+          </div>`;
+        return;
+      }
+
+      // Update page meta
+      document.title = `${product.name} — Aarohi Fashion`;
+      document.getElementById('bc-category').textContent = product.category;
+      document.getElementById('bc-name').textContent = product.name;
+
+      const disc = calcDiscount(product.originalPrice, product.price);
+      const badges = [
+        disc > 0   ? `<span class="badge badge-sale">${disc}% OFF</span>` : '',
+        product.tags?.includes('Best Seller') ? `<span class="badge badge-bestseller">Best Seller</span>` : '',
+        product.tags?.includes('New')         ? `<span class="badge badge-new">New</span>` : '',
+        product.tags?.includes('Limited')     ? `<span class="badge badge-limited">Limited</span>` : ''
+      ].filter(Boolean).join('');
+
+      const starsHtml = (rating) => {
+        let s = '';
+        for (let i = 1; i <= 5; i++) {
+          s += i <= Math.floor(rating)
+            ? '<i class="fa-solid fa-star"></i>'
+            : (i - rating < 1 ? '<i class="fa-solid fa-star-half-stroke"></i>' : '<i class="fa-regular fa-star"></i>');
+        }
+        return s;
+      };
+
+      let selectedSize  = product.sizes?.[1] || product.sizes?.[0] || '';
+      let selectedColor = product.colors?.[0] || '';
+      let quantity      = 1;
+
+      // Wishlist state
+      const wishlist = getWishlist();
+      const inWish   = wishlist.includes(product.id);
+
+      const productHTML = `
+        <!-- GALLERY -->
+        <div class="product-gallery">
+          <div class="gallery-main" id="gallery-main">
+            <img src="${product.images[0]}" alt="${product.name}" id="main-img" />
+            <div class="gallery-badge-wrap">${badges}</div>
+          </div>
+          <div class="gallery-thumbs">
+            ${product.images.map((img, i) => `
+              <div class="gallery-thumb ${i === 0 ? 'active' : ''}" data-idx="${i}" data-src="${img}">
+                <img src="${img}" alt="${product.name} view ${i+1}" />
+              </div>`).join('')}
+          </div>
+        </div>
+
+        <!-- INFO -->
+        <div class="product-info">
+          <div class="product-category">${product.category}</div>
+          <h1 class="product-title">${product.name}</h1>
+
+          <div class="product-rating-bar">
+            <div class="stars">${starsHtml(product.rating)}</div>
+            <span class="rating-score">${product.rating}</span>
+            <span class="rating-sep">·</span>
+            <span class="rating-count">${product.reviewCount} reviews</span>
+            <span class="rating-sep">·</span>
+            <span class="instock-badge"><i class="fa-solid fa-circle" style="font-size:0.5rem"></i> In Stock</span>
+          </div>
+
+          <div class="product-pricing">
+            <span class="product-price-current">${formatCurrency(product.price)}</span>
+            ${product.originalPrice ? `<span class="product-price-original">${formatCurrency(product.originalPrice)}</span>` : ''}
+            ${disc > 0 ? `<span class="product-discount-badge">${disc}% OFF</span>` : ''}
+            ${disc > 0 ? `<span class="product-savings">You save ${formatCurrency(product.originalPrice - product.price)}</span>` : ''}
+          </div>
+
+          <!-- SIZE -->
+          <div class="option-group">
+            <div class="option-label">
+              Size: <strong id="selected-size-label">${selectedSize}</strong>
+              <span class="size-guide-link" onclick="document.getElementById('size-modal').classList.add('open')">
+                <i class="fa-solid fa-ruler"></i> Size Guide
+              </span>
+            </div>
+            <div class="size-options">
+              ${product.sizes.map(s => `
+                <div class="size-option ${s === selectedSize ? 'active' : ''}"
+                     data-size="${s}">${s}</div>`).join('')}
+            </div>
+          </div>
+
+          <!-- COLOR -->
+          ${product.colors?.length ? `
+          <div class="option-group">
+            <div class="option-label">Colour</div>
+            <div class="color-options">
+              ${product.colors.map((c, i) => `
+                <div class="color-swatch ${i === 0 ? 'active' : ''}"
+                     data-color="${c}"
+                     style="background:${c}"
+                     title="${c}"></div>`).join('')}
+              <span class="color-label" id="color-label">Selected</span>
+            </div>
+          </div>` : ''}
+
+          <!-- QUANTITY -->
+          <div class="qty-row">
+            <div class="qty-control">
+              <button class="qty-btn" id="qty-minus">−</button>
+              <span class="qty-display" id="qty-display">1</span>
+              <button class="qty-btn" id="qty-plus">+</button>
+            </div>
+            ${product.stock <= 5 ? `
+              <div class="stock-urgency">
+                <i class="fa-solid fa-fire"></i> Only ${product.stock} left!
+              </div>` : ''}
+          </div>
+
+          <!-- CTA -->
+          <div class="product-cta">
+            <button class="btn btn-primary btn-lg" id="atc-btn">
+              <i class="fa-solid fa-bag-shopping"></i> Add to Bag
+            </button>
+            <button class="btn btn-outline btn-lg" id="wish-btn" title="Save to Wishlist">
+              <i class="fa-${inWish ? 'solid' : 'regular'} fa-heart"></i>
+            </button>
+          </div>
+
+          <!-- META -->
+          <div class="product-meta">
+            <div class="meta-item"><i class="fa-solid fa-tag"></i> <strong>SKU:</strong> ${product.sku}</div>
+            <div class="meta-item"><i class="fa-solid fa-shirt"></i> <strong>Material:</strong> ${product.material}</div>
+            <div class="meta-item"><i class="fa-solid fa-hands-bubbles"></i> <strong>Care:</strong> ${product.care}</div>
+            <div class="meta-item"><i class="fa-solid fa-truck"></i> <strong>Delivery:</strong> 3–7 business days</div>
+            <div class="meta-item"><i class="fa-solid fa-rotate-left"></i> <strong>Returns:</strong> 7-day easy returns</div>
+          </div>
+
+          <!-- TABS -->
+          <div class="product-tabs">
+            <div class="tab-nav">
+              <button class="tab-btn active" data-tab="description">Description</button>
+              <button class="tab-btn" data-tab="details">Details</button>
+              <button class="tab-btn" data-tab="reviews" id="reviews-tab-btn">Reviews</button>
+            </div>
+
+            <div class="tab-content active" id="tab-description">
+              <p>${product.description}</p>
+              <p>Each piece is crafted with care, ensuring quality stitching and colour-fast fabric that retains its vibrancy wash after wash. Perfect for gifting or treating yourself.</p>
+            </div>
+
+            <div class="tab-content" id="tab-details">
+              <ul>
+                <li><strong>Material:</strong> ${product.material}</li>
+                <li><strong>Care Instructions:</strong> ${product.care}</li>
+                <li><strong>Available Sizes:</strong> ${product.sizes.join(', ')}</li>
+                <li><strong>SKU:</strong> ${product.sku}</li>
+                <li><strong>Category:</strong> ${product.category}</li>
+                <li><strong>Country of Origin:</strong> India</li>
+              </ul>
+            </div>
+
+            <div class="tab-content" id="tab-reviews">
+              <div id="reviews-container" style="text-align:center;padding:2rem 0">
+                <div class="spinner"></div>
+              </div>
+
+              <!-- Write a review -->
+              <div class="review-form">
+                <h4>Write a Review</h4>
+                <div style="font-size:0.8rem;color:var(--text-light);margin-bottom:0.75rem">Your rating</div>
+                <div class="star-rating-input" id="star-input">
+                  <i class="fa-regular fa-star" data-val="1"></i>
+                  <i class="fa-regular fa-star" data-val="2"></i>
+                  <i class="fa-regular fa-star" data-val="3"></i>
+                  <i class="fa-regular fa-star" data-val="4"></i>
+                  <i class="fa-regular fa-star" data-val="5"></i>
+                </div>
+                <div class="form-group">
+                  <label for="review-name">Name</label>
+                  <input type="text" id="review-name" class="form-control" placeholder="Your name" />
+                </div>
+                <div class="form-group">
+                  <label for="review-text">Review</label>
+                  <textarea id="review-text" class="form-control" placeholder="Share your experience with this product…"></textarea>
+                </div>
+                <button class="btn btn-primary" id="submit-review-btn">
+                  <i class="fa-solid fa-paper-plane"></i> Submit Review
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>`;
+
+      document.getElementById('product-container').innerHTML = productHTML;
+
+      // Load real reviews from Firestore
+      loadReviews(product.id);
+
+      // Sticky bar
+      document.getElementById('sticky-name').textContent  = product.name;
+      document.getElementById('sticky-price').textContent = formatCurrency(product.price);
+
+      // Related products
+      const relGrid = document.getElementById('related-grid');
+      if (relGrid) {
+        const allProducts = await getProducts();
+        const related = allProducts
+          .filter(p => p.id !== product.id && (p.category === product.category || p.tags?.some(t => product.tags?.includes(t))))
+          .slice(0, 4);
+        if (!related.length) {
+          const fallback = allProducts.filter(p => p.id !== product.id).slice(0, 4);
+          relGrid.innerHTML = fallback.map(renderProductCard).join('');
+        } else {
+          relGrid.innerHTML = related.map(renderProductCard).join('');
+        }
+        initWishlistUI();
+      }
+
+      // ── Thumbnail click ──
+      document.querySelectorAll('.gallery-thumb').forEach(thumb => {
+        thumb.addEventListener('click', () => {
+          document.querySelector('.gallery-thumb.active')?.classList.remove('active');
+          thumb.classList.add('active');
+          document.getElementById('main-img').src = thumb.dataset.src;
+        });
+      });
+
+      // ── Size select ──
+      document.querySelectorAll('.size-option').forEach(opt => {
+        opt.addEventListener('click', () => {
+          if (opt.classList.contains('out')) return;
+          document.querySelector('.size-option.active')?.classList.remove('active');
+          opt.classList.add('active');
+          selectedSize = opt.dataset.size;
+          document.getElementById('selected-size-label').textContent = selectedSize;
+        });
+      });
+
+      // ── Color select ──
+      document.querySelectorAll('.color-swatch').forEach(sw => {
+        sw.addEventListener('click', () => {
+          document.querySelector('.color-swatch.active')?.classList.remove('active');
+          sw.classList.add('active');
+          selectedColor = sw.dataset.color;
+        });
+      });
+
+      // ── Quantity ──
+      document.getElementById('qty-minus')?.addEventListener('click', () => {
+        if (quantity > 1) { quantity--; document.getElementById('qty-display').textContent = quantity; }
+      });
+      document.getElementById('qty-plus')?.addEventListener('click', () => {
+        if (quantity < 10) { quantity++; document.getElementById('qty-display').textContent = quantity; }
+      });
+
+      // ── Add to Cart ──
+      function doAddToCart() {
+        if (!selectedSize) { showToast('Please select a size', 'warning'); return; }
+        addToCart({ ...product, selectedSize, selectedColor, quantity });
+        showToast(`"${product.name}" added to bag!`, 'success');
+        updateCartBadge();
+      }
+      document.getElementById('atc-btn')?.addEventListener('click', doAddToCart);
+      document.getElementById('sticky-atc')?.addEventListener('click', doAddToCart);
+
+      // ── Wishlist ──
+      document.getElementById('wish-btn')?.addEventListener('click', function() {
+        const list = getWishlist();
+        const idx  = list.indexOf(product.id);
+        if (idx > -1) {
+          list.splice(idx, 1);
+          this.innerHTML = '<i class="fa-regular fa-heart"></i>';
+          showToast('Removed from wishlist', 'info');
+        } else {
+          list.push(product.id);
+          this.innerHTML = '<i class="fa-solid fa-heart"></i>';
+          showToast('💗 Saved to wishlist!', 'success');
+        }
+        saveWishlist(list);
+      });
+
+      // ── Tabs ──
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+          document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+          btn.classList.add('active');
+          document.getElementById('tab-' + btn.dataset.tab)?.classList.add('active');
+        });
+      });
+
+      // ── Star rating input ──
+      document.querySelectorAll('#star-input i').forEach(star => {
+        star.addEventListener('click', () => {
+          const val = parseInt(star.dataset.val);
+          document.querySelectorAll('#star-input i').forEach((s, i) => {
+            s.className = i < val ? 'fa-solid fa-star active' : 'fa-regular fa-star';
+          });
+        });
+      });
+
+      // ── Submit review button ──
+      document.getElementById('submit-review-btn')?.addEventListener('click', () => submitReview(product.id));
+
+      // ── Sticky bar on scroll ──
+      const atcBtn = document.getElementById('atc-btn');
+      const stickyBar = document.getElementById('sticky-bar');
+      if (atcBtn && stickyBar) {
+        const observer = new IntersectionObserver(entries => {
+          stickyBar.classList.toggle('visible', !entries[0].isIntersecting);
+        }, { threshold: 0 });
+        observer.observe(atcBtn);
+      }
+    });
+
+    // ── REVIEWS: load from Firestore ──
+    async function loadReviews(productId) {
+      const container = document.getElementById('reviews-container');
+      if (!container) return;
+
+      try {
+        const { collection, getDocs, query, orderBy } =
+          await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js');
+
+        const q    = query(collection(db, 'reviews', productId, 'items'), orderBy('createdAt', 'desc'));
+        const snap = await getDocs(q);
+        const reviews = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+
+        // Update tab label
+        const tabBtn = document.getElementById('reviews-tab-btn');
+        if (tabBtn) tabBtn.textContent = `Reviews (${reviews.length})`;
+
+        if (!reviews.length) {
+          container.innerHTML = `
+            <p style="color:var(--text-light);text-align:center;padding:1.5rem 0;font-size:0.9rem">
+              No reviews yet — be the first to share your experience!
+            </p>`;
+          return;
+        }
+
+        // Calculate real distribution from actual reviews
+        const avg = Math.round((reviews.reduce((s, r) => s + r.rating, 0) / reviews.length) * 10) / 10;
+        const distBars = [5, 4, 3, 2, 1].map(star => {
+          const count = reviews.filter(r => r.rating === star).length;
+          const pct   = Math.round((count / reviews.length) * 100);
+          return `<div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.3rem;font-size:0.78rem">
+            <span style="width:14px;color:var(--text-light)">${star}</span>
+            <i class="fa-solid fa-star" style="color:var(--gold);font-size:0.7rem"></i>
+            <div style="flex:1;height:6px;background:var(--border);border-radius:3px;overflow:hidden">
+              <div style="width:${pct}%;height:100%;background:var(--gold);border-radius:3px"></div>
+            </div>
+            <span style="color:var(--text-light);width:28px">${pct}%</span>
+          </div>`;
+        }).join('');
+
+        const reviewItems = reviews.map(r => {
+          const dateStr = r.createdAt
+            ? new Date(r.createdAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })
+            : '';
+          let stars = '';
+          for (let i = 1; i <= 5; i++) {
+            stars += i <= r.rating
+              ? '<i class="fa-solid fa-star"></i>'
+              : '<i class="fa-regular fa-star"></i>';
+          }
+          return `
+            <div style="padding:1.25rem 0;border-bottom:1px solid var(--border-light)">
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.4rem">
+                <div style="display:flex;align-items:center;gap:0.5rem">
+                  <div style="width:34px;height:34px;background:var(--maroon);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--cream);font-weight:700;font-size:0.85rem">${r.name?.[0]?.toUpperCase() || '?'}</div>
+                  <div>
+                    <div style="font-weight:600;font-size:0.88rem;color:var(--text)">${r.name}</div>
+                    <div style="font-size:0.72rem;color:var(--text-light)">${dateStr}</div>
+                  </div>
+                </div>
+                <div class="stars" style="font-size:0.8rem">${stars}</div>
+              </div>
+              <p style="font-size:0.88rem;margin:0">${r.text}</p>
+            </div>`;
+        }).join('');
+
+        container.innerHTML = `
+          <div style="display:flex;align-items:center;gap:1.5rem;margin-bottom:1.5rem;padding:1.25rem;background:var(--beige);border-radius:var(--radius-md)">
+            <div style="text-align:center">
+              <div style="font-family:var(--font-display);font-size:3rem;font-weight:700;color:var(--maroon);line-height:1">${avg}</div>
+              <div class="stars" style="margin:0.25rem 0;font-size:0.85rem">${(() => { let s=''; for(let i=1;i<=5;i++) s+=i<=Math.floor(avg)?'<i class="fa-solid fa-star"></i>':(i-avg<1?'<i class="fa-solid fa-star-half-stroke"></i>':'<i class="fa-regular fa-star"></i>'); return s; })()}</div>
+              <div style="font-size:0.78rem;color:var(--text-light)">${reviews.length} review${reviews.length !== 1 ? 's' : ''}</div>
+            </div>
+            <div style="flex:1">${distBars}</div>
+          </div>
+          ${reviewItems}`;
+
+      } catch (err) {
+        console.error('Reviews load error:', err);
+        if (container) container.innerHTML = `<p style="color:var(--text-light);text-align:center;padding:1rem">Could not load reviews.</p>`;
+      }
+    }
+
+    // ── SUBMIT REVIEW → saves to Firestore, updates product rating ──
+    async function submitReview(productId) {
+      const name      = document.getElementById('review-name')?.value.trim();
+      const text      = document.getElementById('review-text')?.value.trim();
+      const ratingVal = document.querySelectorAll('#star-input i.fa-solid.fa-star, #star-input i.active').length;
+      const btn       = document.getElementById('submit-review-btn');
+
+      if (!name || !text) { showToast('Please fill in all fields', 'warning'); return; }
+      if (!ratingVal)     { showToast('Please select a rating', 'warning'); return; }
+
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Submitting…';
+
+      try {
+        const { collection, addDoc, getDocs, doc, updateDoc } =
+          await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js');
+
+        // Save review to Firestore
+        await addDoc(collection(db, 'reviews', productId, 'items'), {
+          name,
+          text,
+          rating:    ratingVal,
+          createdAt: new Date().toISOString(),
+        });
+
+        // Recalculate rating from all reviews and update product doc
+        const snap    = await getDocs(collection(db, 'reviews', productId, 'items'));
+        const all     = snap.docs.map(d => d.data());
+        const newAvg  = Math.round((all.reduce((s, r) => s + r.rating, 0) / all.length) * 10) / 10;
+        await updateDoc(doc(db, 'products', productId), {
+          rating:      newAvg,
+          reviewCount: all.length,
+        });
+
+        showToast('Thank you for your review! 🌸', 'success');
+
+        // Reset form
+        document.getElementById('review-name').value = '';
+        document.getElementById('review-text').value = '';
+        document.querySelectorAll('#star-input i').forEach(s => s.className = 'fa-regular fa-star');
+
+        // Reload reviews list
+        await loadReviews(productId);
+
+      } catch (err) {
+        console.error('Submit review error:', err);
+        showToast('Could not submit review. Please try again.', 'error');
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Submit Review';
+      }
+    }
+  </script>
+</body>
+</html>

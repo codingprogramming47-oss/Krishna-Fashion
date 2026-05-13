@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shop — Krishna Fashion</title>
+  <meta name="description" content="Browse our full collection of handcrafted ethnic wear — sarees, lehengas, kurtas, co-ord sets and more." />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="main.css" />
+  <link rel="stylesheet" href="shop.css" />
+</head>
+<body>
+
+  <!-- PAGE LOADER -->
+  <div id="page-loader" class="page-loader">
+    <span class="brand-name">Krishna</span>
+    <div class="spinner"></div>
+  </div>
+
+  <!-- TOP BAR -->
+  <div class="top-bar">
+    🌸 Free shipping on all orders 🌸
+  </div>
+
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="navbar">
+      <a href="index.html" class="nav-logo">
+        <span class="brand-name">Krishna</span>
+        <span class="brand-tagline">Fashion</span>
+      </a>
+      <nav class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="shop.html" class="active">Shop</a>
+        <a href="shop.html?category=Wedding+Wear">Wedding</a>
+        <a href="shop.html?category=Festive+Collection">Festive</a>
+        <a href="shop.html?tag=New">New In</a>
+      </nav>
+      <div class="nav-actions">
+        <a href="wishlist.html" title="Wishlist"><i class="fa-regular fa-heart"></i></a>
+        <a href="cart.html" style="position:relative" title="Cart">
+          <i class="fa-solid fa-bag-shopping"></i>
+          <span class="cart-badge" style="display:none">0</span>
+        </a>
+        <button class="hamburger" aria-label="Open menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MOBILE NAV -->
+  <nav class="mobile-nav">
+    <div class="mobile-nav-header">
+      <span class="brand-name">Krishna</span>
+      <button class="mobile-nav-close"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="mobile-nav-links">
+      <a href="index.html">Home</a>
+      <a href="shop.html">All Products</a>
+      <a href="cart.html">Cart</a>
+      <a href="wishlist.html">Wishlist</a>
+      <a href="orders.html">My Orders</a>
+    </div>
+  </nav>
+
+  <!-- PAGE BANNER -->
+  <div class="page-banner">
+    <h1>Our Collection</h1>
+    <p>Discover handcrafted ethnic wear for every occasion</p>
+  </div>
+
+  <!-- MAIN SHOP LAYOUT -->
+  <div class="shop-layout">
+
+    <!-- ── SIDEBAR ── -->
+    <aside class="shop-sidebar">
+      <div class="sidebar-title">
+        Filters
+        <button class="sidebar-clear" id="clear-filters">Clear All</button>
+      </div>
+
+      <!-- Category — populated from Firestore -->
+      <div class="filter-group">
+        <div class="filter-group-title">Category</div>
+        <div class="filter-options" id="category-filters">
+          <div style="color:var(--text-light);font-size:0.8rem">Loading...</div>
+        </div>
+      </div>
+
+      <!-- Price Range -->
+      <div class="filter-group">
+        <div class="filter-group-title">Price Range</div>
+        <div class="price-slider-wrap">
+          <input type="range" id="price-range" min="0" max="4000" step="100" value="4000" />
+          <div class="price-range-labels">
+            <span>₹0</span>
+            <span id="price-label">Up to ₹4,000</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Size — populated from Firestore -->
+      <div class="filter-group">
+        <div class="filter-group-title">Size</div>
+        <div class="size-chips" id="size-chips">
+          <div style="color:var(--text-light);font-size:0.8rem">Loading...</div>
+        </div>
+      </div>
+
+      <!-- Tags — populated from Firestore -->
+      <div class="filter-group">
+        <div class="filter-group-title">Collection</div>
+        <div class="filter-options" id="tag-filters">
+          <div style="color:var(--text-light);font-size:0.8rem">Loading...</div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ── MAIN ── -->
+    <main class="shop-main">
+      <!-- Toolbar -->
+      <div class="shop-toolbar">
+        <div class="shop-results">
+          Showing <strong id="result-count">0</strong> products
+        </div>
+        <div class="shop-controls">
+          <button class="mobile-filter-btn" id="open-filter-drawer">
+            <i class="fa-solid fa-sliders"></i> Filters
+          </button>
+          <select class="sort-select" id="sort-select">
+            <option value="popular">Most Popular</option>
+            <option value="new">Newest First</option>
+            <option value="price-asc">Price: Low to High</option>
+            <option value="price-desc">Price: High to Low</option>
+            <option value="rating">Top Rated</option>
+            <option value="discount">Best Discount</option>
+          </select>
+          <div class="view-toggle">
+            <button class="view-btn active" id="view-grid" title="Grid view"><i class="fa-solid fa-grip"></i></button>
+            <button class="view-btn" id="view-list" title="List view"><i class="fa-solid fa-list"></i></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Active filter tags -->
+      <div class="active-filters" id="active-filters"></div>
+
+      <!-- Products Grid -->
+      <div id="products-grid" class="products-grid">
+        <div style="grid-column:1/-1;text-align:center;padding:4rem">
+          <div class="spinner"></div>
+        </div>
+      </div>
+
+      <!-- Empty state -->
+      <div id="no-results" class="empty-state" style="display:none">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <h3>No products found</h3>
+        <p>Try adjusting your filters or <button onclick="document.getElementById('clear-filters').click()" style="background:none;border:none;color:var(--maroon);cursor:pointer;font-family:var(--font-body);font-size:inherit">clear all filters</button></p>
+      </div>
+
+      <!-- Pagination -->
+      <div class="pagination" id="pagination"></div>
+    </main>
+  </div>
+
+  <!-- MOBILE FILTER DRAWER -->
+  <div class="mobile-filter-drawer" id="filter-drawer">
+    <div class="drawer-handle"></div>
+    <div class="sidebar-title">
+      Filters
+      <button class="sidebar-clear" id="drawer-clear">Clear All</button>
+    </div>
+    <div class="filter-group">
+      <div class="filter-group-title">Category</div>
+      <div class="filter-options" id="category-filters-m">
+        <div style="color:var(--text-light);font-size:0.8rem">Loading...</div>
+      </div>
+    </div>
+    <div class="filter-group" style="margin-top:1rem">
+      <button class="btn btn-primary btn-full" id="apply-drawer-filters">Apply Filters</button>
+    </div>
+  </div>
+  <div id="drawer-overlay" style="position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:1049;display:none"></div>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="footer-grid">
+
+      <!-- Brand column -->
+      <div class="footer-col footer-brand">
+        <a href="index.html" class="nav-logo">
+          <span class="brand-name">Krishna</span>
+          <span class="brand-tagline" style="color:rgba(255,255,255,0.4)">Fashion</span>
+        </a>
+        <p id="footer-about">Celebrating the beauty of Indian ethnic wear with handcrafted, premium quality clothing.</p>
+        <div class="footer-social" id="footer-social">
+          <!-- Populated dynamically from Firestore footerContent.socials -->
+        </div>
+      </div>
+
+      <!-- Shop column — categories from DB (reuses already-loaded allProducts) -->
+      <div class="footer-col">
+        <h4>Shop</h4>
+        <ul id="footer-shop-links">
+          <li><span style="color:rgba(255,255,255,0.3);font-size:0.8rem">Loading…</span></li>
+        </ul>
+      </div>
+
+      <!-- Help column — from Firestore footerContent.helpLinks -->
+      <div class="footer-col">
+        <h4>Help</h4>
+        <ul id="footer-help-links">
+          <li><span style="color:rgba(255,255,255,0.3);font-size:0.8rem">Loading…</span></li>
+        </ul>
+      </div>
+
+      <!-- Contact column -->
+      <div class="footer-col">
+        <h4>Contact Us</h4>
+        <div class="footer-contact-item" id="footer-phone-row" style="display:none">
+          <i class="fa-solid fa-phone"></i>
+          <span id="footer-phone"></span>
+        </div>
+        <div class="footer-contact-item" id="footer-email-row" style="display:none">
+          <i class="fa-solid fa-envelope"></i>
+          <span id="footer-email"></span>
+        </div>
+        <div class="footer-contact-item" id="footer-address-row" style="display:none">
+          <i class="fa-solid fa-location-dot"></i>
+          <span id="footer-address"></span>
+        </div>
+        <div class="footer-contact-item" id="footer-whatsapp-row" style="display:none">
+          <i class="fa-brands fa-whatsapp"></i>
+          <span id="footer-whatsapp"></span>
+        </div>
+      </div>
+
+    </div>
+    <div class="footer-bottom">
+      <p id="footer-copyright">© 2026 Krishna Fashion. All rights reserved.</p>
+      <div class="footer-bottom-links" id="footer-bottom-links">
+        <!-- Populated dynamically from Firestore footerContent.bottomLinks -->
+      </div>
+    </div>
+  </footer>
+
+  <a id="whatsapp-float-link" href="#" class="whatsapp-float" target="_blank" rel="noopener" style="pointer-events:none;opacity:0.4">
+    <span class="whatsapp-label">Chat with us</span>
+    <div class="whatsapp-float-btn"><i class="fa-brands fa-whatsapp"></i></div>
+  </a>
+  <button class="scroll-top" aria-label="Scroll to top"><i class="fa-solid fa-arrow-up"></i></button>
+
+  <script type="module">
+    import { initNavbar, initScrollTop, hideLoader, getParam, debounce, LS } from './utils.js';
+    import { getProducts, getCategories, getAvailableTags, getAvailableSizes,
+             renderProductCard, initWishlistUI, updateCartBadge, sortProducts } from './products.js';
+    import { getConfig } from './firebase.js';
+
+    // ── FOOTER: dynamic from Firestore + reuses allProducts already fetched ──
+    async function initFooter(allProducts) {
+      try {
+        const [footerContent, siteSettings] = await Promise.all([
+          getConfig('footerContent').catch(() => null),
+          getConfig('siteSettings').catch(() => null),
+        ]);
+
+        const set = (id, val) => { const el = document.getElementById(id); if (el && val) el.textContent = val; };
+
+        if (footerContent?.about)     set('footer-about',     footerContent.about);
+        if (footerContent?.copyright) set('footer-copyright', footerContent.copyright);
+
+        // Social icons
+        const socialEl = document.getElementById('footer-social');
+        if (socialEl && footerContent?.socials?.length) {
+          socialEl.innerHTML = footerContent.socials.map(s =>
+            `<a href="${s.href || '#'}" aria-label="${s.label || ''}"
+                ${s.href && s.href !== '#' ? 'target="_blank" rel="noopener"' : ''}>
+               <i class="${s.icon}"></i></a>`
+          ).join('');
+        }
+
+        // Contact rows — only render if value exists
+        const showRow = (rowId, spanId, val) => {
+          if (!val) return;
+          set(spanId, val);
+          const row = document.getElementById(rowId);
+          if (row) row.style.display = '';
+        };
+        showRow('footer-phone-row',   'footer-phone',   footerContent?.phone);
+        showRow('footer-email-row',   'footer-email',   footerContent?.email);
+        showRow('footer-address-row', 'footer-address', footerContent?.address);
+
+        // WhatsApp — DB only, no localStorage fallback
+        const waNum = siteSettings?.whatsappNumber || '';
+        if (waNum || footerContent?.phone) {
+          showRow('footer-whatsapp-row', 'footer-whatsapp',
+            footerContent?.phone ? `WhatsApp: ${footerContent.phone}` : `WhatsApp: +${waNum}`);
+        }
+        // Update float button — only enable when DB number confirmed, no hardcoded fallback
+        const waFloatLink = document.getElementById('whatsapp-float-link');
+        if (waNum && waFloatLink) {
+          const _s = LS.get('aarohi_settings') || {};
+          _s.whatsappNumber = waNum;
+          LS.set('aarohi_settings', _s);
+          waFloatLink.href = `https://wa.me/${waNum}`;
+          waFloatLink.style.pointerEvents = '';
+          waFloatLink.style.opacity = '';
+        }
+
+        // Shop column — unique categories from already-loaded allProducts (no extra fetch)
+        const shopList = document.getElementById('footer-shop-links');
+        if (shopList) {
+          const cats = [...new Set(allProducts.map(p => p.category).filter(Boolean))].sort();
+          shopList.innerHTML = cats.length
+            ? cats.map(c => `<li><a href="shop.html?category=${encodeURIComponent(c)}">${c}</a></li>`).join('')
+            : `<li><a href="shop.html">All Products</a></li>`;
+        }
+
+        // Help column — from Firestore footerContent.helpLinks
+        const DEFAULT_HELP = [
+          { label: 'Returns & Exchange', href: 'return.html'   },
+          { label: 'Privacy Policy',     href: 'privacy.html'  },
+        ];
+        const helpLinks = footerContent?.helpLinks?.length ? footerContent.helpLinks : DEFAULT_HELP;
+        const helpList  = document.getElementById('footer-help-links');
+        if (helpList) {
+          helpList.innerHTML = helpLinks.map(l =>
+            `<li><a href="${l.href || '#'}">${l.label}</a></li>`
+          ).join('');
+        }
+
+        // Footer bottom links — from Firestore footerContent.bottomLinks
+        const DEFAULT_BOTTOM = [{ label: 'Privacy Policy', href: 'privacy.html' }];
+        const bottomLinks = footerContent?.bottomLinks?.length ? footerContent.bottomLinks : DEFAULT_BOTTOM;
+        const bottomEl    = document.getElementById('footer-bottom-links');
+        if (bottomEl) {
+          bottomEl.innerHTML = bottomLinks.map(l =>
+            `<a href="${l.href || '#'}">${l.label}</a>`
+          ).join('');
+          bottomEl.innerHTML +=
+            `<a href="admin.html"
+                style="color:rgba(255,255,255,0.18);font-size:0.65rem;letter-spacing:0.05em"
+                title="Admin Panel">Admin</a>`;
+        }
+
+      } catch (err) {
+        console.warn('[Footer] Could not load footer data:', err);
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      setTimeout(hideLoader, 600);
+      initNavbar();
+      initScrollTop();
+      updateCartBadge();
+
+      // State
+      let allProducts        = [];
+      let selectedCategories = [];
+      let selectedSizes      = [];
+      let selectedTags       = [];
+      let maxPrice           = 4000;
+      let sortBy             = 'popular';
+
+      // Read URL params
+      const paramCat = getParam('category');
+      const paramTag = getParam('tag');
+      if (paramCat) selectedCategories = [paramCat];
+      if (paramTag) selectedTags       = [paramTag];
+
+      const grid    = document.getElementById('products-grid');
+      const noRes   = document.getElementById('no-results');
+      const countEl = document.getElementById('result-count');
+      const tagsEl  = document.getElementById('active-filters');
+
+      // ── Load filters + products from Firestore in parallel ──
+      const [products, categories, tags, sizes] = await Promise.all([
+        getProducts(),
+        getCategories(),
+        getAvailableTags(),
+        getAvailableSizes(),
+      ]);
+      allProducts = products;
+      initFooter(allProducts);   // ← dynamic footer using already-loaded products
+
+      // ── Render category filters ──
+      const catContainer  = document.getElementById('category-filters');
+      const catContainerM = document.getElementById('category-filters-m');
+      const catHTML = categories.length
+        ? categories.map(c => `
+            <label class="filter-option">
+              <input type="checkbox" value="${c}" class="cat-filter" ${selectedCategories.includes(c) ? 'checked' : ''} />
+              <label>${c}</label>
+            </label>`).join('')
+        : '<span style="font-size:0.8rem;color:var(--text-light)">No categories yet</span>';
+      if (catContainer)  catContainer.innerHTML  = catHTML;
+      if (catContainerM) catContainerM.innerHTML = categories.length
+        ? categories.map(c => `
+            <label class="filter-option">
+              <input type="checkbox" value="${c}" class="cat-filter-m" ${selectedCategories.includes(c) ? 'checked' : ''} />
+              <label>${c}</label>
+            </label>`).join('')
+        : '<span style="font-size:0.8rem;color:var(--text-light)">No categories yet</span>';
+
+      // ── Render size chips ──
+      const sizeContainer = document.getElementById('size-chips');
+      if (sizeContainer) {
+        sizeContainer.innerHTML = sizes.length
+          ? sizes.map(s => `<span class="size-chip ${selectedSizes.includes(s) ? 'active' : ''}" data-size="${s}">${s}</span>`).join('')
+          : '<span style="font-size:0.8rem;color:var(--text-light)">No sizes yet</span>';
+      }
+
+      // ── Render tag filters ──
+      const tagContainer = document.getElementById('tag-filters');
+      if (tagContainer) {
+        tagContainer.innerHTML = tags.length
+          ? tags.map(t => `
+              <label class="filter-option">
+                <input type="checkbox" value="${t}" class="tag-filter" ${selectedTags.includes(t) ? 'checked' : ''} />
+                <label>${t}</label>
+              </label>`).join('')
+          : '<span style="font-size:0.8rem;color:var(--text-light)">No tags yet</span>';
+      }
+
+      // ── Filter & render products ──
+      function customFilter(products) {
+        let r = [...products];
+        if (selectedCategories.length) r = r.filter(p => selectedCategories.includes(p.category));
+        if (selectedTags.length)       r = r.filter(p => selectedTags.some(t => p.tags?.includes(t)));
+        if (maxPrice < 4000)           r = r.filter(p => p.price <= maxPrice);
+        if (selectedSizes.length)      r = r.filter(p => selectedSizes.some(s => p.sizes?.includes(s)));
+        return r;
+      }
+
+      function renderProducts() {
+        const filtered = customFilter(allProducts);
+        const sorted   = sortProducts(filtered, sortBy);
+        countEl.textContent = sorted.length;
+        if (!sorted.length) {
+          grid.innerHTML = '';
+          noRes.style.display = 'block';
+        } else {
+          noRes.style.display = 'none';
+          grid.innerHTML = sorted.map(renderProductCard).join('');
+          initWishlistUI();
+        }
+        renderActiveTags();
+      }
+
+      function renderActiveTags() {
+        const chips = [];
+        selectedCategories.forEach(c => chips.push({ label: c,              type: 'cat',   value: c }));
+        selectedTags.forEach(t       => chips.push({ label: t,              type: 'tag',   value: t }));
+        selectedSizes.forEach(s      => chips.push({ label: 'Size: ' + s,   type: 'size',  value: s }));
+        if (maxPrice < 4000)           chips.push({ label: 'Up to ₹' + maxPrice, type: 'price', value: maxPrice });
+        tagsEl.innerHTML = chips.map(t =>
+          `<span class="filter-tag">${t.label}
+            <button onclick="removeTag('${t.type}','${t.value}')" aria-label="Remove filter">×</button>
+          </span>`
+        ).join('');
+      }
+
+      window.removeTag = function(type, value) {
+        if (type === 'cat')   selectedCategories = selectedCategories.filter(c => c !== value);
+        if (type === 'tag')   selectedTags       = selectedTags.filter(t => t !== value);
+        if (type === 'size')  selectedSizes      = selectedSizes.filter(s => s !== value);
+        if (type === 'price') maxPrice           = 4000;
+        syncCheckboxes();
+        renderProducts();
+      };
+
+      function syncCheckboxes() {
+        document.querySelectorAll('.cat-filter, .cat-filter-m').forEach(cb => { cb.checked = selectedCategories.includes(cb.value); });
+        document.querySelectorAll('.tag-filter').forEach(cb => { cb.checked = selectedTags.includes(cb.value); });
+        document.querySelectorAll('.size-chip').forEach(chip => { chip.classList.toggle('active', selectedSizes.includes(chip.dataset.size)); });
+        const pr = document.getElementById('price-range');
+        if (pr) { pr.value = maxPrice; document.getElementById('price-label').textContent = 'Up to ₹' + maxPrice.toLocaleString('en-IN'); }
+      }
+
+      // ── Event listeners (use delegation for dynamically rendered filters) ──
+      document.getElementById('category-filters')?.addEventListener('change', e => {
+        if (e.target.classList.contains('cat-filter')) {
+          selectedCategories = [...document.querySelectorAll('.cat-filter:checked')].map(c => c.value);
+          renderProducts();
+        }
+      });
+
+      document.getElementById('tag-filters')?.addEventListener('change', e => {
+        if (e.target.classList.contains('tag-filter')) {
+          selectedTags = [...document.querySelectorAll('.tag-filter:checked')].map(c => c.value);
+          renderProducts();
+        }
+      });
+
+      document.getElementById('size-chips')?.addEventListener('click', e => {
+        const chip = e.target.closest('.size-chip');
+        if (!chip) return;
+        const sz = chip.dataset.size;
+        if (selectedSizes.includes(sz)) selectedSizes = selectedSizes.filter(s => s !== sz);
+        else selectedSizes.push(sz);
+        chip.classList.toggle('active', selectedSizes.includes(sz));
+        renderProducts();
+      });
+
+      const priceRange = document.getElementById('price-range');
+      const priceLabel = document.getElementById('price-label');
+      priceRange?.addEventListener('input', debounce(() => {
+        maxPrice = parseInt(priceRange.value);
+        priceLabel.textContent = 'Up to ₹' + maxPrice.toLocaleString('en-IN');
+        renderProducts();
+      }, 300));
+
+      document.getElementById('sort-select')?.addEventListener('change', e => {
+        sortBy = e.target.value;
+        renderProducts();
+      });
+
+      document.getElementById('clear-filters')?.addEventListener('click', () => {
+        selectedCategories = []; selectedTags = []; selectedSizes = []; maxPrice = 4000;
+        sortBy = 'popular';
+        document.getElementById('sort-select').value = 'popular';
+        syncCheckboxes();
+        renderProducts();
+      });
+
+      document.getElementById('drawer-clear')?.addEventListener('click', () => {
+        document.getElementById('clear-filters').click();
+      });
+
+      // View toggle
+      document.getElementById('view-grid')?.addEventListener('click', () => {
+        grid.style.gridTemplateColumns = '';
+        document.getElementById('view-grid').classList.add('active');
+        document.getElementById('view-list').classList.remove('active');
+      });
+      document.getElementById('view-list')?.addEventListener('click', () => {
+        grid.style.gridTemplateColumns = '1fr';
+        document.getElementById('view-list').classList.add('active');
+        document.getElementById('view-grid').classList.remove('active');
+      });
+
+      // Mobile filter drawer
+      const drawer        = document.getElementById('filter-drawer');
+      const drawerOverlay = document.getElementById('drawer-overlay');
+      document.getElementById('open-filter-drawer')?.addEventListener('click', () => {
+        drawer.classList.add('open');
+        drawerOverlay.style.display = 'block';
+      });
+      const closeDrawer = () => { drawer.classList.remove('open'); drawerOverlay.style.display = 'none'; };
+      drawerOverlay?.addEventListener('click', closeDrawer);
+      document.getElementById('apply-drawer-filters')?.addEventListener('click', () => {
+        selectedCategories = [...document.querySelectorAll('.cat-filter-m:checked')].map(c => c.value);
+        renderProducts();
+        closeDrawer();
+      });
+
+      // Initial render
+      renderProducts();
+    });
+  </script>
+</body>
+</html>

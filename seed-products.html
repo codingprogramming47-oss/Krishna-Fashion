@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Seed Products — Aarohi Admin</title>
+  <style>
+    body { font-family: sans-serif; max-width: 540px; margin: 4rem auto; padding: 0 1.5rem; background: #f8f5f0; color: #333; }
+    h2  { color: #7b1d2e; }
+    .card { background: #fff; border-radius: 12px; padding: 2rem; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+    button { background: #7b1d2e; color: #fff; border: none; padding: 0.85rem 2rem; border-radius: 8px; font-size: 1rem; cursor: pointer; width: 100%; margin-top: 1rem; font-weight: 600; }
+    button:disabled { background: #bbb; cursor: not-allowed; }
+    #log { margin-top: 1.5rem; font-size: 0.85rem; line-height: 1.8; background: #f0ebe3; border-radius: 8px; padding: 1rem; min-height: 80px; white-space: pre-wrap; }
+    .ok  { color: #2d7b4f; }
+    .err { color: #dc2626; }
+    .info { color: #7b1d2e; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>🌸 Aarohi — Seed Products to Firestore</h2>
+    <p>Click the button below to push all 8 sample products into your Firestore <code>products</code> collection.</p>
+    <p><strong>This is safe to run multiple times</strong> — it checks if products already exist and skips if they do.</p>
+    <button id="seed-btn">Seed Products to Firestore</button>
+    <div id="log">Ready. Press the button to start...</div>
+  </div>
+
+  <script type="module">
+    import { db } from './firebase.js';
+    import {
+      collection,
+      getDocs,
+      addDoc,
+    } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+
+    const sampleProducts = [
+      {
+        name: 'Ananya Kurta Set', category: 'Co-ord Sets', price: 1299, originalPrice: 1999,
+        images: ['https://placehold.co/600x800/f5edd6/7b1d2e?text=Ananya+Kurta','https://placehold.co/600x800/e8d4c0/5c1220?text=Ananya+Back','https://placehold.co/600x800/d4c4b0/5c1220?text=Ananya+Detail','https://placehold.co/600x800/c8b8a4/5c1220?text=Ananya+Model'],
+        description: 'Elegant Ananya Kurta Set in premium chanderi fabric. Features intricate embroidery work with matching palazzo pants.',
+        sizes: ['XS','S','M','L','XL','XXL'], colors: ['#7B1D2E','#1D4E7B','#2D7B4F'], stock: 12,
+        rating: 4.8, reviewCount: 124, tags: ['Best Seller','Festive'], material: 'Chanderi Silk', care: 'Dry Clean Recommended', sku: 'ANYK-001'
+      },
+      {
+        name: 'Meera Fusion Dress', category: 'Dresses', price: 1599, originalPrice: 2499,
+        images: ['https://placehold.co/600x800/e8d4c0/5c1220?text=Meera+Dress','https://placehold.co/600x800/f5edd6/7b1d2e?text=Meera+Side','https://placehold.co/600x800/d4c4b0/5c1220?text=Meera+Back','https://placehold.co/600x800/c8b8a4/5c1220?text=Meera+Detail'],
+        description: 'The Meera Fusion Dress blends contemporary silhouettes with traditional Indian motifs.',
+        sizes: ['S','M','L','XL'], colors: ['#C9A84C','#7B1D2E','#3D1A5C'], stock: 8,
+        rating: 4.7, reviewCount: 89, tags: ['New','Best Seller'], material: 'Georgette', care: 'Hand Wash Cold', sku: 'MFDR-002'
+      },
+      {
+        name: 'Kavya Silk Saree', category: 'Wedding Wear', price: 2199, originalPrice: 3299,
+        images: ['https://placehold.co/600x800/7b1d2e/f5edd6?text=Kavya+Saree','https://placehold.co/600x800/5c1220/f5edd6?text=Kavya+Blouse','https://placehold.co/600x800/3d0a12/f5edd6?text=Kavya+Border','https://placehold.co/600x800/c9a84c/5c1220?text=Kavya+Pallu'],
+        description: 'Exquisite Kavya Silk Saree with intricate gold zari border.',
+        sizes: ['Free Size'], colors: ['#7B1D2E','#1D2E7B','#2E7B1D'], stock: 5,
+        rating: 4.9, reviewCount: 67, tags: ['Best Seller','Limited'], material: 'Pure Silk with Zari', care: 'Dry Clean Only', sku: 'KVSR-003'
+      },
+      {
+        name: 'Priya Embroidered Top', category: 'Tops & Tunics', price: 899, originalPrice: 1299,
+        images: ['https://placehold.co/600x800/d4c4b0/5c1220?text=Priya+Top','https://placehold.co/600x800/f5edd6/7b1d2e?text=Priya+Detail','https://placehold.co/600x800/e8d4c0/5c1220?text=Priya+Back','https://placehold.co/600x800/c8b8a4/5c1220?text=Priya+Model'],
+        description: 'Versatile Priya Embroidered Top in soft cotton blend with beautiful mirror work embroidery.',
+        sizes: ['XS','S','M','L','XL','XXL'], colors: ['#F5EDD6','#7B1D2E','#1D4E7B','#2D7B4F'], stock: 24,
+        rating: 4.6, reviewCount: 156, tags: ['New'], material: 'Cotton Blend', care: 'Machine Wash Cold', sku: 'PRET-004'
+      },
+      {
+        name: 'Radha Festive Lehenga', category: 'Festive Collection', price: 2499, originalPrice: 3999,
+        images: ['https://placehold.co/600x800/5c1220/f5edd6?text=Radha+Lehenga','https://placehold.co/600x800/7b1d2e/f5edd6?text=Radha+Choli','https://placehold.co/600x800/3d0a12/f5edd6?text=Radha+Dupatta','https://placehold.co/600x800/c9a84c/5c1220?text=Radha+Detail'],
+        description: 'Radiant Radha Festive Lehenga in rich velvet with gold thread embroidery. 3-piece set.',
+        sizes: ['S','M','L','XL'], colors: ['#5C1220','#1A2E5C','#2E5C1A'], stock: 6,
+        rating: 4.9, reviewCount: 42, tags: ['Best Seller','Limited'], material: 'Velvet with Embroidery', care: 'Dry Clean Only', sku: 'RLHG-005'
+      },
+      {
+        name: 'Nisha Palazzo Set', category: 'Co-ord Sets', price: 1149, originalPrice: 1699,
+        images: ['https://placehold.co/600x800/c8b8a4/5c1220?text=Nisha+Set','https://placehold.co/600x800/d4c4b0/5c1220?text=Nisha+Top','https://placehold.co/600x800/e8d4c0/5c1220?text=Nisha+Palazzo','https://placehold.co/600x800/f5edd6/7b1d2e?text=Nisha+Model'],
+        description: 'Comfortable yet stylish Nisha Palazzo Set in premium linen blend.',
+        sizes: ['XS','S','M','L','XL','XXL'], colors: ['#C8B8A4','#7B1D2E','#1D4E7B'], stock: 18,
+        rating: 4.5, reviewCount: 98, tags: ['New'], material: 'Linen Blend', care: 'Machine Wash Cold', sku: 'NPLS-006'
+      },
+      {
+        name: 'Diya Printed Kurti', category: 'Tops & Tunics', price: 799, originalPrice: 1099,
+        images: ['https://placehold.co/600x800/f5edd6/7b1d2e?text=Diya+Kurti','https://placehold.co/600x800/e8d4c0/5c1220?text=Diya+Print','https://placehold.co/600x800/d4c4b0/5c1220?text=Diya+Neck','https://placehold.co/600x800/c8b8a4/5c1220?text=Diya+Length'],
+        description: 'Fresh Diya Printed Kurti in breathable cotton with beautiful block print pattern.',
+        sizes: ['XS','S','M','L','XL','XXL','3XL'], colors: ['#F5EDD6','#E8D4C0','#7B1D2E'], stock: 32,
+        rating: 4.4, reviewCount: 203, tags: ['Best Seller'], material: '100% Cotton', care: 'Machine Wash', sku: 'DPKT-007'
+      },
+      {
+        name: 'Aarav Co-ord Set', category: 'Co-ord Sets', price: 1399, originalPrice: 1999,
+        images: ['https://placehold.co/600x800/c9a84c/5c1220?text=Aarav+Set','https://placehold.co/600x800/7b1d2e/f5edd6?text=Aarav+Top','https://placehold.co/600x800/5c1220/f5edd6?text=Aarav+Pant','https://placehold.co/600x800/f5edd6/7b1d2e?text=Aarav+Model'],
+        description: 'Chic Aarav Co-ord Set featuring a crop top and wide-leg pants in luxurious satin fabric.',
+        sizes: ['S','M','L','XL'], colors: ['#C9A84C','#7B1D2E','#1D1D1D'], stock: 9,
+        rating: 4.7, reviewCount: 71, tags: ['New','Limited'], material: 'Satin', care: 'Hand Wash / Dry Clean', sku: 'ACRD-008'
+      }
+    ];
+
+    const log = document.getElementById('log');
+    const btn = document.getElementById('seed-btn');
+
+    function print(msg, cls = '') {
+      log.innerHTML += `<span class="${cls}">${msg}\n</span>`;
+    }
+
+    btn.addEventListener('click', async () => {
+      btn.disabled = true;
+      log.innerHTML = '';
+      print('🔍 Checking Firestore for existing products...', 'info');
+
+      try {
+        const snap = await getDocs(collection(db, 'products'));
+
+        if (!snap.empty) {
+          print(`⚠️  Found ${snap.size} product(s) already in Firestore.`, 'err');
+          print('Skipping seed to avoid duplicates. Delete the collection first if you want to re-seed.', 'err');
+          btn.disabled = false;
+          return;
+        }
+
+        print(`📦 Seeding ${sampleProducts.length} products...\n`, 'info');
+
+        for (const product of sampleProducts) {
+          const ref = await addDoc(collection(db, 'products'), {
+            ...product,
+            createdAt: new Date().toISOString(),
+          });
+          print(`✅  Added: ${product.name} (ID: ${ref.id})`, 'ok');
+        }
+
+        print(`\n🎉 Done! All ${sampleProducts.length} products are now in Firestore.`, 'ok');
+        print('You can close this page. Your shop and admin panel will now load products from Firestore.', 'ok');
+      } catch (err) {
+        print('❌ Error: ' + err.message, 'err');
+        console.error(err);
+        btn.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>

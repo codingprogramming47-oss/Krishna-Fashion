@@ -1,0 +1,2421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard — Krishna Fashion</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="main.css" />
+  <link rel="stylesheet" href="admin.css" />
+</head>
+<body class="admin-body">
+
+  <div id="page-loader" class="page-loader">
+    <span class="brand-name">Krishna</span>
+    <div class="spinner"></div>
+  </div>
+
+  <!-- ── LOGIN ── -->
+  <div id="admin-login-screen" class="admin-login-page" style="display:none">
+    <div class="admin-login-card">
+      <div style="text-align:center;margin-bottom:1.75rem">
+        <span class="brand-name" style="font-size:2rem;color:var(--maroon);display:block">Krishna</span>
+        <span style="font-size:0.72rem;color:var(--text-light);letter-spacing:0.1em;text-transform:uppercase">Admin Panel</span>
+      </div>
+      <div class="form-group">
+        <label for="admin-email">Email</label>
+        <input type="email" id="admin-email" class="form-control" placeholder="Email" />
+      </div>
+      <div class="form-group">
+        <label for="admin-pass">Password</label>
+        <input type="password" id="admin-pass" class="form-control" placeholder="Password" />
+      </div>
+      <button class="btn btn-primary btn-full" id="admin-login-btn">
+        <i class="fa-solid fa-arrow-right-to-bracket"></i> Login to Dashboard
+      </button>
+
+    </div>
+  </div>
+
+  <!-- ── DASHBOARD ── -->
+  <div id="admin-dashboard" class="admin-layout" style="display:none">
+
+    <!-- SIDEBAR -->
+    <aside class="admin-sidebar" id="admin-sidebar">
+      <div class="admin-logo">
+        <span class="brand-name">Krishna</span>
+        <span>Admin Panel</span>
+      </div>
+      <nav class="admin-nav">
+        <div class="admin-nav-section">Main</div>
+        <a href="#" class="active" data-section="dashboard"><i class="fa-solid fa-gauge-high"></i> Dashboard</a>
+        <a href="#" data-section="orders"><i class="fa-solid fa-bag-shopping"></i> Orders <span class="admin-nav-badge" id="orders-badge">0</span></a>
+        <a href="#" data-section="products"><i class="fa-solid fa-shirt"></i> Products</a>
+
+        <div class="admin-nav-section">Store</div>
+        <a href="#" data-section="categories"><i class="fa-solid fa-tags"></i> Categories &amp; Tags</a>
+        <a href="#" data-section="homepage"><i class="fa-solid fa-house"></i> Homepage</a>
+        <a href="#" data-section="coupons"><i class="fa-solid fa-percent"></i> Coupons</a>
+
+        <div class="admin-nav-section">Settings</div>
+        <a href="#" data-section="settings"><i class="fa-solid fa-sliders"></i> Settings</a>
+        <a href="index.html" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square"></i> View Store</a>
+      </nav>
+      <div class="admin-sidebar-bottom">
+        <div class="admin-user">
+          <div class="admin-avatar" id="admin-avatar">A</div>
+          <div class="admin-user-info">
+            <div class="admin-user-name" id="admin-user-name">Admin</div>
+            <div class="admin-user-role">Administrator</div>
+          </div>
+          <button id="admin-logout-btn" title="Logout"
+                  style="background:none;border:none;color:rgba(255,255,255,0.4);cursor:pointer;font-size:0.9rem;margin-left:auto">
+            <i class="fa-solid fa-arrow-right-from-bracket"></i>
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="admin-main">
+      <div class="admin-topbar">
+        <div style="display:flex;align-items:center;gap:0.75rem">
+          <button id="sidebar-toggle" class="admin-topbar-btn"><i class="fa-solid fa-bars"></i></button>
+          <div class="admin-page-title" id="admin-page-title">Dashboard</div>
+        </div>
+        <div class="admin-topbar-right">
+          <a href="index.html" class="admin-topbar-btn" target="_blank" title="View Store">
+            <i class="fa-solid fa-store"></i>
+          </a>
+        </div>
+      </div>
+
+      <div class="admin-content">
+
+        <!-- ══════════════════════════════════════════
+             DASHBOARD
+        ══════════════════════════════════════════ -->
+        <div id="section-dashboard">
+          <div class="admin-stats" id="admin-stats"></div>
+
+          <div style="display:grid;grid-template-columns:1fr 320px;gap:1.5rem">
+            <div class="admin-panel">
+              <div class="admin-panel-header">
+                <div class="admin-panel-title">Recent Orders</div>
+                <button class="btn btn-outline btn-sm" onclick="showSection('orders')">View All</button>
+              </div>
+              <div class="admin-table-wrap">
+                <table class="admin-table">
+                  <thead><tr><th>Order ID</th><th>Customer</th><th>Items</th><th>Total</th><th>Status</th></tr></thead>
+                  <tbody id="recent-orders-body">
+                    <tr><td colspan="5" style="text-align:center;padding:2rem;color:var(--text-light)">No orders yet</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="admin-panel">
+              <div class="admin-panel-header"><div class="admin-panel-title">Top Products</div></div>
+              <div class="admin-panel-body" id="top-products-list"></div>
+            </div>
+          </div>
+
+          <div class="admin-panel" style="margin-top:1.5rem">
+            <div class="admin-panel-header">
+              <div class="admin-panel-title">Revenue Overview <span style="font-size:0.72rem;color:var(--text-light);font-weight:400;margin-left:0.4rem">(last 7 days, from real orders)</span></div>
+            </div>
+            <div class="admin-panel-body">
+              <div id="revenue-chart" style="height:180px;display:flex;align-items:flex-end;gap:8px;padding-top:1rem"></div>
+              <div style="display:flex;justify-content:space-between;margin-top:0.5rem;font-size:0.72rem;color:var(--text-light)" id="chart-labels"></div>
+              <p id="revenue-no-data" style="display:none;font-size:0.82rem;color:var(--text-light);text-align:center;padding:1rem">No order data yet. Revenue chart will appear once orders are placed.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- ══════════════════════════════════════════
+             ORDERS
+        ══════════════════════════════════════════ -->
+        <div id="section-orders" style="display:none">
+          <div class="admin-panel">
+            <div class="admin-panel-header">
+              <div class="admin-panel-title">All Orders</div>
+              <div style="display:flex;gap:0.5rem;flex-wrap:wrap">
+                <input type="text" class="form-control" placeholder="Search orders…"
+                       style="width:180px;padding:0.4rem 0.75rem;font-size:0.82rem" id="order-search" />
+                <button class="btn btn-outline btn-sm" id="export-orders-btn">
+                  <i class="fa-solid fa-download"></i> Export CSV
+                </button>
+              </div>
+            </div>
+            <div class="admin-table-wrap">
+              <table class="admin-table">
+                <thead>
+                  <tr><th>Order ID</th><th>Customer</th><th>Date</th><th>Items</th><th>Total</th><th>Payment</th><th>Status</th><th>Actions</th></tr>
+                </thead>
+                <tbody id="all-orders-body">
+                  <tr><td colspan="8" style="text-align:center;padding:2rem;color:var(--text-light)">No orders yet</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- ══════════════════════════════════════════
+             PRODUCTS
+        ══════════════════════════════════════════ -->
+        <div id="section-products" style="display:none">
+          <div class="admin-panel">
+            <div class="admin-panel-header">
+              <div class="admin-panel-title">Products <span id="product-count-badge" style="font-size:0.72rem;background:var(--beige);color:var(--text-light);padding:0.15rem 0.5rem;border-radius:10px;margin-left:0.4rem"></span></div>
+              <div style="display:flex;gap:0.5rem">
+                <button class="btn btn-outline btn-sm" id="seed-products-btn">
+                  <i class="fa-solid fa-database"></i> Seed Sample Products
+                </button>
+                <button class="btn btn-primary btn-sm" id="add-product-btn">
+                  <i class="fa-solid fa-plus"></i> Add Product
+                </button>
+              </div>
+            </div>
+            <div id="products-loading" style="padding:2rem;text-align:center;color:var(--text-light)">
+              <i class="fa-solid fa-spinner fa-spin"></i> Loading products…
+            </div>
+            <div class="admin-table-wrap" id="products-table-wrap" style="display:none">
+              <table class="admin-table">
+                <thead>
+                  <tr><th>Image</th><th>Name</th><th>Category</th><th>Price</th><th>Stock</th><th>Rating</th><th>Actions</th></tr>
+                </thead>
+                <tbody id="products-body"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- ══════════════════════════════════════════
+             CATEGORIES & TAGS
+        ══════════════════════════════════════════ -->
+        <div id="section-categories" style="display:none">
+
+          <!-- Categories -->
+          <div class="admin-panel" style="margin-bottom:1.5rem">
+            <div class="admin-panel-header">
+              <div class="admin-panel-title"><i class="fa-solid fa-folder-open" style="color:var(--gold);margin-right:0.4rem"></i> Product Categories</div>
+              <span style="font-size:0.75rem;color:var(--text-light)">Used in product form & shop filters</span>
+            </div>
+            <div class="admin-panel-body">
+              <p style="font-size:0.82rem;color:var(--text-light);margin-bottom:1rem">
+                Add, rename or remove categories. The product form and shop page will update automatically.
+              </p>
+
+              <!-- Add category row -->
+              <div style="display:flex;gap:0.5rem;margin-bottom:1.25rem">
+                <input type="text" class="form-control" id="new-cat-input" placeholder="e.g. Sarees" style="max-width:280px" />
+                <button class="btn btn-primary btn-sm" id="add-cat-btn">
+                  <i class="fa-solid fa-plus"></i> Add Category
+                </button>
+              </div>
+
+              <!-- Category list -->
+              <div id="categories-list" style="display:flex;flex-direction:column;gap:0.5rem;max-width:480px"></div>
+
+              <div style="margin-top:1.25rem;display:flex;gap:0.75rem;align-items:center">
+                <button class="btn btn-primary" id="save-cats-btn">
+                  <i class="fa-solid fa-floppy-disk"></i> Save Categories
+                </button>
+                <button class="btn btn-outline btn-sm" id="reset-cats-btn">
+                  <i class="fa-solid fa-rotate-left"></i> Reset to Default
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tags -->
+          <div class="admin-panel" style="margin-bottom:1.5rem">
+            <div class="admin-panel-header">
+              <div class="admin-panel-title"><i class="fa-solid fa-tag" style="color:var(--gold);margin-right:0.4rem"></i> Product Tags</div>
+              <span style="font-size:0.75rem;color:var(--text-light)">Used to label products (Best Seller, New, etc.)</span>
+            </div>
+            <div class="admin-panel-body">
+              <p style="font-size:0.82rem;color:var(--text-light);margin-bottom:1rem">
+                Tags appear as badges on product cards and are used to filter Best Sellers &amp; New Arrivals on the homepage.
+              </p>
+
+              <!-- Add tag row -->
+              <div style="display:flex;gap:0.5rem;margin-bottom:1.25rem">
+                <input type="text" class="form-control" id="new-tag-input" placeholder="e.g. Sale" style="max-width:280px" />
+                <button class="btn btn-primary btn-sm" id="add-tag-btn">
+                  <i class="fa-solid fa-plus"></i> Add Tag
+                </button>
+              </div>
+
+              <!-- Tag list -->
+              <div id="tags-list" style="display:flex;flex-direction:column;gap:0.5rem;max-width:480px"></div>
+
+              <div style="margin-top:1.25rem;display:flex;gap:0.75rem;align-items:center">
+                <button class="btn btn-primary" id="save-tags-btn">
+                  <i class="fa-solid fa-floppy-disk"></i> Save Tags
+                </button>
+                <button class="btn btn-outline btn-sm" id="reset-tags-btn">
+                  <i class="fa-solid fa-rotate-left"></i> Reset to Default
+                </button>
+              </div>
+              <div class="admin-panel-footer" style="margin-top:1.25rem;font-size:0.78rem;color:var(--text-light)">
+                <i class="fa-solid fa-circle-info" style="color:var(--gold)"></i>
+                The <strong>Best Seller</strong> and <strong>New</strong> tags power the homepage product grids. Keep them in your list!
+              </div>
+            </div>
+          </div>
+
+          <!-- Sizes -->
+          <div class="admin-panel">
+            <div class="admin-panel-header">
+              <div class="admin-panel-title"><i class="fa-solid fa-ruler" style="color:var(--gold);margin-right:0.4rem"></i> Size Options</div>
+              <span style="font-size:0.75rem;color:var(--text-light)">Available sizes in the product form</span>
+            </div>
+            <div class="admin-panel-body">
+              <!-- Add size row -->
+              <div style="display:flex;gap:0.5rem;margin-bottom:1.25rem">
+                <input type="text" class="form-control" id="new-size-input" placeholder="e.g. 4XL" style="max-width:200px" />
+                <button class="btn btn-primary btn-sm" id="add-size-btn">
+                  <i class="fa-solid fa-plus"></i> Add Size
+                </button>
+              </div>
+
+              <!-- Size chips list -->
+              <div id="sizes-list" style="display:flex;flex-wrap:wrap;gap:0.5rem;max-width:560px"></div>
+
+              <div style="margin-top:1.25rem;display:flex;gap:0.75rem;align-items:center">
+                <button class="btn btn-primary" id="save-sizes-btn">
+                  <i class="fa-solid fa-floppy-disk"></i> Save Sizes
+                </button>
+                <button class="btn btn-outline btn-sm" id="reset-sizes-btn">
+                  <i class="fa-solid fa-rotate-left"></i> Reset to Default
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ══════════════════════════════════════════
+             HOMEPAGE EDITOR
+        ══════════════════════════════════════════ -->
+        <div id="section-homepage" style="display:none">
+
+          <!-- TOP BAR -->
+          <div class="admin-panel" style="margin-bottom:1.5rem">
+            <div class="admin-panel-header">
+              <div class="admin-panel-title"><i class="fa-solid fa-rectangle-ad" style="color:var(--gold);margin-right:0.4rem"></i> Top Announcement Bar</div>
+              <label style="display:flex;align-items:center;gap:0.6rem;font-size:0.85rem;cursor:pointer;font-weight:600;user-select:none">
+                <span style="position:relative;display:inline-block;width:44px;height:24px;flex-shrink:0">
+                  <input type="checkbox" id="topbar-visible-toggle" checked style="position:absolute;opacity:0;width:100%;height:100%;margin:0;cursor:pointer;z-index:2" />
+                  <span id="topbar-track" style="position:absolute;inset:0;background:var(--maroon);border-radius:12px;pointer-events:none;transition:background 0.25s"></span>
+                  <span id="topbar-thumb" style="position:absolute;top:3px;left:3px;width:18px;height:18px;background:#fff;border-radius:50%;pointer-events:none;transition:transform 0.25s;transform:translateX(20px)"></span>
+                </span>
+                <span id="topbar-toggle-label" style="color:var(--maroon)">Bar visible</span>
+              </label>
+            </div>
+            <div class="admin-panel-body">
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+                <div class="form-group" style="grid-column:1/-1"><label>Bar Text</label><input type="text" class="form-control" id="topbar-text-input" value="🌸 Free shipping on orders above ₹999" /></div>
+                <div class="form-group"><label>Promo Code shown in bar</label><input type="text" class="form-control" id="topbar-code-input" value="WELCOME10" style="font-weight:700;letter-spacing:0.08em" /></div>
+                <div class="form-group"><label>Discount % shown</label><input type="text" class="form-control" id="topbar-discount-input" value="10" /></div>
+              </div>
+              <button class="btn btn-primary btn-sm" id="save-topbar-btn"><i class="fa-solid fa-floppy-disk"></i> Save Top Bar</button>
+            </div>
+          </div>
+
+          <!-- HERO CONTENT -->
+          <div class="admin-panel" style="margin-bottom:1.5rem">
+            <div class="admin-panel-header">
+              <div class="admin-panel-title"><i class="fa-solid fa-pen-fancy" style="color:var(--gold);margin-right:0.4rem"></i> Hero Text &amp; CTAs</div>
+              <span style="font-size:0.75rem;color:var(--text-light)">Headline, description, buttons and trust badges</span>
+            </div>
+            <div class="admin-panel-body">
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+                <div class="form-group" style="grid-column:1/-1"><label>Eyebrow Label</label><input type="text" class="form-control" id="hero-eyebrow-input" value="New Festive Collection 2025" /></div>
+                <div class="form-group"><label>Title Italic Word</label><input type="text" class="form-control" id="hero-title-em-input" value="Grace" /><small style="font-size:0.72rem;color:var(--text-light)">The italic/highlighted word in the headline</small></div>
+                <div class="form-group" style="grid-column:1/-1"><label>Description</label><textarea class="form-control" id="hero-desc-input" rows="2">Handcrafted ethnic wear that celebrates tradition with modern elegance. From bridal lehengas to everyday kurtas — curated just for you.</textarea></div>
+                <div class="form-group"><label>Primary Button Text</label><input type="text" class="form-control" id="hero-cta-primary-text-input" value="Shop Now" /></div>
+                <div class="form-group"><label>Primary Button Link</label><input type="text" class="form-control" id="hero-cta-primary-link-input" value="shop.html" /></div>
+                <div class="form-group"><label>Secondary Button Text</label><input type="text" class="form-control" id="hero-cta-secondary-text-input" value="Festive Edit" /></div>
+                <div class="form-group"><label>Secondary Button Link</label><input type="text" class="form-control" id="hero-cta-secondary-link-input" value="shop.html?category=Festive+Collection" /></div>
+                <div class="form-group"><label>Trust Badge 1</label><input type="text" class="form-control" id="hero-tb1-input" value="100% Authentic" /></div>
+                <div class="form-group"><label>Trust Badge 2</label><input type="text" class="form-control" id="hero-tb2-input" value="Easy Returns" /></div>
+                <div class="form-group"><label>Trust Badge 3</label><input type="text" class="form-control" id="hero-tb3-input" value="Free Shipping ₹999+" /></div>
+              </div>
+              <button class="btn btn-primary btn-sm" id="save-hero-content-btn"><i class="fa-solid fa-floppy-disk"></i> Save Hero Text</button>
+            </div>
+          </div>
+
+          <!-- Hero Image -->
+          <div class="admin-panel" style="margin-bottom:1.5rem">
+            <div class="admin-panel-header">
+              <div class="admin-panel-title"><i class="fa-solid fa-image" style="color:var(--gold);margin-right:0.4rem"></i> Hero Image</div>
+              <span style="font-size:0.75rem;color:var(--text-light)">Right-side model image on homepage</span>
+            </div>
+            <div class="admin-panel-body">
+              <div style="display:grid;grid-template-columns:1fr auto;gap:1rem;align-items:end">
+                <div class="form-group" style="margin-bottom:0">
+                  <label>Image URL <small style="color:var(--text-light);font-weight:400">— paste any image link</small></label>
+                  <input type="url" class="form-control" id="hero-img-url-input" placeholder="https://example.com/your-image.jpg" />
+                </div>
+                <button class="btn btn-outline btn-sm" id="preview-hero-img-btn" style="white-space:nowrap">
+                  <i class="fa-solid fa-eye"></i> Preview
+                </button>
+              </div>
+              <div id="hero-img-preview" style="margin-top:0.75rem;display:none">
+                <img id="hero-img-preview-el" src="" alt="Preview"
+                     style="max-width:160px;border-radius:var(--radius-sm);border:1px solid var(--border);object-fit:cover;aspect-ratio:3/4"
+                     onerror="this.style.display='none'" />
+              </div>
+              <button class="btn btn-primary btn-sm" id="save-hero-img-btn" style="margin-top:1rem">
+                <i class="fa-solid fa-floppy-disk"></i> Save Image
+              </button>
+            </div>
+          </div>
+
+          <!-- SOCIAL PROOF BAR -->
+          <div class="admin-panel" style="margin-bottom:1.5rem">
+            <div class="admin-panel-header">
+              <div class="admin-panel-title"><i class="fa-solid fa-certificate" style="color:var(--gold);margin-right:0.4rem"></i> Social Proof Bar</div>
+              <span style="font-size:0.75rem;color:var(--text-light)">Scrolling ticker below the hero</span>
+            </div>
+            <div class="admin-panel-body">
+              <p style="font-size:0.82rem;color:var(--text-light);margin-bottom:1rem">
+                Each item = one scrolling badge. Format: <strong>icon</strong> (FontAwesome class e.g. fa-star) + <strong>text</strong> (supports &lt;strong&gt; tags).
+              </p>
+              <div id="social-proof-items-list" style="display:flex;flex-direction:column;gap:0.5rem;margin-bottom:1rem"></div>
+              <button class="btn btn-outline btn-sm" id="add-sp-item-btn"><i class="fa-solid fa-plus"></i> Add Item</button>
+              <div style="margin-top:1rem;display:flex;gap:0.75rem">
+                <button class="btn btn-primary" id="save-sp-btn"><i class="fa-solid fa-floppy-disk"></i> Save Social Proof</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- CATEGORIES SECTION -->
+          <div class="admin-panel" style="margin-bottom:1.5rem">
+            <div class="admin-panel-header">
+              <div class="admin-panel-title"><i class="fa-solid fa-th-large" style="color:var(--gold);margin-right:0.4rem"></i> Categories Section</div>
+              <span style="font-size:0.75rem;color:var(--text-light)">Images and display settings for the Shop by Category grid</span>
+            </div>
+            <div class="admin-panel-body">
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem">
+                <div class="form-group" style="margin-bottom:0"><label>Section Title</label><input type="text" class="form-control" id="cat-sec-title-input" value="Shop by Category" /></div>
+                <div class="form-group" style="margin-bottom:0"><label>Section Subtitle</label><input type="text" class="form-control" id="cat-sec-subtitle-input" value="Find your perfect look from our curated collections" /></div>
+              </div>
+              <p style="font-size:0.82rem;color:var(--text-light);margin-bottom:0.75rem">Set an image URL for each category card. Leave blank to use a placeholder.</p>
+              <div id="cat-images-list" style="display:flex;flex-direction:column;gap:0.5rem;margin-bottom:1rem"></div>
+              <button class="btn btn-primary btn-sm" id="save-cat-images-btn"><i class="fa-solid fa-floppy-disk"></i> Save Category Images</button>
+            </div>
+          </div>
+
+          <!-- FEATURED & NEW ARRIVALS SECTIONS -->
+          <div class="admin-panel" style="margin-bottom:1.5rem">
+            <div class="admin-panel-header">
+              <div class="admin-panel-title"><i class="fa-solid fa-layer-group" style="color:var(--gold);margin-right:0.4rem"></i> Product Grid Sections</div>
+              <span style="font-size:0.75rem;color:var(--text-light)">Control which tags &amp; categories appear on the homepage</span>
+            </div>
+            <div class="admin-panel-body">
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:1.5rem">
+                <div>
+                  <div style="font-size:0.8rem;font-weight:700;color:var(--maroon-dark);margin-bottom:0.75rem;text-transform:uppercase;letter-spacing:0.06em">Featured Products Grid</div>
+                  <div class="form-group"><label>Section Title</label><input type="text" class="form-control" id="feat-title-input" value="Best Sellers" /></div>
+                  <div class="form-group"><label>Section Subtitle</label><input type="text" class="form-control" id="feat-subtitle-input" value="Our most-loved pieces — handpicked by thousands of happy customers" /></div>
+                  <div class="form-group" style="margin-bottom:0">
+                    <label><i class="fa-solid fa-fire" style="color:var(--maroon);font-size:0.8rem"></i> &nbsp;Filter Tag</label>
+                    <select class="form-control" id="hs-featured-tag"></select>
+                    <small style="font-size:0.72rem;color:var(--text-light)">Products with this tag appear in the first homepage grid</small>
+                  </div>
+                </div>
+                <div>
+                  <div style="font-size:0.8rem;font-weight:700;color:var(--maroon-dark);margin-bottom:0.75rem;text-transform:uppercase;letter-spacing:0.06em">New Arrivals Grid</div>
+                  <div class="form-group"><label>Section Title</label><input type="text" class="form-control" id="new-title-input" value="New Arrivals" /></div>
+                  <div class="form-group"><label>Section Subtitle</label><input type="text" class="form-control" id="new-subtitle-input" value="Fresh styles just added to our collection" /></div>
+                  <div class="form-group" style="margin-bottom:0">
+                    <label><i class="fa-solid fa-sparkles" style="color:var(--gold);font-size:0.8rem"></i> &nbsp;Filter Tag</label>
+                    <select class="form-control" id="hs-new-tag"></select>
+                    <small style="font-size:0.72rem;color:var(--text-light)">Products with this tag appear in the New Arrivals grid</small>
+                  </div>
+                </div>
+              </div>
+              <div style="font-size:0.8rem;font-weight:700;color:var(--maroon-dark);margin-bottom:0.6rem;text-transform:uppercase;letter-spacing:0.06em">
+                <i class="fa-solid fa-folder-open" style="color:var(--gold)"></i> &nbsp;Categories to show in Category grid
+              </div>
+              <div id="hs-cats-list" style="display:flex;flex-direction:column;gap:0.4rem;max-width:480px;margin-bottom:1.25rem"></div>
+              <div style="display:flex;gap:0.75rem;align-items:center">
+                <button class="btn btn-primary" id="save-homepage-sections-btn">
+                  <i class="fa-solid fa-floppy-disk"></i> Save Product Sections
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- WHY US SECTION -->
+          <div class="admin-panel" style="margin-bottom:1.5rem">
+            <div class="admin-panel-header">
+              <div class="admin-panel-title"><i class="fa-solid fa-heart" style="color:var(--gold);margin-right:0.4rem"></i> "Why Us" Section</div>
+              <span style="font-size:0.75rem;color:var(--text-light)">The 4-card trust section</span>
+            </div>
+            <div class="admin-panel-body">
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem">
+                <div class="form-group" style="margin-bottom:0"><label>Section Title</label><input type="text" class="form-control" id="whyus-title-input" value="Why Krishna?" /></div>
+                <div class="form-group" style="margin-bottom:0"><label>Section Subtitle</label><input type="text" class="form-control" id="whyus-subtitle-input" value="We put craftsmanship, quality and you — first." /></div>
+              </div>
+              <div id="whyus-items-list" style="display:flex;flex-direction:column;gap:0.75rem;margin-bottom:1rem"></div>
+              <div style="display:flex;gap:0.75rem">
+                <button class="btn btn-outline btn-sm" id="add-whyus-item-btn"><i class="fa-solid fa-plus"></i> Add Card</button>
+                <button class="btn btn-primary btn-sm" id="save-whyus-btn"><i class="fa-solid fa-floppy-disk"></i> Save Why Us</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- STATS BAR -->
+          <div class="admin-panel" style="margin-bottom:1.5rem">
+            <div class="admin-panel-header">
+              <div class="admin-panel-title"><i class="fa-solid fa-chart-simple" style="color:var(--gold);margin-right:0.4rem"></i> Stats Bar</div>
+              <span style="font-size:0.75rem;color:var(--text-light)">Animated numbers section (Happy Customers, Designs, etc.)</span>
+            </div>
+            <div class="admin-panel-body">
+              <div id="stats-items-list" style="display:flex;flex-direction:column;gap:0.5rem;margin-bottom:1rem"></div>
+              <div style="display:flex;gap:0.75rem">
+                <button class="btn btn-outline btn-sm" id="add-stat-item-btn"><i class="fa-solid fa-plus"></i> Add Stat</button>
+                <button class="btn btn-primary btn-sm" id="save-stats-btn"><i class="fa-solid fa-floppy-disk"></i> Save Stats</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- REVIEWS -->
+          <div class="admin-panel" style="margin-bottom:1.5rem">
+            <div class="admin-panel-header">
+              <div class="admin-panel-title"><i class="fa-solid fa-quote-left" style="color:var(--gold);margin-right:0.4rem"></i> Customer Reviews Section</div>
+              <span style="font-size:0.75rem;color:var(--text-light)">Testimonials shown on homepage</span>
+            </div>
+            <div class="admin-panel-body">
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem">
+                <div class="form-group" style="margin-bottom:0"><label>Section Title</label><input type="text" class="form-control" id="reviews-title-input" value="What Our Customers Say" /></div>
+                <div class="form-group" style="margin-bottom:0"><label>Section Subtitle</label><input type="text" class="form-control" id="reviews-subtitle-input" value="Real reviews from real people who love Krishna" /></div>
+              </div>
+              <div id="reviews-items-list" style="display:flex;flex-direction:column;gap:0.75rem;margin-bottom:1rem"></div>
+              <div style="display:flex;gap:0.75rem">
+                <button class="btn btn-outline btn-sm" id="add-review-btn"><i class="fa-solid fa-plus"></i> Add Review</button>
+                <button class="btn btn-primary btn-sm" id="save-reviews-btn"><i class="fa-solid fa-floppy-disk"></i> Save Reviews</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- INSTAGRAM SECTION -->
+          <div class="admin-panel" style="margin-bottom:1.5rem">
+            <div class="admin-panel-header">
+              <div class="admin-panel-title"><i class="fa-brands fa-instagram" style="color:var(--gold);margin-right:0.4rem"></i> Instagram Section</div>
+              <label style="display:flex;align-items:center;gap:0.6rem;font-size:0.85rem;cursor:pointer;font-weight:600;user-select:none">
+                <span style="position:relative;display:inline-block;width:44px;height:24px;flex-shrink:0">
+                  <input type="checkbox" id="insta-visible-toggle" style="position:absolute;opacity:0;width:100%;height:100%;margin:0;cursor:pointer;z-index:2" />
+                  <span id="insta-track" style="position:absolute;inset:0;background:#bbb;border-radius:12px;pointer-events:none;transition:background 0.25s"></span>
+                  <span id="insta-thumb" style="position:absolute;top:3px;left:3px;width:18px;height:18px;background:#fff;border-radius:50%;pointer-events:none;transition:transform 0.25s"></span>
+                </span>
+                <span id="insta-toggle-label" style="color:var(--text-light)">Section hidden</span>
+              </label>
+            </div>
+            <div class="admin-panel-body">
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem">
+                <div class="form-group" style="margin-bottom:0"><label>Hashtag</label><input type="text" class="form-control" id="insta-hashtag-input" value="#KrishnaFashion" /></div>
+                <div class="form-group" style="margin-bottom:0"><label>Subtitle</label><input type="text" class="form-control" id="insta-subtitle-input" value="Tag us on Instagram and get featured!" /></div>
+                <div class="form-group" style="margin-bottom:0;grid-column:1/-1"><label>Profile Link (optional)</label><input type="url" class="form-control" id="insta-link-input" placeholder="https://instagram.com/yourhandle" /></div>
+              </div>
+              <label style="font-size:0.78rem;font-weight:600;color:var(--text-mid);margin-bottom:0.5rem;display:block">Image URLs (one per line, up to 6)</label>
+              <textarea class="form-control" id="insta-images-input" rows="4" placeholder="https://example.com/image1.jpg&#10;https://example.com/image2.jpg"></textarea>
+              <button class="btn btn-primary btn-sm" id="save-insta-btn" style="margin-top:1rem"><i class="fa-solid fa-floppy-disk"></i> Save Instagram Section</button>
+            </div>
+          </div>
+
+          <!-- NEWSLETTER SECTION -->
+          <div class="admin-panel" style="margin-bottom:1.5rem">
+            <div class="admin-panel-header">
+              <div class="admin-panel-title"><i class="fa-solid fa-envelope" style="color:var(--gold);margin-right:0.4rem"></i> Newsletter Section</div>
+              <div style="display:flex;align-items:center;gap:0.6rem">
+                <span id="nl-visible-label" style="font-size:0.78rem;font-weight:600"></span>
+                <div id="nl-toggle" onclick="toggleNewsletter()" style="position:relative;width:44px;height:24px;border-radius:12px;background:var(--border);cursor:pointer;transition:background 0.25s;flex-shrink:0">
+                  <div id="nl-toggle-knob" style="position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,0.25);transition:transform 0.25s"></div>
+                </div>
+              </div>
+            </div>
+            <div class="admin-panel-body">
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+                <div class="form-group"><label>Section Title</label><input type="text" class="form-control" id="nl-title-input" value="Stay in the Loop" /></div>
+                <div class="form-group"><label>Subscribe Button Text</label><input type="text" class="form-control" id="nl-btn-input" value="Subscribe" /></div>
+                <div class="form-group" style="grid-column:1/-1"><label>Subtitle</label><input type="text" class="form-control" id="nl-subtitle-input" value="Get early access to new arrivals, exclusive discounts and styling tips." /></div>
+                <div class="form-group" style="grid-column:1/-1"><label>Note below form</label><input type="text" class="form-control" id="nl-note-input" value="No spam, ever. Unsubscribe anytime. 🌸" /></div>
+              </div>
+              <button class="btn btn-primary btn-sm" id="save-nl-btn"><i class="fa-solid fa-floppy-disk"></i> Save Newsletter Section</button>
+            </div>
+          </div>
+
+          <!-- FOOTER CONTENT -->
+          <div class="admin-panel" style="margin-bottom:1.5rem">
+            <div class="admin-panel-header">
+              <div class="admin-panel-title"><i class="fa-solid fa-shoe-prints" style="color:var(--gold);margin-right:0.4rem"></i> Footer Content</div>
+              <span style="font-size:0.75rem;color:var(--text-light)">About text, contact info, social links, copyright</span>
+            </div>
+            <div class="admin-panel-body">
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+                <div class="form-group" style="grid-column:1/-1"><label>About / Brand Description</label><textarea class="form-control" id="footer-about-input" rows="2">Celebrating the beauty of Indian ethnic wear with handcrafted, premium quality clothing for every occasion.</textarea></div>
+                <div class="form-group"><label>Phone Number</label><input type="text" class="form-control" id="footer-phone-input" placeholder="+91 98765 43210" /></div>
+                <div class="form-group"><label>Email Address</label><input type="email" class="form-control" id="footer-email-input" placeholder="hello@krishnafashion.com" /></div>
+                <div class="form-group"><label>Address</label><input type="text" class="form-control" id="footer-address-input" placeholder="Ahmedabad, Gujarat, India" /></div>
+                <div class="form-group"><label>Copyright Text</label><input type="text" class="form-control" id="footer-copyright-input" value="© 2025 Krishna Fashion. All rights reserved. Made with ❤️ in India." /></div>
+                <div class="form-group"><label>WhatsApp Chat Label</label><input type="text" class="form-control" id="footer-wa-label-input" value="Chat with us" /></div>
+              </div>
+              <div style="font-size:0.8rem;font-weight:700;color:var(--maroon-dark);margin-bottom:0.6rem;text-transform:uppercase;letter-spacing:0.06em">Social Links</div>
+              <div id="footer-socials-list" style="display:flex;flex-direction:column;gap:0.5rem;margin-bottom:0.75rem"></div>
+              <button class="btn btn-outline btn-sm" id="add-social-btn" style="margin-bottom:1rem"><i class="fa-solid fa-plus"></i> Add Social</button>
+              <div>
+                <button class="btn btn-primary btn-sm" id="save-footer-btn"><i class="fa-solid fa-floppy-disk"></i> Save Footer</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Hero Floating Cards -->
+          <div class="admin-panel" style="margin-bottom:1.5rem">
+            <div class="admin-panel-header">
+              <div class="admin-panel-title"><i class="fa-solid fa-cards-blank" style="color:var(--gold);margin-right:0.4rem"></i> Hero Floating Cards</div>
+              <span style="font-size:0.75rem;color:var(--text-light)">Two floating info cards on the hero section</span>
+            </div>
+            <div class="admin-panel-body">
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem">
+                <div style="background:var(--cream);border-radius:var(--radius-md);padding:1.25rem;border:1px solid var(--border-light)">
+                  <div style="font-size:0.8rem;font-weight:700;color:var(--maroon-dark);margin-bottom:1rem">
+                    <i class="fa-solid fa-square-arrow-down-left" style="color:var(--gold)"></i> Card 1 — Bottom Left
+                  </div>
+                  <div class="form-group"><label>FontAwesome Icon</label><input type="text" class="form-control" id="hc1-icon-input" value="fa-star" placeholder="fa-star" /><small style="font-size:0.72rem;color:var(--text-light)">e.g. fa-star, fa-fire, fa-heart</small></div>
+                  <div class="form-group"><label>Main Text</label><input type="text" class="form-control" id="hc1-title-input" value="4.9 ★ Rating" /></div>
+                  <div class="form-group" style="margin-bottom:0"><label>Sub Text</label><input type="text" class="form-control" id="hc1-sub-input" value="From 2,400+ Reviews" /></div>
+                </div>
+                <div style="background:var(--cream);border-radius:var(--radius-md);padding:1.25rem;border:1px solid var(--border-light)">
+                  <div style="font-size:0.8rem;font-weight:700;color:var(--maroon-dark);margin-bottom:1rem">
+                    <i class="fa-solid fa-square-arrow-up-right" style="color:var(--gold)"></i> Card 2 — Top Right
+                  </div>
+                  <div class="form-group"><label>FontAwesome Icon</label><input type="text" class="form-control" id="hc2-icon-input" value="fa-fire" placeholder="fa-fire" /><small style="font-size:0.72rem;color:var(--text-light)">e.g. fa-fire, fa-bolt, fa-bag-shopping</small></div>
+                  <div class="form-group"><label>Main Text</label><input type="text" class="form-control" id="hc2-title-input" value="12 Sold Today" /></div>
+                  <div class="form-group" style="margin-bottom:0"><label>Sub Text</label><input type="text" class="form-control" id="hc2-sub-input" value="Ananya Kurta Set" /></div>
+                </div>
+              </div>
+              <div style="margin-top:1.25rem;display:flex;gap:0.75rem;align-items:center">
+                <button class="btn btn-primary" id="save-hero-cards-btn"><i class="fa-solid fa-floppy-disk"></i> Save Cards</button>
+                <span style="font-size:0.75rem;color:var(--text-light)">Changes appear on the homepage immediately</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Festive Banner -->
+          <div class="admin-panel">
+            <div class="admin-panel-header">
+              <div class="admin-panel-title"><i class="fa-solid fa-gift" style="color:var(--gold);margin-right:0.4rem"></i> Festive Sale Banner</div>
+              <label style="display:flex;align-items:center;gap:0.6rem;font-size:0.85rem;cursor:pointer;font-weight:600;user-select:none">
+                <span style="position:relative;display:inline-block;width:44px;height:24px;flex-shrink:0">
+                  <input type="checkbox" id="banner-visible-toggle" checked
+                         style="position:absolute;opacity:0;width:100%;height:100%;margin:0;cursor:pointer;z-index:2" />
+                  <span id="toggle-track" style="position:absolute;inset:0;background:var(--maroon);border-radius:12px;pointer-events:none;transition:background 0.25s"></span>
+                  <span id="toggle-thumb" style="position:absolute;top:3px;left:3px;width:18px;height:18px;background:#fff;border-radius:50%;pointer-events:none;transition:transform 0.25s;transform:translateX(20px)"></span>
+                </span>
+                <span id="banner-toggle-label" style="color:var(--maroon)">Banner visible</span>
+              </label>
+            </div>
+            <div class="admin-panel-body">
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+                <div class="form-group"><label>Eyebrow Label</label><input type="text" class="form-control" id="ob-eyebrow-input" value="Limited Time Offer" /></div>
+                <div class="form-group"><label>Coupon Code</label><input type="text" class="form-control" id="ob-code-input" value="FESTIVE15" style="font-weight:700;letter-spacing:0.08em" /></div>
+                <div class="form-group" style="grid-column:1/-1"><label>Banner Headline</label><input type="text" class="form-control" id="ob-title-input" value="Festive Season Sale" style="font-size:1rem" /></div>
+                <div class="form-group" style="grid-column:1/-1"><label>Description</label><input type="text" class="form-control" id="ob-desc-input" value="Up to 40% off on our entire festive collection. Don't miss out!" /></div>
+                <div class="form-group"><label>Code Description</label><input type="text" class="form-control" id="ob-code-desc-input" value="Click to copy code · 15% off sitewide" /></div>
+                <div class="form-group"><label>CTA Button Text</label><input type="text" class="form-control" id="ob-cta-text-input" value="Shop the Sale" /></div>
+                <div class="form-group"><label>CTA Button Link</label><input type="text" class="form-control" id="ob-cta-link-input" value="shop.html?category=Festive+Collection" /></div>
+                <div class="form-group"><label>Countdown End Date &amp; Time</label><input type="datetime-local" class="form-control" id="ob-countdown-input" /><small style="font-size:0.72rem;color:var(--text-light)">Leave blank to default 15 days from now</small></div>
+              </div>
+              <div style="margin-top:1.25rem;display:flex;gap:0.75rem;align-items:center;flex-wrap:wrap">
+                <button class="btn btn-primary" id="save-banner-btn"><i class="fa-solid fa-floppy-disk"></i> Save Banner</button>
+                <button class="btn btn-outline btn-sm" id="reset-banner-btn"><i class="fa-solid fa-rotate-left"></i> Reset to Default</button>
+              </div>
+            </div>
+          </div>
+        </div><!-- /section-homepage -->
+
+        <!-- ══════════════════════════════════════════
+             COUPONS
+        ══════════════════════════════════════════ -->
+        <div id="section-coupons" style="display:none">
+          <div class="admin-panel">
+            <div class="admin-panel-header">
+              <div class="admin-panel-title">Coupon Codes</div>
+              <button class="btn btn-primary btn-sm" id="add-coupon-btn">
+                <i class="fa-solid fa-plus"></i> Add Coupon
+              </button>
+            </div>
+            <div class="admin-table-wrap">
+              <table class="admin-table">
+                <thead>
+                  <tr><th>Code</th><th>Discount %</th><th>Status</th><th>Actions</th></tr>
+                </thead>
+                <tbody id="coupons-body"></tbody>
+              </table>
+            </div>
+            <div class="admin-panel-footer" style="font-size:0.78rem;color:var(--text-light)">
+              <i class="fa-solid fa-circle-info" style="color:var(--gold)"></i>
+              Coupons are applied at cart checkout. Customers enter the code to get the discount.
+            </div>
+          </div>
+        </div>
+
+        <!-- ══════════════════════════════════════════
+             SETTINGS
+        ══════════════════════════════════════════ -->
+        <div id="section-settings" style="display:none">
+
+          <!-- Store Info -->
+          <div class="admin-panel" style="margin-bottom:1.5rem">
+            <div class="admin-panel-header"><div class="admin-panel-title"><i class="fa-solid fa-store" style="color:var(--gold);margin-right:0.4rem"></i> Store Info</div></div>
+            <div class="admin-panel-body" style="max-width:640px">
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+                <div class="form-group"><label>Store Name</label><input type="text" class="form-control" id="s-store-name" value="Krishna Fashion" /></div>
+                <div class="form-group"><label>Store Email</label><input type="email" class="form-control" id="s-email" value="hello@krishnafashion.com" /></div>
+                <div class="form-group"><label>WhatsApp Number <small style="color:var(--text-light);font-weight:400">(with country code, no +)</small></label><input type="text" class="form-control" id="s-whatsapp" value="919876543210" placeholder="919876543210" /></div>
+                <div class="form-group"><label>Admin Email</label><input type="email" class="form-control" id="s-admin-email" placeholder="Leave blank to keep current" /></div>
+                <div class="form-group"><label>Admin Password</label><input type="password" class="form-control" id="s-admin-pass" placeholder="Leave blank to keep current" /></div>
+              </div>
+              <button class="btn btn-primary" id="save-settings-btn"><i class="fa-solid fa-floppy-disk"></i> Save Settings</button>
+            </div>
+          </div>
+
+          <!-- Payment QR Code -->
+          <div class="admin-panel">
+            <div class="admin-panel-header">
+              <div class="admin-panel-title"><i class="fa-solid fa-qrcode" style="color:var(--gold);margin-right:0.4rem"></i> Payment QR Code</div>
+              <span style="font-size:0.75rem;color:var(--text-light)">Shown to customers at checkout when they select UPI payment</span>
+            </div>
+            <div class="admin-panel-body">
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:start">
+
+                <!-- Left: inputs -->
+                <div>
+                  <div class="form-group">
+                    <label>QR Code Image</label>
+                    <!-- Upload button -->
+                    <div style="display:flex;gap:0.5rem;align-items:center;margin-bottom:0.5rem;flex-wrap:wrap">
+                      <label class="btn btn-outline btn-sm" style="cursor:pointer;display:inline-flex;align-items:center;gap:0.4rem;margin:0">
+                        <i class="fa-solid fa-upload"></i> Upload from Phone / PC
+                        <input type="file" id="qr-file-input" accept="image/*" style="display:none" />
+                      </label>
+                      <span id="qr-upload-status" style="font-size:0.78rem;color:var(--text-light)">or paste a URL below</span>
+                    </div>
+                    <input type="url" class="form-control" id="qr-url-input" placeholder="https://example.com/your-qr.png" />
+                    <small style="font-size:0.72rem;color:var(--text-light)">Uploading converts the image and stores it directly — no external service needed.</small>
+                  </div>
+                  <div class="form-group">
+                    <label>UPI ID <small style="color:var(--text-light);font-weight:400">(optional — shown below QR)</small></label>
+                    <input type="text" class="form-control" id="qr-upi-id" placeholder="yourname@upi" />
+                  </div>
+                  <div class="form-group" style="margin-bottom:0">
+                    <label>Payment Note <small style="color:var(--text-light);font-weight:400">(shown to customer)</small></label>
+                    <input type="text" class="form-control" id="qr-note" placeholder="Scan & pay, then click Place Order" value="Scan & pay the order total, then place your order via WhatsApp." />
+                  </div>
+                  <div style="display:flex;gap:0.75rem;margin-top:1.25rem">
+                    <button class="btn btn-outline btn-sm" id="preview-qr-btn"><i class="fa-solid fa-eye"></i> Preview</button>
+                    <button class="btn btn-primary" id="save-qr-btn"><i class="fa-solid fa-floppy-disk"></i> Save QR Settings</button>
+                  </div>
+                </div>
+
+                <!-- Right: live preview -->
+                <div style="background:var(--cream);border-radius:var(--radius-md);padding:1.5rem;border:1px solid var(--border-light);text-align:center">
+                  <div style="font-size:0.75rem;font-weight:700;color:var(--text-light);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:1rem">Preview</div>
+                  <div style="margin:0 auto 0.75rem;max-width:180px">
+                    <img id="qr-preview-img" src="" alt="QR Preview"
+                         style="width:100%;border-radius:var(--radius-sm);border:3px solid var(--maroon);display:none"
+                         onerror="this.style.display='none';document.getElementById('qr-preview-ph').style.display='flex'" />
+                    <div id="qr-preview-ph"
+                         style="width:180px;height:180px;border:3px dashed var(--border);border-radius:var(--radius-sm);display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--text-light);gap:0.4rem;margin:0 auto">
+                      <i class="fa-solid fa-qrcode" style="font-size:2.5rem;opacity:0.25"></i>
+                      <span style="font-size:0.7rem">No QR yet</span>
+                    </div>
+                  </div>
+                  <div id="qr-preview-upi" style="display:none;margin-bottom:0.5rem">
+                    <span style="font-size:0.72rem;color:var(--text-light)">UPI ID</span><br>
+                    <strong id="qr-preview-upi-text" style="color:var(--maroon);font-size:0.9rem"></strong>
+                  </div>
+                  <p id="qr-preview-note" style="font-size:0.75rem;color:var(--text-mid)"></p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div><!-- /admin-content -->
+    </main>
+  </div><!-- /admin-dashboard -->
+
+  <!-- ══════════════════════════════════════════
+       ADD / EDIT PRODUCT MODAL
+  ══════════════════════════════════════════ -->
+  <div class="modal-overlay" id="product-modal">
+    <div class="modal" style="max-width:740px">
+      <button class="modal-close" onclick="closeProductModal()"><i class="fa-solid fa-xmark"></i></button>
+      <h3 id="product-modal-title">Add Product</h3>
+
+      <input type="hidden" id="pf-doc-id" /><!-- Firestore doc ID when editing -->
+
+      <div class="product-form-grid" style="margin-top:1rem">
+        <div class="form-group"><label>Product Name *</label><input type="text" class="form-control" id="pf-name" placeholder="Ananya Kurta Set" /></div>
+        <div class="form-group"><label>Category *</label>
+          <select class="form-control" id="pf-category">
+            <option>Co-ord Sets</option><option>Dresses</option><option>Tops &amp; Tunics</option>
+            <option>Wedding Wear</option><option>Festive Collection</option>
+          </select>
+        </div>
+        <div class="form-group"><label>Selling Price (₹) *</label><input type="number" class="form-control" id="pf-price" placeholder="1299" /></div>
+        <div class="form-group"><label>Original / MRP (₹)</label><input type="number" class="form-control" id="pf-original" placeholder="1999" /></div>
+        <div class="form-group"><label>Stock Quantity</label><input type="number" class="form-control" id="pf-stock" placeholder="10" /></div>
+        <div class="form-group"><label>SKU / Code</label><input type="text" class="form-control" id="pf-sku" placeholder="ANYK-001" /></div>
+        <div class="form-group"><label>Material</label><input type="text" class="form-control" id="pf-material" placeholder="Chanderi Silk" /></div>
+        <div class="form-group"><label>Care Instructions</label><input type="text" class="form-control" id="pf-care" placeholder="Dry Clean Only" /></div>
+
+        <div class="form-group product-form-full">
+          <label>Description</label>
+          <textarea class="form-control" id="pf-desc" placeholder="Product description…" rows="3"></textarea>
+        </div>
+
+        <div class="form-group product-form-full">
+          <label>Product Images <small style="color:var(--text-light);font-weight:400">— upload or paste URLs, one per line (first = main photo)</small></label>
+          <!-- Upload button -->
+          <div style="display:flex;gap:0.5rem;align-items:center;margin-bottom:0.5rem;flex-wrap:wrap">
+            <label class="btn btn-outline btn-sm" style="cursor:pointer;display:inline-flex;align-items:center;gap:0.4rem;margin:0">
+              <i class="fa-solid fa-images"></i> Upload Photos
+              <input type="file" id="pf-img-upload" accept="image/*" multiple style="display:none" />
+            </label>
+            <span id="pf-img-upload-status" style="font-size:0.78rem;color:var(--text-light)">Select up to 5 images from your phone or PC</span>
+          </div>
+          <!-- Thumbnail strip (populated after upload) -->
+          <div id="pf-img-thumbs" style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:0.5rem"></div>
+          <textarea class="form-control" id="pf-images" placeholder="https://example.com/image1.jpg&#10;https://example.com/image2.jpg" rows="3"></textarea>
+          <small style="font-size:0.72rem;color:var(--text-light)">Images are compressed automatically. You can also paste direct URLs.</small>
+        </div>
+
+        <div class="form-group product-form-full">
+          <label>Sizes Available</label>
+          <div class="size-checks" id="pf-sizes-wrap">
+            <!-- Populated dynamically from admin categories settings -->
+          </div>
+        </div>
+
+        <div class="form-group product-form-full">
+          <label>Tags</label>
+          <div style="display:flex;flex-wrap:wrap;gap:0.5rem" id="pf-tags-wrap">
+            <!-- Populated dynamically from admin tags settings -->
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top:1.5rem;display:flex;gap:0.75rem;justify-content:flex-end;align-items:center">
+        <span id="pf-saving-msg" style="font-size:0.78rem;color:var(--text-light);display:none">
+          <i class="fa-solid fa-spinner fa-spin"></i> Saving…
+        </span>
+        <button class="btn btn-outline" onclick="closeProductModal()">Cancel</button>
+        <button class="btn btn-primary" id="save-product-btn">
+          <i class="fa-solid fa-floppy-disk"></i> Save Product
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       ADD / EDIT COUPON MODAL
+  ══════════════════════════════════════════ -->
+  <div class="modal-overlay" id="coupon-modal">
+    <div class="modal" style="max-width:440px">
+      <button class="modal-close" onclick="closeCouponModal()"><i class="fa-solid fa-xmark"></i></button>
+      <h3 id="coupon-modal-title">Add Coupon</h3>
+      <div style="margin-top:1rem">
+        <input type="hidden" id="cf-idx" value="-1" />
+        <div class="form-group">
+          <label>Coupon Code *</label>
+          <input type="text" class="form-control" id="cf-code" placeholder="SUMMER20" style="font-weight:700;letter-spacing:0.08em;text-transform:uppercase" />
+          <small style="font-size:0.72rem;color:var(--text-light)">Uppercase letters and numbers only</small>
+        </div>
+        <div class="form-group">
+          <label>Discount Percentage *</label>
+          <input type="number" class="form-control" id="cf-discount" placeholder="20" min="1" max="100" />
+          <small style="font-size:0.72rem;color:var(--text-light)">e.g. 20 = 20% off the order subtotal</small>
+        </div>
+        <div class="form-group" style="margin-bottom:0">
+          <label style="display:flex;align-items:center;gap:0.5rem;cursor:pointer">
+            <input type="checkbox" id="cf-active" checked style="accent-color:var(--maroon)"> Coupon is active
+          </label>
+        </div>
+      </div>
+      <div style="margin-top:1.5rem;display:flex;gap:0.75rem;justify-content:flex-end">
+        <button class="btn btn-outline" onclick="closeCouponModal()">Cancel</button>
+        <button class="btn btn-primary" id="save-coupon-btn"><i class="fa-solid fa-floppy-disk"></i> Save Coupon</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- DELETE CONFIRM MODAL -->
+  <div class="modal-overlay" id="delete-modal">
+    <div class="modal" style="max-width:400px;text-align:center">
+      <div style="width:56px;height:56px;background:#FEE2E2;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;font-size:1.4rem;color:#DC2626">
+        <i class="fa-solid fa-trash-can"></i>
+      </div>
+      <h3 style="margin-bottom:0.5rem">Delete Product?</h3>
+      <p style="font-size:0.88rem;color:var(--text-light);margin-bottom:1.5rem" id="delete-confirm-msg">This action cannot be undone.</p>
+      <div style="display:flex;gap:0.75rem;justify-content:center">
+        <button class="btn btn-outline" onclick="document.getElementById('delete-modal').classList.remove('open')">Cancel</button>
+        <button class="btn" id="confirm-delete-btn"
+                style="background:#DC2626;color:#fff;border-color:#DC2626">
+          <i class="fa-solid fa-trash-can"></i> Delete
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { hideLoader, showToast, formatCurrency, formatDate, LS } from './utils.js';
+    import { getProducts, addProduct, updateProduct, deleteProduct, seedProducts, invalidateProductCache,
+             getCategories, saveCategories, getAvailableTags, saveTags, getAvailableSizes, saveSizes } from './products.js';
+    import { getConfig, setConfig } from './firebase.js';
+
+    /* ── AUTH ── */
+    const ADMIN_KEY = 'aarohi_admin';
+    let ADMIN_CREDS = { email: 'admin@krishnafashion.com', password: 'admin123' };
+
+    const STATUS_CLASSES = {
+      confirmed:  'status-confirmed',
+      processing: 'status-processing',
+      shipped:    'status-shipped',
+      delivered:  'status-delivered',
+      cancelled:  'status-cancelled'
+    };
+
+    document.addEventListener('DOMContentLoaded', () => {
+      setTimeout(hideLoader, 400);
+
+      // Load saved admin password
+      const savedSettings = LS.get('aarohi_settings');
+      if (savedSettings?.adminPassword) ADMIN_CREDS.password = savedSettings.adminPassword;
+
+      const adminUser = LS.get(ADMIN_KEY);
+      if (adminUser) {
+        showDashboard(adminUser);
+      } else {
+        document.getElementById('admin-login-screen').style.display = 'flex';
+      }
+
+      // Login
+      document.getElementById('admin-login-btn')?.addEventListener('click', doLogin);
+      ['admin-email','admin-pass'].forEach(id =>
+        document.getElementById(id)?.addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); })
+      );
+
+      async function doLogin() {
+        const email = document.getElementById('admin-email').value.trim();
+        const pass  = document.getElementById('admin-pass').value;
+        // Always fetch latest credentials from Firestore so saved admin email/pass work immediately
+        let firestoreSettings = {};
+        try { firestoreSettings = (await getConfig('settings')) || {}; } catch(e) {}
+        const lsSettings = LS.get('aarohi_settings') || {};
+        const merged = { ...lsSettings, ...firestoreSettings };
+        LS.set('aarohi_settings', merged);
+        const adminEmail = merged.adminEmail    || ADMIN_CREDS.email;
+        const pw         = merged.adminPassword || ADMIN_CREDS.password;
+        if (email === adminEmail && pass === pw) {
+          const admin = { email, name: 'Admin' };
+          LS.set(ADMIN_KEY, admin);
+          document.getElementById('admin-login-screen').style.display = 'none';
+          showDashboard(admin);
+        } else {
+          showToast('Invalid credentials', 'error');
+        }
+      }
+
+      // Nav
+      document.querySelectorAll('.admin-nav a[data-section]').forEach(link => {
+        link.addEventListener('click', e => { e.preventDefault(); showSection(link.dataset.section); });
+      });
+
+      // Sidebar toggle
+      document.getElementById('sidebar-toggle')?.addEventListener('click', () => {
+        document.getElementById('admin-sidebar').classList.toggle('open');
+      });
+
+      // Logout
+      document.getElementById('admin-logout-btn')?.addEventListener('click', () => {
+        LS.remove(ADMIN_KEY); window.location.reload();
+      });
+    });
+
+    /* ── SHOW DASHBOARD ── */
+    async function showDashboard(admin) {
+      document.getElementById('admin-dashboard').style.display = 'flex';
+      document.getElementById('admin-user-name').textContent  = admin.name || admin.email?.split('@')[0];
+      document.getElementById('admin-avatar').textContent     = (admin.name || admin.email || 'A')[0].toUpperCase();
+
+      const orders = LS.get('aarohi_orders') || [];
+      document.getElementById('orders-badge').textContent = orders.length;
+
+      await renderStats(orders);
+      renderRecentOrders(orders);
+      renderTopProductsPanel();
+      renderRevenueChart(orders);
+    }
+
+    /* ── STATS ── */
+    async function renderStats(orders) {
+      const totalRevenue = orders.reduce((s, o) => s + (o.totals?.total || 0), 0);
+      const avgOrder     = orders.length ? Math.round(totalRevenue / orders.length) : 0;
+      const coupons      = await getCoupons();
+      const stats = [
+        { label:'Total Revenue',    value: formatCurrency(totalRevenue), icon:'fa-indian-rupee-sign', cls:'stat-icon-maroon', change: orders.length ? 'From ' + orders.length + ' orders' : 'No orders yet' },
+        { label:'Total Orders',     value: orders.length, icon:'fa-bag-shopping', cls:'stat-icon-gold', change: 'Via WhatsApp' },
+        { label:'Avg Order Value',  value: formatCurrency(avgOrder), icon:'fa-chart-line', cls:'stat-icon-blue', change: 'COD based' },
+        { label:'Active Coupons',   value: coupons.filter(c => c.active !== false).length, icon:'fa-percent', cls:'stat-icon-green', change: 'Edit in Coupons' },
+      ];
+      document.getElementById('admin-stats').innerHTML = stats.map(s => `
+        <div class="stat-card">
+          <div>
+            <div class="stat-card-value">${s.value}</div>
+            <div class="stat-card-label">${s.label}</div>
+            <div class="stat-card-change change-up">${s.change}</div>
+          </div>
+          <div class="stat-card-icon ${s.cls}"><i class="fa-solid ${s.icon}"></i></div>
+        </div>`).join('');
+    }
+
+    /* ── RECENT ORDERS ── */
+    function renderRecentOrders(orders) {
+      const tbody = document.getElementById('recent-orders-body');
+      if (!tbody || !orders.length) return;
+      tbody.innerHTML = orders.slice(0, 6).map(o => {
+        const addr = o.address || {};
+        return `<tr>
+          <td><strong>${o.id}</strong></td>
+          <td>${addr.name || 'Customer'}<br><span style="font-size:0.72rem;color:var(--text-light)">${addr.phone || ''}</span></td>
+          <td>${(o.items||[]).length}</td>
+          <td><strong>${formatCurrency(o.totals?.total || 0)}</strong></td>
+          <td><span class="order-status ${STATUS_CLASSES[o.status]||'status-confirmed'}">${o.status||'confirmed'}</span></td>
+        </tr>`;
+      }).join('');
+    }
+
+    /* ── TOP PRODUCTS PANEL ── */
+    async function renderTopProductsPanel() {
+      const el = document.getElementById('top-products-list');
+      if (!el) return;
+      let products;
+      try { products = await getProducts(); } catch(e) { products = []; }
+      const top = [...products].sort((a,b) => (b.reviewCount||0) - (a.reviewCount||0)).slice(0,5);
+      el.innerHTML = top.map((p,i) => `
+        <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1rem">
+          <div style="width:24px;height:24px;background:${i<3?'var(--gold)':'var(--border)'};border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.72rem;font-weight:700;color:${i<3?'var(--maroon-dark)':'var(--text-light)'}">${i+1}</div>
+          <img src="${p.images?.[0]||''}" alt="${p.name}" style="width:40px;height:48px;object-fit:cover;border-radius:4px;background:var(--beige)" onerror="this.style.display='none'" />
+          <div style="flex:1;min-width:0">
+            <div style="font-size:0.82rem;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${p.name}</div>
+            <div style="font-size:0.72rem;color:var(--text-light)">${p.reviewCount||0} reviews · ${formatCurrency(p.price)}</div>
+          </div>
+        </div>`).join('');
+    }
+
+    /* ── REVENUE CHART — real data from orders ── */
+    function renderRevenueChart(orders) {
+      const chart  = document.getElementById('revenue-chart');
+      const labels = document.getElementById('chart-labels');
+      const noData = document.getElementById('revenue-no-data');
+      if (!chart) return;
+
+      // Build last-7-days buckets
+      const buckets = {};
+      const dayNames = [];
+      for (let i = 6; i >= 0; i--) {
+        const d = new Date();
+        d.setDate(d.getDate() - i);
+        const key   = d.toISOString().slice(0, 10);
+        const label = d.toLocaleDateString('en-IN', { weekday: 'short' });
+        buckets[key] = 0;
+        dayNames.push({ key, label });
+      }
+
+      orders.forEach(o => {
+        const day = (o.date || '').slice(0, 10);
+        if (buckets[day] !== undefined) {
+          buckets[day] += o.totals?.total || 0;
+        }
+      });
+
+      const data   = dayNames.map(d => buckets[d.key]);
+      const max    = Math.max(...data, 1);
+      const hasAny = data.some(v => v > 0);
+
+      if (!hasAny) {
+        chart.style.display  = 'none';
+        labels.style.display = 'none';
+        if (noData) noData.style.display = '';
+        return;
+      }
+      if (noData) noData.style.display = 'none';
+      chart.style.display  = 'flex';
+      labels.style.display = '';
+
+      const colors = ['#7B1D2E','#9E2D42','#C9A84C','#7B1D2E','#9E2D42','#C9A84C','#7B1D2E'];
+      chart.innerHTML = data.map((val, i) => `
+        <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px">
+          ${val > 0 ? `<div style="font-size:0.62rem;color:var(--text-light)">${formatCurrency(val)}</div>` : '<div></div>'}
+          <div style="width:100%;background:${colors[i]};border-radius:4px 4px 0 0;height:${Math.round((val/max)*140)}px;min-height:4px;opacity:${val>0?1:0.15}"></div>
+        </div>`).join('');
+      if (labels) labels.innerHTML = dayNames.map(d => `<span>${d.label}</span>`).join('');
+    }
+
+    /* ── SECTION SWITCHER ── */
+    window.showSection = function(section) {
+      // Reset load-once guards so switching back reloads fresh data
+      if (section === 'homepage')   _homepageEditorLoaded  = false;
+      if (section === 'categories') _categoriesLoaded      = false;
+
+      const all = ['dashboard','orders','products','categories','homepage','coupons','settings'];
+      all.forEach(s => {
+        const el = document.getElementById('section-' + s);
+        if (el) el.style.display = s === section ? 'block' : 'none';
+      });
+      document.querySelectorAll('.admin-nav a').forEach(a =>
+        a.classList.toggle('active', a.dataset.section === section)
+      );
+      const titles = { dashboard:'Dashboard', orders:'Orders', products:'Products', categories:'Categories & Tags', homepage:'Homepage Editor', coupons:'Coupons', settings:'Settings' };
+      const titleEl = document.getElementById('admin-page-title');
+      if (titleEl) titleEl.textContent = titles[section] || section;
+
+      if (section === 'homepage')   loadHomepageEditor();
+      if (section === 'products')   loadProductsTable();
+      if (section === 'orders')     loadOrdersTable();
+      if (section === 'coupons')    renderCouponsTable();
+      if (section === 'settings')   loadSettingsPanel();
+      if (section === 'categories') loadCategoriesSection();
+    };
+
+    /* ══════════════════════════════════════════
+       ORDERS TABLE
+    ══════════════════════════════════════════ */
+    function loadOrdersTable() {
+      const orders = LS.get('aarohi_orders') || [];
+      const tbody  = document.getElementById('all-orders-body');
+      if (!tbody) return;
+
+      if (!orders.length) {
+        tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:2rem;color:var(--text-light)">No orders yet</td></tr>';
+        return;
+      }
+
+      const settings  = LS.get('aarohi_settings') || {};
+      const waNumber  = settings.whatsappNumber || '919876543210';
+
+      tbody.innerHTML = orders.map(o => {
+        const addr   = o.address || {};
+        const status = o.status || 'confirmed';
+        const payment = o.address?.payment || 'cod';
+        return `<tr>
+          <td><strong>${o.id}</strong></td>
+          <td>${addr.name||'Customer'}<br><span style="font-size:0.72rem;color:var(--text-light)">${addr.phone||''}</span></td>
+          <td style="font-size:0.78rem">${o.date ? formatDate(o.date) : '—'}</td>
+          <td>${(o.items||[]).length}</td>
+          <td><strong>${formatCurrency(o.totals?.total||0)}</strong></td>
+          <td><span style="font-size:0.75rem;text-transform:uppercase;font-weight:600;color:${payment==='upi'?'#2563EB':'#2D7B4F'}">${payment==='upi'?'UPI':'COD'}</span></td>
+          <td>
+            <select class="sort-select" style="font-size:0.72rem;padding:0.3rem 1.4rem 0.3rem 0.5rem"
+                    onchange="updateOrderStatus('${o.id}', this.value)">
+              ${['confirmed','processing','shipped','delivered','cancelled'].map(s =>
+                `<option value="${s}" ${s===status?'selected':''}>${s.charAt(0).toUpperCase()+s.slice(1)}</option>`
+              ).join('')}
+            </select>
+          </td>
+          <td>
+            <div class="admin-table-actions">
+              <a href="https://wa.me/${waNumber}?text=Hi!+Regarding+order+${o.id}" target="_blank" class="action-btn" title="WhatsApp customer">
+                <i class="fa-brands fa-whatsapp" style="color:#25D366"></i>
+              </a>
+            </div>
+          </td>
+        </tr>`;
+      }).join('');
+
+      // Search
+      document.getElementById('order-search')?.addEventListener('input', function() {
+        const q = this.value.toLowerCase();
+        tbody.querySelectorAll('tr').forEach(tr => {
+          tr.style.display = tr.textContent.toLowerCase().includes(q) ? '' : 'none';
+        });
+      });
+
+      // Export CSV
+      document.getElementById('export-orders-btn')?.addEventListener('click', () => {
+        const rows = [['Order ID','Customer','Phone','Date','Items','Total','Payment','Status']];
+        orders.forEach(o => {
+          const a = o.address || {};
+          rows.push([o.id, a.name||'', a.phone||'', o.date ? formatDate(o.date) : '', (o.items||[]).length, o.totals?.total||0, a.payment||'cod', o.status||'confirmed']);
+        });
+        const csv = rows.map(r => r.join(',')).join('\n');
+        const a   = document.createElement('a');
+        a.href    = 'data:text/csv,' + encodeURIComponent(csv);
+        a.download = 'krishna-orders.csv';
+        a.click();
+      });
+    }
+
+    window.updateOrderStatus = function(orderId, newStatus) {
+      const orders = LS.get('aarohi_orders') || [];
+      const order  = orders.find(o => o.id === orderId);
+      if (order) { order.status = newStatus; LS.set('aarohi_orders', orders); showToast('Order status updated', 'success'); }
+    };
+
+    /* ══════════════════════════════════════════
+       PRODUCTS TABLE
+    ══════════════════════════════════════════ */
+    let _allProducts = [];
+
+    async function loadProductsTable() {
+      document.getElementById('products-loading').style.display     = 'block';
+      document.getElementById('products-table-wrap').style.display  = 'none';
+
+      try {
+        _allProducts = await getProducts();
+      } catch (err) {
+        showToast('Could not load products: ' + err.message, 'error');
+        _allProducts = [];
+      }
+
+      renderProductsTable(_allProducts);
+      document.getElementById('products-loading').style.display     = 'none';
+      document.getElementById('products-table-wrap').style.display  = '';
+    }
+
+    function renderProductsTable(products) {
+      const tbody = document.getElementById('products-body');
+      const badge = document.getElementById('product-count-badge');
+      if (!tbody) return;
+      if (badge) badge.textContent = products.length + ' products';
+
+      tbody.innerHTML = products.map(p => `
+        <tr>
+          <td><img class="admin-table-img" src="${p.images?.[0]||''}" alt="${p.name}"
+               onerror="this.src='https://placehold.co/48x58/f5edd6/7b1d2e?text=P'" /></td>
+          <td>
+            <div class="admin-table-name">${p.name}</div>
+            <div style="font-size:0.72rem;color:var(--text-light)">${p.sku||''}</div>
+          </td>
+          <td>${p.category}</td>
+          <td>
+            <strong>${formatCurrency(p.price)}</strong><br>
+            ${p.originalPrice ? `<span style="font-size:0.72rem;color:var(--text-light);text-decoration:line-through">${formatCurrency(p.originalPrice)}</span>` : ''}
+          </td>
+          <td>
+            <span style="font-weight:600;color:${(p.stock||0)<=5?'#C45C00':'#2D7B4F'}">${p.stock||0}</span>
+            ${(p.stock||0)<=5?'<span style="font-size:0.68rem;color:#C45C00;margin-left:4px">Low</span>':''}
+          </td>
+          <td><i class="fa-solid fa-star" style="color:var(--gold);font-size:0.75rem"></i> ${p.rating||0} (${p.reviewCount||0})</td>
+          <td>
+            <div class="admin-table-actions">
+              <button class="action-btn" title="Edit" onclick="openEditProduct('${p.id}')"><i class="fa-solid fa-pen"></i></button>
+              <a href="product.html?id=${p.id}" target="_blank" class="action-btn" title="View"><i class="fa-solid fa-eye"></i></a>
+              <button class="action-btn delete" title="Delete" onclick="confirmDeleteProduct('${p.id}','${p.name.replace(/'/g,"\\'")}')"><i class="fa-regular fa-trash-can"></i></button>
+            </div>
+          </td>
+        </tr>`).join('');
+
+      // Add product
+      document.getElementById('add-product-btn').onclick = () => openAddProduct();
+
+      // Seed
+      document.getElementById('seed-products-btn').onclick = async () => {
+        if (!confirm('This will add sample products to Firestore. Continue?')) return;
+        await seedProducts();
+        await loadProductsTable();
+      };
+    }
+
+    /* ── POPULATE DYNAMIC FORM FIELDS ── */
+    async function populateProductFormFields(selectedCategory = '', selectedSizes = [], selectedTags = []) {
+      await populateProductFormFieldsAsync(selectedCategory, selectedSizes, selectedTags);
+    }
+
+    window.openAddProduct = async function() {
+      await clearProductForm();
+      document.getElementById('product-modal-title').textContent = 'Add Product';
+      document.getElementById('product-modal').classList.add('open');
+
+      document.getElementById('save-product-btn').onclick = async () => {
+        const data = collectProductForm();
+        if (!data) return;
+        const msg = document.getElementById('pf-saving-msg');
+        msg.style.display = 'inline';
+        try {
+          await addProduct(data);
+          showToast('Product added! ✅', 'success');
+          closeProductModal();
+          await loadProductsTable();
+        } catch (err) {
+          showToast('Error: ' + err.message, 'error');
+        } finally { msg.style.display = 'none'; }
+      };
+    };
+
+    window.openEditProduct = async function(id) {
+      const product = _allProducts.find(p => p.id === id);
+      if (!product) return;
+
+      await clearProductForm();
+      document.getElementById('product-modal-title').textContent = 'Edit Product';
+      document.getElementById('pf-doc-id').value  = id;
+      document.getElementById('pf-name').value     = product.name || '';
+      document.getElementById('pf-price').value    = product.price || '';
+      document.getElementById('pf-original').value = product.originalPrice || '';
+      document.getElementById('pf-stock').value    = product.stock || '';
+      document.getElementById('pf-sku').value      = product.sku || '';
+      document.getElementById('pf-material').value = product.material || '';
+      document.getElementById('pf-care').value     = product.care || '';
+      document.getElementById('pf-desc').value     = product.description || '';
+      document.getElementById('pf-images').value   = (product.images || []).join('\n');
+
+      await populateProductFormFields(product.category || '', product.sizes || [], product.tags || []);
+
+      document.getElementById('product-modal').classList.add('open');
+
+      document.getElementById('save-product-btn').onclick = async () => {
+        const data = collectProductForm();
+        if (!data) return;
+        const msg = document.getElementById('pf-saving-msg');
+        msg.style.display = 'inline';
+        try {
+          await updateProduct(id, data);
+          showToast('Product updated! ✅', 'success');
+          closeProductModal();
+          await loadProductsTable();
+        } catch (err) {
+          showToast('Error: ' + err.message, 'error');
+        } finally { msg.style.display = 'none'; }
+      };
+    };
+
+    window.confirmDeleteProduct = function(id, name) {
+      document.getElementById('delete-confirm-msg').textContent = `Delete "${name}"? This cannot be undone.`;
+      document.getElementById('delete-modal').classList.add('open');
+      document.getElementById('confirm-delete-btn').onclick = async () => {
+        document.getElementById('delete-modal').classList.remove('open');
+        try {
+          await deleteProduct(id);
+          showToast('Product deleted', 'info');
+          await loadProductsTable();
+        } catch (err) {
+          showToast('Error: ' + err.message, 'error');
+        }
+      };
+    };
+
+    window.closeProductModal = function() {
+      document.getElementById('product-modal').classList.remove('open');
+    };
+
+    async function clearProductForm() {
+      ['pf-doc-id','pf-name','pf-price','pf-original','pf-stock','pf-sku','pf-material','pf-care','pf-desc','pf-images'].forEach(id => {
+        const el = document.getElementById(id); if(el) el.value = '';
+      });
+      await populateProductFormFields('', [], []);
+    }
+
+    function collectProductForm() {
+      const name  = document.getElementById('pf-name').value.trim();
+      const price = parseFloat(document.getElementById('pf-price').value);
+      if (!name)       { showToast('Product name is required', 'warning'); return null; }
+      if (!price || price <= 0) { showToast('Enter a valid price', 'warning'); return null; }
+
+      const sizes = Array.from(document.querySelectorAll('#pf-sizes-wrap .size-check-item:checked'))
+        .map(el => el.nextElementSibling?.textContent?.trim()).filter(Boolean);
+
+      const tags = Array.from(document.querySelectorAll('#pf-tags-wrap input[type="checkbox"]:checked'))
+        .map(el => el.dataset.tag).filter(Boolean);
+
+      const imagesRaw = document.getElementById('pf-images').value.trim();
+      const images    = imagesRaw ? imagesRaw.split('\n').map(s => s.trim()).filter(Boolean) : [];
+
+      const category = document.getElementById('pf-category').value;
+      if (!category) { showToast('Please select a category', 'warning'); return null; }
+
+      return {
+        name,
+        category,
+        price,
+        originalPrice: parseFloat(document.getElementById('pf-original').value) || 0,
+        stock:         parseInt(document.getElementById('pf-stock').value) || 0,
+        sku:           document.getElementById('pf-sku').value.trim(),
+        material:      document.getElementById('pf-material').value.trim(),
+        care:          document.getElementById('pf-care').value.trim(),
+        description:   document.getElementById('pf-desc').value.trim(),
+        images,
+        sizes,
+        tags,
+        colors: [],
+        rating: 0,
+        reviewCount: 0,
+      };
+    }
+
+    /* ══════════════════════════════════════════
+       COUPONS
+    ══════════════════════════════════════════ */
+    const DEFAULT_COUPONS = [
+      { code:'AAROHI20',  discount:20, active:true },
+      { code:'WELCOME10', discount:10, active:true },
+      { code:'FESTIVE15', discount:15, active:true },
+    ];
+
+    let _couponsCache = null;
+
+    async function getCoupons() {
+      if (_couponsCache !== null) return _couponsCache;
+      try {
+        const data = await getConfig('coupons');
+        // If doc exists in Firestore use it as-is (even if list is empty).
+        // Only fall back to defaults when nothing has ever been saved.
+        _couponsCache = data ? (data.list || []) : [...DEFAULT_COUPONS];
+      } catch { _couponsCache = [...DEFAULT_COUPONS]; }
+      return _couponsCache;
+    }
+    async function saveCoupons(list) {
+      _couponsCache = null; // invalidate so next read is fresh from Firestore
+      await setConfig('coupons', { list });
+    }
+
+    async function renderCouponsTable() {
+      const coupons = await getCoupons();
+      const tbody   = document.getElementById('coupons-body');
+      if (!tbody) return;
+
+      tbody.innerHTML = coupons.length ? coupons.map((c, i) => `
+        <tr>
+          <td><strong style="letter-spacing:0.08em;font-size:0.95rem">${c.code}</strong></td>
+          <td><span style="font-size:0.95rem;font-weight:700;color:var(--maroon)">${c.discount}%</span> off</td>
+          <td>
+            <span class="order-status ${c.active !== false ? 'status-confirmed' : 'status-cancelled'}">
+              ${c.active !== false ? 'Active' : 'Inactive'}
+            </span>
+          </td>
+          <td>
+            <div class="admin-table-actions">
+              <button class="action-btn" title="Edit" onclick="openEditCoupon(${i})"><i class="fa-solid fa-pen"></i></button>
+              <button class="action-btn" title="${c.active!==false?'Deactivate':'Activate'}" onclick="toggleCoupon(${i})">
+                <i class="fa-solid ${c.active!==false?'fa-ban':'fa-check'}"></i>
+              </button>
+              <button class="action-btn delete" title="Delete" onclick="deleteCouponAt(${i})"><i class="fa-regular fa-trash-can"></i></button>
+            </div>
+          </td>
+        </tr>`).join('')
+        : '<tr><td colspan="4" style="text-align:center;padding:2rem;color:var(--text-light)">No coupons yet</td></tr>';
+
+      document.getElementById('add-coupon-btn').onclick = openAddCoupon;
+    }
+
+    window.openAddCoupon = function() {
+      document.getElementById('coupon-modal-title').textContent = 'Add Coupon';
+      document.getElementById('cf-idx').value       = -1;
+      document.getElementById('cf-code').value      = '';
+      document.getElementById('cf-discount').value  = '';
+      document.getElementById('cf-active').checked  = true;
+      document.getElementById('coupon-modal').classList.add('open');
+      document.getElementById('save-coupon-btn').onclick = saveCouponFromModal;
+    };
+
+    window.openEditCoupon = async function(idx) {
+      const c = (await getCoupons())[idx];
+      if (!c) return;
+      document.getElementById('coupon-modal-title').textContent = 'Edit Coupon';
+      document.getElementById('cf-idx').value       = idx;
+      document.getElementById('cf-code').value      = c.code;
+      document.getElementById('cf-discount').value  = c.discount;
+      document.getElementById('cf-active').checked  = c.active !== false;
+      document.getElementById('coupon-modal').classList.add('open');
+      document.getElementById('save-coupon-btn').onclick = saveCouponFromModal;
+    };
+
+    async function saveCouponFromModal() {
+      const code     = document.getElementById('cf-code').value.trim().toUpperCase();
+      const discount = parseInt(document.getElementById('cf-discount').value);
+      const active   = document.getElementById('cf-active').checked;
+      const idx      = parseInt(document.getElementById('cf-idx').value);
+
+      if (!code)               { showToast('Enter a coupon code', 'warning'); return; }
+      if (!discount || discount < 1 || discount > 100) { showToast('Discount must be 1–100%', 'warning'); return; }
+
+      const coupons = await getCoupons();
+      if (idx === -1) {
+        if (coupons.find(c => c.code === code)) { showToast('Coupon code already exists', 'error'); return; }
+        coupons.push({ code, discount, active });
+      } else {
+        coupons[idx] = { code, discount, active };
+      }
+      await saveCoupons(coupons);
+      closeCouponModal();
+      await renderCouponsTable();
+      showToast('Coupon saved! ✅', 'success');
+    }
+
+    window.toggleCoupon = async function(idx) {
+      const coupons = await getCoupons();
+      coupons[idx].active = !(coupons[idx].active !== false);
+      await saveCoupons(coupons);
+      await renderCouponsTable();
+      showToast(coupons[idx].active ? 'Coupon activated' : 'Coupon deactivated', 'info');
+    };
+
+    window.deleteCouponAt = async function(idx) {
+      if (!confirm('Delete this coupon?')) return;
+      const coupons = await getCoupons();
+      coupons.splice(idx, 1);
+      await saveCoupons(coupons);
+      await renderCouponsTable();
+      showToast('Coupon deleted', 'info');
+    };
+
+    window.closeCouponModal = function() {
+      document.getElementById('coupon-modal').classList.remove('open');
+    };
+
+    /* ══════════════════════════════════════════
+       HOMEPAGE EDITOR
+    ══════════════════════════════════════════ */
+    let _homepageEditorLoaded = false;
+    async function loadHomepageEditor() {
+      if (_homepageEditorLoaded) return;
+      _homepageEditorLoaded = true;
+      // ── TOP BAR ──
+      const tb = (await getConfig('topbar')) || {};
+      const topbarToggle = document.getElementById('topbar-visible-toggle');
+      if (topbarToggle) {
+        topbarToggle.checked = tb.visible !== false;
+        updateGenericToggle('topbar-thumb','topbar-track','topbar-toggle-label', tb.visible !== false, 'Bar visible','Bar hidden');
+        topbarToggle.onchange = function() { updateGenericToggle('topbar-thumb','topbar-track','topbar-toggle-label', this.checked, 'Bar visible','Bar hidden'); };
+      }
+      if (tb.text)     document.getElementById('topbar-text-input').value     = tb.text;
+      if (tb.code)     document.getElementById('topbar-code-input').value     = tb.code;
+      if (tb.discount) document.getElementById('topbar-discount-input').value = tb.discount;
+
+      document.getElementById('save-topbar-btn').onclick = async () => {
+        await setConfig('topbar', {
+          visible:  document.getElementById('topbar-visible-toggle').checked,
+          text:     document.getElementById('topbar-text-input').value.trim(),
+          code:     document.getElementById('topbar-code-input').value.trim().toUpperCase(),
+          discount: document.getElementById('topbar-discount-input').value.trim(),
+        });
+        showToast('Top bar saved! ✅', 'success');
+      };
+
+      // ── HERO CONTENT ──
+      const heroContent = (await getConfig('heroContent')) || {};
+      const hf = id => document.getElementById(id);
+      if (heroContent.eyebrow)          hf('hero-eyebrow-input').value             = heroContent.eyebrow;
+      if (heroContent.titleEm)          hf('hero-title-em-input').value            = heroContent.titleEm;
+      if (heroContent.desc)             hf('hero-desc-input').value                = heroContent.desc;
+      if (heroContent.ctaPrimaryText)   hf('hero-cta-primary-text-input').value    = heroContent.ctaPrimaryText;
+      if (heroContent.ctaPrimaryLink)   hf('hero-cta-primary-link-input').value    = heroContent.ctaPrimaryLink;
+      if (heroContent.ctaSecondaryText) hf('hero-cta-secondary-text-input').value  = heroContent.ctaSecondaryText;
+      if (heroContent.ctaSecondaryLink) hf('hero-cta-secondary-link-input').value  = heroContent.ctaSecondaryLink;
+      if (heroContent.trustBadge1)      hf('hero-tb1-input').value                 = heroContent.trustBadge1;
+      if (heroContent.trustBadge2)      hf('hero-tb2-input').value                 = heroContent.trustBadge2;
+      if (heroContent.trustBadge3)      hf('hero-tb3-input').value                 = heroContent.trustBadge3;
+
+      document.getElementById('save-hero-content-btn').onclick = async () => {
+        await setConfig('heroContent', {
+          eyebrow:          hf('hero-eyebrow-input').value.trim(),
+          titleEm:          hf('hero-title-em-input').value.trim(),
+          desc:             hf('hero-desc-input').value.trim(),
+          ctaPrimaryText:   hf('hero-cta-primary-text-input').value.trim(),
+          ctaPrimaryLink:   hf('hero-cta-primary-link-input').value.trim(),
+          ctaSecondaryText: hf('hero-cta-secondary-text-input').value.trim(),
+          ctaSecondaryLink: hf('hero-cta-secondary-link-input').value.trim(),
+          trustBadge1:      hf('hero-tb1-input').value.trim(),
+          trustBadge2:      hf('hero-tb2-input').value.trim(),
+          trustBadge3:      hf('hero-tb3-input').value.trim(),
+        });
+        showToast('Hero text saved! ✅', 'success');
+      };
+
+      // ── HERO IMAGE ──
+      const heroImg = await getConfig('heroImage');
+      if (heroImg?.url) document.getElementById('hero-img-url-input').value = heroImg.url;
+      document.getElementById('preview-hero-img-btn').onclick = () => {
+        const url = document.getElementById('hero-img-url-input').value.trim();
+        const preview = document.getElementById('hero-img-preview');
+        const img = document.getElementById('hero-img-preview-el');
+        if (url) { img.src = url; preview.style.display = 'block'; }
+      };
+      document.getElementById('save-hero-img-btn').onclick = async () => {
+        const url = document.getElementById('hero-img-url-input').value.trim();
+        if (!url) { showToast('Please enter an image URL', 'error'); return; }
+        await setConfig('heroImage', { url });
+        showToast('Hero image saved! ✅', 'success');
+      };
+
+      // ── HERO FLOATING CARDS ──
+      const heroCards = await getConfig('heroCards');
+      if (heroCards?.card1) {
+        hf('hc1-icon-input').value  = heroCards.card1.icon  || 'fa-star';
+        hf('hc1-title-input').value = heroCards.card1.title || '4.9 ★ Rating';
+        hf('hc1-sub-input').value   = heroCards.card1.sub   || 'From 2,400+ Reviews';
+      }
+      if (heroCards?.card2) {
+        hf('hc2-icon-input').value  = heroCards.card2.icon  || 'fa-fire';
+        hf('hc2-title-input').value = heroCards.card2.title || '12 Sold Today';
+        hf('hc2-sub-input').value   = heroCards.card2.sub   || 'Ananya Kurta Set';
+      }
+      document.getElementById('save-hero-cards-btn').onclick = async () => {
+        await setConfig('heroCards', {
+          card1: { icon: hf('hc1-icon-input').value.trim(), title: hf('hc1-title-input').value.trim(), sub: hf('hc1-sub-input').value.trim() },
+          card2: { icon: hf('hc2-icon-input').value.trim(), title: hf('hc2-title-input').value.trim(), sub: hf('hc2-sub-input').value.trim() }
+        });
+        showToast('Hero cards saved! ✅', 'success');
+      };
+
+      // ── SOCIAL PROOF BAR ──
+      const DEFAULT_SP = [
+        { icon: 'fa-star',         text: '<strong>4.9/5</strong> Average Rating' },
+        { icon: 'fa-users',        text: '<strong>15,000+</strong> Happy Customers' },
+        { icon: 'fa-truck',        text: 'Free Shipping on orders above <strong>₹999</strong>' },
+        { icon: 'fa-rotate-left',  text: '<strong>7-Day</strong> Easy Returns' },
+        { icon: 'fa-shield-halved',text: '<strong>100%</strong> Authentic Fabrics' },
+        { icon: 'fa-brands fa-whatsapp', text: 'WhatsApp Order Support' },
+      ];
+      const spData = (await getConfig('socialProof')) || {};
+      const spItems = spData.items?.length ? spData.items : DEFAULT_SP;
+
+      function renderSpList(items) {
+        const list = document.getElementById('social-proof-items-list');
+        if (!list) return;
+        list.innerHTML = items.map((item, i) => `
+          <div style="display:flex;gap:0.5rem;align-items:center;background:var(--cream);border:1px solid var(--border-light);border-radius:var(--radius-sm);padding:0.5rem 0.75rem">
+            <input type="text" class="form-control" value="${item.icon}" placeholder="fa-star" style="width:160px;flex-shrink:0;font-size:0.78rem" data-sp-icon="${i}" />
+            <input type="text" class="form-control" value="${item.text}" placeholder="Text (supports &lt;strong&gt;)" style="flex:1;font-size:0.78rem" data-sp-text="${i}" />
+            <button onclick="document.querySelectorAll('#social-proof-items-list > div')[${i}].remove()" class="action-btn delete" style="flex-shrink:0"><i class="fa-regular fa-trash-can" style="font-size:0.72rem"></i></button>
+          </div>`).join('');
+      }
+      renderSpList(spItems);
+      document.getElementById('add-sp-item-btn').onclick = () => {
+        const list = document.getElementById('social-proof-items-list');
+        const div = document.createElement('div');
+        const n = list.children.length;
+        div.style = 'display:flex;gap:0.5rem;align-items:center;background:var(--cream);border:1px solid var(--border-light);border-radius:var(--radius-sm);padding:0.5rem 0.75rem';
+        div.innerHTML = `<input type="text" class="form-control" value="fa-check" placeholder="fa-star" style="width:160px;flex-shrink:0;font-size:0.78rem" data-sp-icon="${n}" /><input type="text" class="form-control" value="" placeholder="Text" style="flex:1;font-size:0.78rem" data-sp-text="${n}" /><button onclick="this.closest('div').remove()" class="action-btn delete" style="flex-shrink:0"><i class="fa-regular fa-trash-can" style="font-size:0.72rem"></i></button>`;
+        list.appendChild(div);
+      };
+      document.getElementById('save-sp-btn').onclick = async () => {
+        const list = document.getElementById('social-proof-items-list');
+        const items = Array.from(list.children).map(row => ({
+          icon: row.querySelector('[data-sp-icon], input:first-child')?.value?.trim() || 'fa-check',
+          text: row.querySelector('[data-sp-text], input:nth-child(2)')?.value?.trim() || '',
+        })).filter(i => i.text);
+        await setConfig('socialProof', { items });
+        showToast('Social proof bar saved! ✅', 'success');
+      };
+
+      // ── CATEGORY IMAGES ──
+      const catSecData = (await getConfig('categoriesSection')) || {};
+      if (catSecData.sectionTitle)    hf('cat-sec-title-input').value    = catSecData.sectionTitle;
+      if (catSecData.sectionSubtitle) hf('cat-sec-subtitle-input').value = catSecData.sectionSubtitle;
+      const catImagesData = (await getConfig('categoryImages')) || {};
+      const imgMap   = catImagesData.map   || {};
+      const countMap = catImagesData.counts || {};
+      const allCats  = await getCategories();
+      const catImgList = document.getElementById('cat-images-list');
+      if (catImgList) {
+        catImgList.innerHTML = allCats.map(cat => `
+          <div style="display:grid;grid-template-columns:160px 1fr 80px;gap:0.5rem;align-items:center;background:var(--cream);border:1px solid var(--border-light);border-radius:var(--radius-sm);padding:0.5rem 0.75rem">
+            <strong style="font-size:0.82rem;color:var(--text-mid)">${cat}</strong>
+            <input type="url" class="form-control" value="${imgMap[cat] || ''}" placeholder="Image URL for this category" data-cat-img="${cat}" style="font-size:0.78rem" />
+            <input type="text" class="form-control" value="${countMap[cat] || ''}" placeholder="Count (e.g. 24)" data-cat-count="${cat}" style="font-size:0.78rem" />
+          </div>`).join('');
+      }
+      document.getElementById('save-cat-images-btn').onclick = async () => {
+        const newMap = {}; const newCounts = {};
+        document.querySelectorAll('[data-cat-img]').forEach(el => { if (el.value) newMap[el.dataset.catImg] = el.value.trim(); });
+        document.querySelectorAll('[data-cat-count]').forEach(el => { if (el.value) newCounts[el.dataset.catCount] = el.value.trim(); });
+        await Promise.all([
+          setConfig('categoryImages', { map: newMap, counts: newCounts }),
+          setConfig('categoriesSection', { sectionTitle: hf('cat-sec-title-input').value.trim(), sectionSubtitle: hf('cat-sec-subtitle-input').value.trim() }),
+        ]);
+        showToast('Category images saved! ✅', 'success');
+      };
+
+      // ── FEATURED & NEW ARRIVALS SECTIONS ──
+      const featCfg = (await getConfig('featuredProductsSection')) || {};
+      const newCfg  = (await getConfig('newArrivalsSection'))      || {};
+      if (featCfg.sectionTitle)    hf('feat-title-input').value    = featCfg.sectionTitle;
+      if (featCfg.sectionSubtitle) hf('feat-subtitle-input').value = featCfg.sectionSubtitle;
+      if (newCfg.sectionTitle)     hf('new-title-input').value     = newCfg.sectionTitle;
+      if (newCfg.sectionSubtitle)  hf('new-subtitle-input').value  = newCfg.sectionSubtitle;
+      await loadHomepageSections();
+      document.getElementById('save-homepage-sections-btn').onclick = async () => {
+        await Promise.all([
+          saveHomepageSections(),
+          setConfig('featuredProductsSection', { sectionTitle: hf('feat-title-input').value.trim(), sectionSubtitle: hf('feat-subtitle-input').value.trim() }),
+          setConfig('newArrivalsSection',       { sectionTitle: hf('new-title-input').value.trim(),  sectionSubtitle: hf('new-subtitle-input').value.trim() }),
+        ]);
+        showToast('Product sections saved! ✅', 'success');
+      };
+
+      // ── WHY US ──
+      const DEFAULT_WHYUS_ITEMS = [
+        { icon:'fa-hands-holding', title:'Handcrafted Quality',body:'Every piece is crafted by skilled artisans using traditional techniques passed down for generations.' },
+        { icon:'fa-leaf',          title:'Premium Fabrics',    body:'We source only the finest silks, cottons, and blends for unmatched comfort and elegance.' },
+        { icon:'fa-truck-fast',    title:'Fast Delivery',      body:'Pan-India delivery in 3–7 business days. Free shipping on orders above ₹999.' },
+        { icon:'fa-rotate-left',   title:'Easy Returns',       body:'Not happy? Return within 7 days, no questions asked. Your satisfaction is our promise.' },
+      ];
+      const wuData = (await getConfig('whyUs')) || {};
+      if (wuData.title)    hf('whyus-title-input').value    = wuData.title;
+      if (wuData.subtitle) hf('whyus-subtitle-input').value = wuData.subtitle;
+      const wuItems = wuData.items?.length ? wuData.items : DEFAULT_WHYUS_ITEMS;
+
+      function renderWhyUsList(items) {
+        const list = document.getElementById('whyus-items-list');
+        if (!list) return;
+        list.innerHTML = items.map((item, i) => `
+          <div style="display:grid;grid-template-columns:120px 160px 1fr auto;gap:0.5rem;align-items:center;background:var(--cream);border:1px solid var(--border-light);border-radius:var(--radius-sm);padding:0.5rem 0.75rem">
+            <input type="text" class="form-control" value="${item.icon}" placeholder="fa-heart" style="font-size:0.78rem" data-wu-icon="${i}" />
+            <input type="text" class="form-control" value="${item.title}" placeholder="Title" style="font-size:0.78rem" data-wu-title="${i}" />
+            <input type="text" class="form-control" value="${item.body}" placeholder="Description" style="font-size:0.78rem" data-wu-body="${i}" />
+            <button onclick="this.closest('div').remove()" class="action-btn delete" style="flex-shrink:0"><i class="fa-regular fa-trash-can" style="font-size:0.72rem"></i></button>
+          </div>`).join('');
+      }
+      renderWhyUsList(wuItems);
+      document.getElementById('add-whyus-item-btn').onclick = () => {
+        const list = document.getElementById('whyus-items-list');
+        const div = document.createElement('div');
+        div.style = 'display:grid;grid-template-columns:120px 160px 1fr auto;gap:0.5rem;align-items:center;background:var(--cream);border:1px solid var(--border-light);border-radius:var(--radius-sm);padding:0.5rem 0.75rem';
+        div.innerHTML = `<input type="text" class="form-control" value="fa-star" placeholder="fa-heart" style="font-size:0.78rem" /><input type="text" class="form-control" value="" placeholder="Title" style="font-size:0.78rem" /><input type="text" class="form-control" value="" placeholder="Description" style="font-size:0.78rem" /><button onclick="this.closest('div').remove()" class="action-btn delete" style="flex-shrink:0"><i class="fa-regular fa-trash-can" style="font-size:0.72rem"></i></button>`;
+        list.appendChild(div);
+      };
+      document.getElementById('save-whyus-btn').onclick = async () => {
+        const items = Array.from(document.querySelectorAll('#whyus-items-list > div')).map(row => {
+          const inputs = row.querySelectorAll('input');
+          return { icon: inputs[0]?.value?.trim(), title: inputs[1]?.value?.trim(), body: inputs[2]?.value?.trim() };
+        }).filter(i => i.title);
+        await setConfig('whyUs', { title: hf('whyus-title-input').value.trim(), subtitle: hf('whyus-subtitle-input').value.trim(), items });
+        showToast('Why Us section saved! ✅', 'success');
+      };
+
+      // ── STATS BAR ──
+      const DEFAULT_STATS = [
+        { target:15000, suffix:'+', label:'Happy Customers' },
+        { target:200,   suffix:'+', label:'Unique Designs' },
+        { target:98,    suffix:'%', label:'% Satisfaction' },
+        { target:5,     suffix:'+', label:'Years of Craft' },
+      ];
+      const statsData  = (await getConfig('statsBar')) || {};
+      const statsItems = statsData.items?.length ? statsData.items : DEFAULT_STATS;
+
+      function renderStatsList(items) {
+        const list = document.getElementById('stats-items-list');
+        if (!list) return;
+        list.innerHTML = items.map((item, i) => `
+          <div style="display:grid;grid-template-columns:100px 60px 1fr auto;gap:0.5rem;align-items:center;background:var(--cream);border:1px solid var(--border-light);border-radius:var(--radius-sm);padding:0.5rem 0.75rem">
+            <input type="number" class="form-control" value="${item.target}" placeholder="15000" style="font-size:0.78rem" data-st-target="${i}" />
+            <input type="text" class="form-control" value="${item.suffix||'+'}" placeholder="+" style="font-size:0.78rem" data-st-suffix="${i}" />
+            <input type="text" class="form-control" value="${item.label}" placeholder="Label" style="font-size:0.78rem" data-st-label="${i}" />
+            <button onclick="this.closest('div').remove()" class="action-btn delete" style="flex-shrink:0"><i class="fa-regular fa-trash-can" style="font-size:0.72rem"></i></button>
+          </div>`).join('');
+      }
+      renderStatsList(statsItems);
+      document.getElementById('add-stat-item-btn').onclick = () => {
+        const list = document.getElementById('stats-items-list');
+        const div = document.createElement('div');
+        div.style = 'display:grid;grid-template-columns:100px 60px 1fr auto;gap:0.5rem;align-items:center;background:var(--cream);border:1px solid var(--border-light);border-radius:var(--radius-sm);padding:0.5rem 0.75rem';
+        div.innerHTML = `<input type="number" class="form-control" value="100" placeholder="15000" style="font-size:0.78rem" /><input type="text" class="form-control" value="+" placeholder="+" style="font-size:0.78rem" /><input type="text" class="form-control" value="New Stat" placeholder="Label" style="font-size:0.78rem" /><button onclick="this.closest('div').remove()" class="action-btn delete" style="flex-shrink:0"><i class="fa-regular fa-trash-can" style="font-size:0.72rem"></i></button>`;
+        list.appendChild(div);
+      };
+      document.getElementById('save-stats-btn').onclick = async () => {
+        const items = Array.from(document.querySelectorAll('#stats-items-list > div')).map(row => {
+          const inputs = row.querySelectorAll('input');
+          return { target: parseInt(inputs[0]?.value)||0, suffix: inputs[1]?.value?.trim()||'+', label: inputs[2]?.value?.trim() };
+        }).filter(i => i.label);
+        await setConfig('statsBar', { items });
+        showToast('Stats bar saved! ✅', 'success');
+      };
+
+      // ── REVIEWS ──
+      const DEFAULT_REVIEWS = [
+        { stars:5, text:'"The Ananya Kurta Set is absolutely stunning! The fabric quality is incredible and the embroidery is so detailed."', name:'Priya Sharma', city:'Mumbai, Maharashtra', initials:'P' },
+        { stars:5, text:'"Ordered the Kavya Silk Saree for my sister\'s wedding. It\'s absolutely gorgeous! The colour is exactly as shown."', name:'Meghna Patel', city:'Ahmedabad, Gujarat', initials:'M' },
+        { stars:4, text:'"Great quality, fast delivery and packaging was beautiful. Will definitely order more pieces from Krishna!"', name:'Reena Krishnan', city:'Bengaluru, Karnataka', initials:'R' },
+      ];
+      const rvData  = (await getConfig('reviews')) || {};
+      if (rvData.title)    hf('reviews-title-input').value    = rvData.title;
+      if (rvData.subtitle) hf('reviews-subtitle-input').value = rvData.subtitle;
+      const rvItems = rvData.items?.length ? rvData.items : DEFAULT_REVIEWS;
+
+      function renderReviewsList(items) {
+        const list = document.getElementById('reviews-items-list');
+        if (!list) return;
+        list.innerHTML = items.map((item, i) => `
+          <div style="background:var(--cream);border:1px solid var(--border-light);border-radius:var(--radius-sm);padding:0.75rem">
+            <div style="display:grid;grid-template-columns:60px 1fr 1fr 40px;gap:0.5rem;margin-bottom:0.5rem;align-items:center">
+              <input type="number" class="form-control" value="${item.stars||5}" min="1" max="5" placeholder="5" style="font-size:0.78rem" data-rv-stars="${i}" />
+              <input type="text" class="form-control" value="${item.name||''}" placeholder="Customer Name" style="font-size:0.78rem" data-rv-name="${i}" />
+              <input type="text" class="form-control" value="${item.city||''}" placeholder="City, State" style="font-size:0.78rem" data-rv-city="${i}" />
+              <button onclick="this.closest('div.review-row-wrapper, div').remove()" class="action-btn delete"><i class="fa-regular fa-trash-can" style="font-size:0.72rem"></i></button>
+            </div>
+            <textarea class="form-control" rows="2" placeholder='Review text…' style="font-size:0.78rem" data-rv-text="${i}">${item.text||''}</textarea>
+          </div>`).join('');
+      }
+      renderReviewsList(rvItems);
+      document.getElementById('add-review-btn').onclick = () => {
+        const list = document.getElementById('reviews-items-list');
+        const div = document.createElement('div');
+        const n = list.children.length;
+        div.style = 'background:var(--cream);border:1px solid var(--border-light);border-radius:var(--radius-sm);padding:0.75rem';
+        div.innerHTML = `<div style="display:grid;grid-template-columns:60px 1fr 1fr 40px;gap:0.5rem;margin-bottom:0.5rem;align-items:center"><input type="number" class="form-control" value="5" min="1" max="5" style="font-size:0.78rem" /><input type="text" class="form-control" placeholder="Customer Name" style="font-size:0.78rem" /><input type="text" class="form-control" placeholder="City, State" style="font-size:0.78rem" /><button onclick="this.closest('div').remove()" class="action-btn delete"><i class="fa-regular fa-trash-can" style="font-size:0.72rem"></i></button></div><textarea class="form-control" rows="2" placeholder="Review text…" style="font-size:0.78rem"></textarea>`;
+        list.appendChild(div);
+      };
+      document.getElementById('save-reviews-btn').onclick = async () => {
+        const items = Array.from(document.querySelectorAll('#reviews-items-list > div')).map(row => {
+          const inputs   = row.querySelectorAll('input');
+          const textarea = row.querySelector('textarea');
+          const name = inputs[1]?.value?.trim();
+          return { stars: parseInt(inputs[0]?.value)||5, name, city: inputs[2]?.value?.trim(), text: textarea?.value?.trim(), initials: (name||'?')[0].toUpperCase() };
+        }).filter(i => i.name && i.text);
+        await setConfig('reviews', { title: hf('reviews-title-input').value.trim(), subtitle: hf('reviews-subtitle-input').value.trim(), items });
+        showToast('Reviews saved! ✅', 'success');
+      };
+
+      // ── INSTAGRAM ──
+      const igData = (await getConfig('instagram')) || {};
+      const igToggle = document.getElementById('insta-visible-toggle');
+      if (igToggle) {
+        igToggle.checked = igData.visible === true;
+        updateGenericToggle('insta-thumb','insta-track','insta-toggle-label', igData.visible === true, 'Section visible','Section hidden');
+        igToggle.onchange = function() { updateGenericToggle('insta-thumb','insta-track','insta-toggle-label', this.checked, 'Section visible','Section hidden'); };
+      }
+      if (igData.hashtag)  hf('insta-hashtag-input').value  = igData.hashtag;
+      if (igData.subtitle) hf('insta-subtitle-input').value = igData.subtitle;
+      if (igData.link)     hf('insta-link-input').value     = igData.link;
+      if (igData.images?.length) hf('insta-images-input').value = igData.images.join('\n');
+      document.getElementById('save-insta-btn').onclick = async () => {
+        const raw = hf('insta-images-input').value.trim();
+        const images = raw ? raw.split('\n').map(s => s.trim()).filter(Boolean).slice(0, 6) : [];
+        await setConfig('instagram', {
+          visible:  hf('insta-visible-toggle').checked,
+          hashtag:  hf('insta-hashtag-input').value.trim(),
+          subtitle: hf('insta-subtitle-input').value.trim(),
+          link:     hf('insta-link-input').value.trim(),
+          images,
+        });
+        showToast('Instagram section saved! ✅', 'success');
+      };
+
+      // ── NEWSLETTER ──
+      const nlData = (await getConfig('newsletter')) || {};
+      if (nlData.title)    hf('nl-title-input').value    = nlData.title;
+      if (nlData.subtitle) hf('nl-subtitle-input').value = nlData.subtitle;
+      if (nlData.note)     hf('nl-note-input').value     = nlData.note;
+      if (nlData.btnText)  hf('nl-btn-input').value      = nlData.btnText;
+
+      let _nlVisible = nlData.visible !== false; // default on
+      function applyNlToggle(v) {
+        const knob  = document.getElementById('nl-toggle-knob');
+        const track = document.getElementById('nl-toggle');
+        const label = document.getElementById('nl-visible-label');
+        if (knob)  knob.style.transform   = v ? 'translateX(20px)' : 'translateX(0)';
+        if (track) track.style.background  = v ? 'var(--maroon)'    : 'var(--border)';
+        if (label) { label.textContent = v ? 'Visible' : 'Hidden'; label.style.color = v ? 'var(--maroon)' : 'var(--text-light)'; }
+      }
+      applyNlToggle(_nlVisible);
+      window.toggleNewsletter = function() { _nlVisible = !_nlVisible; applyNlToggle(_nlVisible); };
+
+      document.getElementById('save-nl-btn').onclick = async () => {
+        await setConfig('newsletter', {
+          title:    hf('nl-title-input').value.trim(),
+          subtitle: hf('nl-subtitle-input').value.trim(),
+          note:     hf('nl-note-input').value.trim(),
+          btnText:  hf('nl-btn-input').value.trim(),
+          visible:  _nlVisible,
+        });
+        showToast('Newsletter section saved! ✅', 'success');
+      };
+
+      // ── FOOTER CONTENT ──
+      const fcData = (await getConfig('footerContent')) || {};
+      const settingsData = (await getConfig('settings')) || {};
+      if (fcData.about     || settingsData.about)   hf('footer-about-input').value     = fcData.about || settingsData.about || '';
+      if (fcData.phone     || settingsData.phone)   hf('footer-phone-input').value     = fcData.phone || settingsData.phone || '';
+      if (fcData.email     || settingsData.email)   hf('footer-email-input').value     = fcData.email || settingsData.email || '';
+      if (fcData.address   || settingsData.address) hf('footer-address-input').value   = fcData.address || settingsData.address || '';
+      if (fcData.copyright)                         hf('footer-copyright-input').value = fcData.copyright;
+      if (fcData.whatsappLabel)                     hf('footer-wa-label-input').value  = fcData.whatsappLabel;
+
+      const DEFAULT_SOCIALS = [
+        { icon:'fa-brands fa-instagram', href:'#', label:'Instagram' },
+        { icon:'fa-brands fa-facebook-f', href:'#', label:'Facebook' },
+        { icon:'fa-brands fa-pinterest-p', href:'#', label:'Pinterest' },
+        { icon:'fa-brands fa-whatsapp', href:'#', label:'WhatsApp' },
+      ];
+      const socials = fcData.socials?.length ? fcData.socials : DEFAULT_SOCIALS;
+
+      function renderSocialsList(items) {
+        const list = document.getElementById('footer-socials-list');
+        if (!list) return;
+        list.innerHTML = items.map((s, i) => `
+          <div style="display:grid;grid-template-columns:160px 1fr 100px auto;gap:0.5rem;align-items:center;background:var(--cream);border:1px solid var(--border-light);border-radius:var(--radius-sm);padding:0.4rem 0.6rem">
+            <input type="text" class="form-control" value="${s.icon}" placeholder="fa-brands fa-instagram" style="font-size:0.75rem" data-soc-icon="${i}" />
+            <input type="url" class="form-control" value="${s.href}" placeholder="https://..." style="font-size:0.75rem" data-soc-href="${i}" />
+            <input type="text" class="form-control" value="${s.label}" placeholder="Instagram" style="font-size:0.75rem" data-soc-label="${i}" />
+            <button onclick="this.closest('div').remove()" class="action-btn delete" style="flex-shrink:0"><i class="fa-regular fa-trash-can" style="font-size:0.72rem"></i></button>
+          </div>`).join('');
+      }
+      renderSocialsList(socials);
+      document.getElementById('add-social-btn').onclick = () => {
+        const list = document.getElementById('footer-socials-list');
+        const div = document.createElement('div');
+        div.style = 'display:grid;grid-template-columns:160px 1fr 100px auto;gap:0.5rem;align-items:center;background:var(--cream);border:1px solid var(--border-light);border-radius:var(--radius-sm);padding:0.4rem 0.6rem';
+        div.innerHTML = `<input type="text" class="form-control" value="" placeholder="fa-brands fa-instagram" style="font-size:0.75rem" /><input type="url" class="form-control" value="#" placeholder="https://..." style="font-size:0.75rem" /><input type="text" class="form-control" value="" placeholder="Label" style="font-size:0.75rem" /><button onclick="this.closest('div').remove()" class="action-btn delete" style="flex-shrink:0"><i class="fa-regular fa-trash-can" style="font-size:0.72rem"></i></button>`;
+        list.appendChild(div);
+      };
+      document.getElementById('save-footer-btn').onclick = async () => {
+        const socRows = Array.from(document.querySelectorAll('#footer-socials-list > div')).map(row => {
+          const inputs = row.querySelectorAll('input');
+          return { icon: inputs[0]?.value?.trim(), href: inputs[1]?.value?.trim()||'#', label: inputs[2]?.value?.trim() };
+        }).filter(s => s.icon);
+        await setConfig('footerContent', {
+          about:         hf('footer-about-input').value.trim(),
+          phone:         hf('footer-phone-input').value.trim(),
+          email:         hf('footer-email-input').value.trim(),
+          address:       hf('footer-address-input').value.trim(),
+          copyright:     hf('footer-copyright-input').value.trim(),
+          whatsappLabel: hf('footer-wa-label-input').value.trim(),
+          socials:       socRows,
+        });
+        showToast('Footer saved! ✅', 'success');
+      };
+
+      // ── FESTIVE BANNER ──
+      const banner = await getConfig('festiveBanner');
+      if (banner) {
+        document.getElementById('banner-visible-toggle').checked = banner.visible !== false;
+        updateToggleUI(banner.visible !== false);
+        if (banner.eyebrow)      hf('ob-eyebrow-input').value   = banner.eyebrow;
+        if (banner.title)        hf('ob-title-input').value     = banner.title;
+        if (banner.desc)         hf('ob-desc-input').value      = banner.desc;
+        if (banner.code)         hf('ob-code-input').value      = banner.code;
+        if (banner.codeDesc)     hf('ob-code-desc-input').value = banner.codeDesc;
+        if (banner.ctaText)      hf('ob-cta-text-input').value  = banner.ctaText;
+        if (banner.ctaLink)      hf('ob-cta-link-input').value  = banner.ctaLink;
+        if (banner.countdownDate) {
+          const dt    = new Date(banner.countdownDate);
+          const local = new Date(dt - dt.getTimezoneOffset()*60000).toISOString().slice(0,16);
+          hf('ob-countdown-input').value = local;
+        }
+      }
+      document.getElementById('banner-visible-toggle').onchange = function() { updateToggleUI(this.checked); };
+      document.getElementById('save-banner-btn').onclick = async () => {
+        const isVisible = document.getElementById('banner-visible-toggle').checked;
+        const cdRaw     = hf('ob-countdown-input').value;
+        await setConfig('festiveBanner', {
+          visible:       isVisible,
+          eyebrow:       hf('ob-eyebrow-input').value.trim(),
+          title:         hf('ob-title-input').value.trim(),
+          desc:          hf('ob-desc-input').value.trim(),
+          code:          hf('ob-code-input').value.trim().toUpperCase(),
+          codeDesc:      hf('ob-code-desc-input').value.trim(),
+          ctaText:       hf('ob-cta-text-input').value.trim(),
+          ctaLink:       hf('ob-cta-link-input').value.trim(),
+          countdownDate: cdRaw ? new Date(cdRaw).toISOString() : null
+        });
+        showToast(isVisible ? 'Festive banner saved! ✅' : 'Banner hidden on homepage ✅', 'success');
+      };
+      document.getElementById('reset-banner-btn').onclick = async () => {
+        if (!confirm('Reset banner and hero settings to defaults?')) return;
+        await Promise.all([
+          setConfig('festiveBanner', { visible: true }),
+          setConfig('heroCards', {}),
+          setConfig('heroImage', {}),
+          setConfig('heroContent', {}),
+          setConfig('topbar', { visible: true }),
+        ]);
+        await loadHomepageEditor();
+        showToast('Reset to defaults', 'info');
+      };
+    }
+
+    /* ── GENERIC TOGGLE UI HELPER ── */
+    function updateGenericToggle(thumbId, trackId, labelId, isOn, onText, offText) {
+      const thumb = document.getElementById(thumbId);
+      const track = document.getElementById(trackId);
+      const label = document.getElementById(labelId);
+      if (thumb) thumb.style.transform = isOn ? 'translateX(20px)' : 'translateX(0)';
+      if (track) track.style.background = isOn ? 'var(--maroon)' : '#bbb';
+      if (label) { label.textContent = isOn ? onText : offText; label.style.color = isOn ? 'var(--maroon)' : 'var(--text-light)'; }
+    }
+
+    /* ── HOMEPAGE SECTIONS ── */
+    async function loadHomepageSections() {
+      const tags = await getAvailableTags();
+      const cats = await getCategories();
+      const saved = (await getConfig('homepageSections')) || {};
+
+      const ftSel = document.getElementById('hs-featured-tag');
+      const ntSel = document.getElementById('hs-new-tag');
+      if (ftSel) {
+        ftSel.innerHTML = tags.map(t =>
+          `<option value="${t}" ${(saved.featuredTag||'Best Seller')===t?'selected':''}>${t}</option>`
+        ).join('');
+      }
+      if (ntSel) {
+        ntSel.innerHTML = tags.map(t =>
+          `<option value="${t}" ${(saved.newTag||'New')===t?'selected':''}>${t}</option>`
+        ).join('');
+      }
+
+      const catsList = document.getElementById('hs-cats-list');
+      const visibleCats = saved.visibleCategories || cats;
+      if (catsList) {
+        catsList.innerHTML = cats.map(c => {
+          const checked = visibleCats.includes(c);
+          const id = 'hsc-' + c.replace(/\W/g,'-');
+          return `<label style="display:flex;align-items:center;gap:0.65rem;cursor:pointer;padding:0.45rem 0.75rem;background:var(--white);border:1px solid var(--border-light);border-radius:var(--radius-sm)">
+            <input type="checkbox" id="${id}" value="${c}" ${checked?'checked':''} style="accent-color:var(--maroon);width:15px;height:15px">
+            <span style="font-size:0.88rem;color:var(--text)">${c}</span>
+          </label>`;
+        }).join('');
+      }
+    }
+
+    async function saveHomepageSections() {
+      const featuredTag = document.getElementById('hs-featured-tag')?.value || 'Best Seller';
+      const newTag      = document.getElementById('hs-new-tag')?.value      || 'New';
+      const visibleCategories = Array.from(
+        document.querySelectorAll('#hs-cats-list input[type="checkbox"]:checked')
+      ).map(el => el.value);
+      await setConfig('homepageSections', { featuredTag, newTag, visibleCategories });
+      showToast('Homepage sections saved! ✅', 'success');
+    }
+
+    function updateToggleUI(isOn) {
+      const thumb = document.getElementById('toggle-thumb');
+      const track = document.getElementById('toggle-track');
+      const label = document.getElementById('banner-toggle-label');
+      if (thumb) thumb.style.transform = isOn ? 'translateX(20px)' : 'translateX(0)';
+      if (track) track.style.background = isOn ? 'var(--maroon)' : '#bbb';
+      if (label) { label.textContent = isOn ? 'Banner visible' : 'Banner hidden'; label.style.color = isOn ? 'var(--maroon)' : 'var(--text-light)'; }
+    }
+
+    /* ══════════════════════════════════════════
+       SETTINGS
+    ══════════════════════════════════════════ */
+    async function loadSettingsPanel() {
+      const s  = (await getConfig('settings')) || {};
+      if (s.storeName)      document.getElementById('s-store-name').value  = s.storeName;
+      if (s.email)          document.getElementById('s-email').value       = s.email;
+      if (s.whatsappNumber) document.getElementById('s-whatsapp').value    = s.whatsappNumber;
+      if (s.adminEmail)     document.getElementById('s-admin-email').value = s.adminEmail;
+
+      LS.set('aarohi_settings', s);
+
+      const qr = (await getConfig('paymentQR')) || {};
+      if (qr.imageUrl) {
+        document.getElementById('qr-url-input').value = qr.imageUrl;
+        showQrPreview(qr.imageUrl, qr.upiId, qr.note);
+        // Keep localStorage in sync so checkout.html can read it without Firestore
+        LS.set('aarohi_payment_qr', qr);
+      }
+      if (qr.upiId) document.getElementById('qr-upi-id').value  = qr.upiId;
+      if (qr.note)  document.getElementById('qr-note').value    = qr.note;
+
+      document.getElementById('save-settings-btn').onclick = async () => {
+        const newEmail = document.getElementById('s-admin-email').value.trim();
+        const newPass  = document.getElementById('s-admin-pass').value;
+        const existingSettings = (await getConfig('settings')) || {};
+        const settings = {
+          ...existingSettings,
+          storeName:      document.getElementById('s-store-name').value.trim(),
+          email:          document.getElementById('s-email').value.trim(),
+          whatsappNumber: document.getElementById('s-whatsapp').value.trim().replace(/\D/g,''),
+        };
+        if (newEmail) settings.adminEmail    = newEmail;
+        if (newPass)  settings.adminPassword = newPass;
+        try {
+          await setConfig('settings', settings);
+          LS.set('aarohi_settings', settings);
+          if (settings.adminEmail) document.getElementById('s-admin-email').value = settings.adminEmail;
+          document.getElementById('s-admin-pass').value = '';
+          showToast('Settings saved! ✅', 'success');
+        } catch (err) {
+          showToast('Failed to save settings: ' + err.message, 'error');
+        }
+      };
+
+      document.getElementById('preview-qr-btn').onclick = () => {
+        const url   = document.getElementById('qr-url-input').value.trim();
+        const upiId = document.getElementById('qr-upi-id').value.trim();
+        const note  = document.getElementById('qr-note').value.trim();
+        showQrPreview(url, upiId, note);
+      };
+
+      document.getElementById('save-qr-btn').onclick = async () => {
+        const url   = document.getElementById('qr-url-input').value.trim();
+        const upiId = document.getElementById('qr-upi-id').value.trim();
+        const note  = document.getElementById('qr-note').value.trim();
+        if (!url) { showToast('Please enter or upload a QR image', 'error'); return; }
+        const qrData = { imageUrl: url, upiId, note };
+        try {
+          await setConfig('paymentQR', qrData);
+          LS.set('aarohi_payment_qr', qrData);
+          showQrPreview(url, upiId, note);
+          showToast('QR settings saved! ✅', 'success');
+        } catch (err) {
+          LS.set('aarohi_payment_qr', qrData);
+          showQrPreview(url, upiId, note);
+          showToast('QR saved locally (Firestore error: ' + err.message + ')', 'warning');
+        }
+      };
+    }
+
+    function showQrPreview(url, upiId, note) {
+      const img = document.getElementById('qr-preview-img');
+      const ph  = document.getElementById('qr-preview-ph');
+      const upiWrap = document.getElementById('qr-preview-upi');
+      const upiText = document.getElementById('qr-preview-upi-text');
+      const noteEl  = document.getElementById('qr-preview-note');
+
+      if (url) {
+        img.src = url;
+        img.style.display = 'block';
+        ph.style.display  = 'none';
+      }
+      if (upiId) { upiText.textContent = upiId; upiWrap.style.display = 'block'; }
+      else        { upiWrap.style.display = 'none'; }
+      if (noteEl) noteEl.textContent = note || '';
+    }
+
+    /* ══════════════════════════════════════════
+       CATEGORIES & TAGS SECTION
+    ══════════════════════════════════════════ */
+    let _categoriesLoaded = false;
+    async function loadCategoriesSection() {
+      if (_categoriesLoaded) return;
+      _categoriesLoaded = true;
+      await renderCatList();
+      await renderTagList();
+      await renderSizeList();
+
+      // ── CATEGORIES ──
+      document.getElementById('add-cat-btn').onclick = async () => {
+        const input = document.getElementById('new-cat-input');
+        const val   = input.value.trim();
+        if (!val) { showToast('Enter a category name', 'warning'); return; }
+        const cats = await getCategories();
+        if (cats.includes(val)) { showToast('Category already exists', 'error'); return; }
+        cats.push(val);
+        await saveCategories(cats);
+        await renderCatList();
+        input.value = '';
+        showToast(`"${val}" added!`, 'success');
+      };
+      document.getElementById('new-cat-input').onkeydown = e => {
+        if (e.key === 'Enter') document.getElementById('add-cat-btn').click();
+      };
+      document.getElementById('save-cats-btn').onclick = async () => {
+        // Read from span text so renames (which update the span, not data-cat) are captured
+        const catEls = Array.from(document.querySelectorAll('#categories-list > div'));
+        const cats = catEls.map(el => el.querySelector('span')?.textContent?.trim()).filter(Boolean);
+        if (!cats.length) { showToast('No categories to save', 'warning'); return; }
+        await saveCategories(cats);
+        showToast('Categories saved! ✅', 'success');
+      };
+      document.getElementById('reset-cats-btn').onclick = async () => {
+        if (!confirm('Reset categories to default?')) return;
+        await setConfig('categories', { list: [] });
+        await renderCatList();
+        showToast('Categories reset to default', 'info');
+      };
+
+      // ── TAGS ──
+      document.getElementById('add-tag-btn').onclick = async () => {
+        const input = document.getElementById('new-tag-input');
+        const val   = input.value.trim();
+        if (!val) { showToast('Enter a tag name', 'warning'); return; }
+        const tags = await getAvailableTags();
+        if (tags.includes(val)) { showToast('Tag already exists', 'error'); return; }
+        tags.push(val);
+        await saveTags(tags);
+        await renderTagList();
+        input.value = '';
+        showToast(`"${val}" added!`, 'success');
+      };
+      document.getElementById('new-tag-input').onkeydown = e => {
+        if (e.key === 'Enter') document.getElementById('add-tag-btn').click();
+      };
+      document.getElementById('save-tags-btn').onclick = async () => {
+        const tagEls = Array.from(document.querySelectorAll('#tags-list > div'));
+        const tagNames = tagEls.map(el => el.querySelector('span')?.textContent?.trim()).filter(Boolean);
+        if (!tagNames.length) { showToast('No tags to save', 'warning'); return; }
+        await saveTags(tagNames);
+        showToast('Tags saved! ✅', 'success');
+      };
+      document.getElementById('reset-tags-btn').onclick = async () => {
+        if (!confirm('Reset tags to default?')) return;
+        await setConfig('tags', { list: [] });
+        await renderTagList();
+        showToast('Tags reset to default', 'info');
+      };
+
+      // ── SIZES ──
+      document.getElementById('add-size-btn').onclick = async () => {
+        const input = document.getElementById('new-size-input');
+        const val   = input.value.trim().toUpperCase();
+        if (!val) { showToast('Enter a size', 'warning'); return; }
+        const sizes = await getAvailableSizes();
+        if (sizes.includes(val)) { showToast('Size already exists', 'error'); return; }
+        sizes.push(val);
+        await saveSizes(sizes);
+        await renderSizeList();
+        input.value = '';
+        showToast(`Size "${val}" added!`, 'success');
+      };
+      document.getElementById('new-size-input').onkeydown = e => {
+        if (e.key === 'Enter') document.getElementById('add-size-btn').click();
+      };
+      document.getElementById('save-sizes-btn').onclick = async () => {
+        const sizeEls = Array.from(document.querySelectorAll('#sizes-list > div'));
+        const sizeNames = sizeEls.map(el => el.querySelector('span')?.textContent?.trim()).filter(Boolean);
+        if (!sizeNames.length) { showToast('No sizes to save', 'warning'); return; }
+        await saveSizes(sizeNames);
+        showToast('Sizes saved! ✅', 'success');
+      };
+      document.getElementById('reset-sizes-btn').onclick = async () => {
+        if (!confirm('Reset sizes to default?')) return;
+        await setConfig('sizes', { list: [] });
+        await renderSizeList();
+        showToast('Sizes reset to default', 'info');
+      };
+    }
+
+    async function renderCatList() {
+      const list = document.getElementById('categories-list');
+      if (!list) return;
+      const cats = await getCategories();
+      list.innerHTML = cats.map((c, i) => `
+        <div data-cat="${c}" style="display:flex;align-items:center;gap:0.6rem;background:var(--white);border:1px solid var(--border-light);border-radius:var(--radius-sm);padding:0.55rem 0.9rem">
+          <i class="fa-solid fa-folder" style="color:var(--gold);font-size:0.8rem;flex-shrink:0"></i>
+          <span style="flex:1;font-size:0.88rem;color:var(--text)">${c}</span>
+          <button onclick="renameCat(${i})" class="action-btn" title="Rename" style="width:28px;height:28px"><i class="fa-solid fa-pen" style="font-size:0.72rem"></i></button>
+          <button onclick="deleteCat(${i})" class="action-btn delete" title="Remove" style="width:28px;height:28px"><i class="fa-regular fa-trash-can" style="font-size:0.72rem"></i></button>
+        </div>`).join('');
+    }
+
+    window.renameCat = async function(i) {
+      const cats = await getCategories();
+      const newName = prompt('Rename category:', cats[i]);
+      if (!newName || newName.trim() === cats[i]) return;
+      cats[i] = newName.trim();
+      await saveCategories(cats);
+      await renderCatList(); // re-render so data-cat and span are both fresh
+      showToast('Category renamed', 'success');
+    };
+    window.deleteCat = async function(i) {
+      const cats = await getCategories();
+      if (!confirm(`Remove "${cats[i]}"?`)) return;
+      cats.splice(i, 1);
+      await saveCategories(cats);
+      await renderCatList();
+      showToast('Category removed', 'info');
+    };
+
+    async function renderTagList() {
+      const list = document.getElementById('tags-list');
+      if (!list) return;
+      const tags = await getAvailableTags();
+      const savedSections = (await getConfig('homepageSections')) || {};
+      const homepageTags  = [savedSections.featuredTag || 'Best Seller', savedSections.newTag || 'New'];
+      list.innerHTML = tags.map((t, i) => `
+        <div style="display:flex;align-items:center;gap:0.6rem;background:var(--white);border:1px solid var(--border-light);border-radius:var(--radius-sm);padding:0.55rem 0.9rem">
+          <i class="fa-solid fa-tag" style="color:var(--maroon);font-size:0.8rem;flex-shrink:0"></i>
+          <span style="flex:1;font-size:0.88rem;color:var(--text)">${t}</span>
+          ${homepageTags.includes(t) ? '<span style="font-size:0.68rem;background:rgba(201,168,76,0.15);color:var(--gold-dark);padding:0.15rem 0.5rem;border-radius:10px;border:1px solid rgba(201,168,76,0.3);white-space:nowrap">Homepage</span>' : ''}
+          <button onclick="renameTag(${i})" class="action-btn" title="Rename" style="width:28px;height:28px"><i class="fa-solid fa-pen" style="font-size:0.72rem"></i></button>
+          <button onclick="deleteTag(${i})" class="action-btn delete" title="Remove" style="width:28px;height:28px"><i class="fa-regular fa-trash-can" style="font-size:0.72rem"></i></button>
+        </div>`).join('');
+    }
+
+    window.renameTag = async function(i) {
+      const tags = await getAvailableTags();
+      const newName = prompt('Rename tag:', tags[i]);
+      if (!newName || newName.trim() === tags[i]) return;
+      tags[i] = newName.trim();
+      await saveTags(tags);
+      await renderTagList();
+      showToast('Tag renamed', 'success');
+    };
+    window.deleteTag = async function(i) {
+      const tags = await getAvailableTags();
+      if (!confirm(`Remove tag "${tags[i]}"?`)) return;
+      tags.splice(i, 1);
+      await saveTags(tags);
+      await renderTagList();
+      showToast('Tag removed', 'info');
+    };
+
+    async function renderSizeList() {
+      const list = document.getElementById('sizes-list');
+      if (!list) return;
+      const sizes = await getAvailableSizes();
+      list.innerHTML = sizes.map((s, i) => `
+        <div style="display:inline-flex;align-items:center;gap:0.4rem;background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:0.3rem 0.65rem">
+          <span style="font-size:0.82rem;font-weight:600;color:var(--text)">${s}</span>
+          <button onclick="deleteSize(${i})" style="background:none;border:none;color:var(--text-light);cursor:pointer;font-size:0.65rem;padding:0;line-height:1" title="Remove">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>`).join('');
+    }
+
+    window.deleteSize = async function(i) {
+      const sizes = await getAvailableSizes();
+      if (!confirm(`Remove size "${sizes[i]}"?`)) return;
+      sizes.splice(i, 1);
+      await saveSizes(sizes);
+      await renderSizeList();
+      showToast('Size removed', 'info');
+    };
+
+    /* ── populateProductFormFields ── */
+    async function populateProductFormFieldsAsync(selectedCategory = '', selectedSizes = [], selectedTags = []) {
+      const catSel = document.getElementById('pf-category');
+      if (catSel) {
+        const cats = await getCategories();
+        catSel.innerHTML = cats.map(c =>
+          `<option value="${c}" ${c === selectedCategory ? 'selected' : ''}>${c}</option>`
+        ).join('');
+      }
+      const sizesWrap = document.getElementById('pf-sizes-wrap');
+      if (sizesWrap) {
+        const sizes = await getAvailableSizes();
+        const defaultChecked = ['S','M','L','XL'];
+        sizesWrap.innerHTML = sizes.map(s => {
+          const sid = 'sz-' + s.toLowerCase().replace(/\s+/g, '-');
+          const checked = selectedSizes.length ? selectedSizes.includes(s) : defaultChecked.includes(s);
+          return `<input type="checkbox" class="size-check-item" id="${sid}" ${checked ? 'checked' : ''}>
+                  <label for="${sid}" class="size-check-label">${s}</label>`;
+        }).join('');
+      }
+      const tagsWrap = document.getElementById('pf-tags-wrap');
+      if (tagsWrap) {
+        const tags = await getAvailableTags();
+        tagsWrap.innerHTML = tags.map(t => {
+          const tid = 'tag-' + t.toLowerCase().replace(/\s+/g, '-');
+          const checked = selectedTags.includes(t);
+          return `<label style="display:flex;align-items:center;gap:0.35rem;font-size:0.82rem;cursor:pointer">
+                    <input type="checkbox" id="${tid}" data-tag="${t}" ${checked ? 'checked' : ''} style="accent-color:var(--maroon)"> ${t}
+                  </label>`;
+        }).join('');
+      }
+    }
+
+    // Expose showToast globally for onclick attrs
+    window.showToast = function(msg, type) {
+      import('./utils.js').then(({ showToast }) => showToast(msg, type));
+    };
+
+    /* ══════════════════════════════════════════
+       IMAGE UPLOAD — client-side resize + base64
+       Works directly from phone camera or PC.
+       No external service or API key required.
+    ══════════════════════════════════════════ */
+
+    /**
+     * Reads a File, resizes with canvas, returns a compressed JPEG base64 data-URL.
+     * @param {File}   file
+     * @param {number} maxPx    longest side in pixels
+     * @param {number} quality  JPEG quality 0–1
+     */
+    function imageFileToBase64(file, maxPx = 900, quality = 0.80) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onerror = () => reject(new Error('Could not read file'));
+        reader.onload  = e => {
+          const img = new Image();
+          img.onerror = () => reject(new Error('Could not decode image'));
+          img.onload  = () => {
+            let w = img.naturalWidth, h = img.naturalHeight;
+            if (Math.max(w, h) > maxPx) {
+              if (w >= h) { h = Math.round(h * maxPx / w); w = maxPx; }
+              else        { w = Math.round(w * maxPx / h); h = maxPx; }
+            }
+            const canvas = document.createElement('canvas');
+            canvas.width = w; canvas.height = h;
+            canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+            resolve(canvas.toDataURL('image/jpeg', quality));
+          };
+          img.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
+    /* ── Wire up file inputs after DOM is ready ── */
+    document.addEventListener('DOMContentLoaded', () => {
+
+      /* QR Code upload */
+      document.getElementById('qr-file-input')?.addEventListener('change', async function () {
+        const file = this.files?.[0];
+        if (!file) return;
+        const status = document.getElementById('qr-upload-status');
+        status.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Processing…';
+        try {
+          // Higher quality for QR — codes need to stay scannable
+          const dataUrl = await imageFileToBase64(file, 500, 0.92);
+          document.getElementById('qr-url-input').value = dataUrl;
+          const upiId = document.getElementById('qr-upi-id').value.trim();
+          const note  = document.getElementById('qr-note').value.trim();
+          showQrPreview(dataUrl, upiId, note);
+          status.innerHTML = '<span style="color:#2D7B4F"><i class="fa-solid fa-circle-check"></i> Image ready — click <strong>Save QR Settings</strong></span>';
+        } catch (err) {
+          status.innerHTML = '<span style="color:#C45C00">Upload failed — try a smaller image</span>';
+        }
+        this.value = ''; // allow re-selecting same file
+      });
+
+      /* Product images upload — multiple files */
+      document.getElementById('pf-img-upload')?.addEventListener('change', async function () {
+        const files = Array.from(this.files || []).slice(0, 5);
+        if (!files.length) return;
+        const status = document.getElementById('pf-img-upload-status');
+        const thumbs = document.getElementById('pf-img-thumbs');
+        status.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Compressing ${files.length} image${files.length > 1 ? 's' : ''}…`;
+        thumbs.innerHTML = '';
+
+        const dataUrls = [];
+        for (const file of files) {
+          try {
+            const dataUrl = await imageFileToBase64(file, 900, 0.80);
+            dataUrls.push(dataUrl);
+            const img   = document.createElement('img');
+            img.src     = dataUrl;
+            img.title   = file.name;
+            img.style.cssText = 'width:56px;height:68px;object-fit:cover;border-radius:6px;border:2px solid var(--maroon);cursor:default';
+            thumbs.appendChild(img);
+          } catch (e) {
+            console.warn('Skipped:', file.name, e.message);
+          }
+        }
+
+        if (!dataUrls.length) {
+          status.innerHTML = '<span style="color:#C45C00">Could not process images — try smaller files</span>';
+          return;
+        }
+
+        // Append base64 URLs into the textarea (one per line)
+        const textarea = document.getElementById('pf-images');
+        const existing = textarea.value.trim();
+        textarea.value = (existing ? existing + '\n' : '') + dataUrls.join('\n');
+        status.innerHTML = `<span style="color:#2D7B4F"><i class="fa-solid fa-circle-check"></i> ${dataUrls.length} photo${dataUrls.length > 1 ? 's' : ''} added — save the product to apply</span>`;
+        this.value = '';
+      });
+
+    });
+  </script>
+</body>
+</html>

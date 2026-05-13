@@ -1,0 +1,291 @@
+/* ============================================================
+   AAROHI FASHION — home.css
+   Homepage-specific styles
+   ============================================================ */
+
+/* ── HERO ── */
+.hero {
+  position: relative;
+  min-height: calc(100vh - var(--header-h) - 36px);
+  display: flex;
+  align-items: center;
+  background: var(--cream);
+  overflow: hidden;
+}
+.hero-bg-pattern {
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(circle at 15% 50%, rgba(123,29,46,0.05) 0%, transparent 60%),
+    radial-gradient(circle at 85% 20%, rgba(201,168,76,0.08) 0%, transparent 50%),
+    url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%237b1d2e' fill-opacity='0.025'%3E%3Cpath d='M30 0L35 10L45 10L37 16L40 27L30 21L20 27L23 16L15 10L25 10z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  pointer-events: none;
+}
+.hero-content {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 4rem 1.5rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+  width: 100%;
+}
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--beige-dark);
+  color: var(--maroon);
+  padding: 0.35rem 1rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 1.25rem;
+  border: 1px solid var(--border);
+}
+.hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(2.8rem, 5.5vw, 5rem);
+  line-height: 1.1;
+  color: var(--maroon-dark);
+  margin-bottom: 1.25rem;
+  font-weight: 700;
+}
+.hero-title em {
+  font-style: italic;
+  color: var(--maroon);
+  position: relative;
+  display: inline-block;
+}
+.hero-title em::after {
+  content: '';
+  position: absolute;
+  bottom: 2px; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--gold), var(--gold-light));
+  border-radius: 2px;
+}
+.hero-desc {
+  font-size: 1rem;
+  color: var(--text-light);
+  margin-bottom: 2rem;
+  max-width: 460px;
+  line-height: 1.75;
+}
+.hero-cta {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+.hero-trust-badges {
+  display: flex;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+}
+.trust-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.78rem;
+  color: var(--text-light);
+  font-weight: 500;
+}
+.trust-badge i { color: var(--gold); }
+
+/* ── HERO IMAGE ── */
+.hero-image-wrapper {
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+.hero-image-main {
+  width: 100%;
+  max-width: 500px;
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-xl);
+  object-fit: cover;
+  aspect-ratio: 3/4;
+}
+.hero-image-card {
+  position: absolute;
+  background: rgba(255,255,255,0.92);
+  backdrop-filter: blur(12px);
+  border-radius: var(--radius-md);
+  padding: 0.75rem 1.1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  box-shadow: var(--shadow-lg);
+  animation: heroFloat 3s ease-in-out infinite;
+}
+.hero-card-1 { bottom: 15%; left: -3rem; animation-delay: 0s; }
+.hero-card-2 { top: 15%; right: -2rem; animation-delay: 1.5s; }
+.hero-card-icon {
+  width: 36px; height: 36px;
+  background: linear-gradient(135deg, var(--maroon), var(--maroon-light));
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--cream);
+  font-size: 0.85rem;
+}
+.hero-card-text { font-weight: 700; font-size: 0.85rem; color: var(--text); }
+.hero-card-sub { font-size: 0.7rem; color: var(--text-light); }
+@keyframes heroFloat {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-8px); }
+}
+
+/* ── SOCIAL PROOF BAR ── */
+.social-proof-bar {
+  background: var(--maroon);
+  overflow: hidden;
+  padding: 0.9rem 0;
+}
+.social-proof-track {
+  display: flex;
+  gap: 3rem;
+  animation: scrollTrack 22s linear infinite;
+  width: max-content;
+}
+.social-proof-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  white-space: nowrap;
+  color: rgba(245,237,214,0.9);
+  font-size: 0.82rem;
+  font-weight: 500;
+}
+.social-proof-item i { color: var(--gold-light); }
+.social-proof-item strong { color: var(--gold-light); }
+@keyframes scrollTrack {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* ── CATEGORIES ── */
+.categories-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1rem;
+}
+.category-card {
+  position: relative;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  aspect-ratio: 3/4;
+  display: block;
+  cursor: pointer;
+}
+.category-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.55s ease;
+}
+.category-card:hover img { transform: scale(1.08); }
+.category-overlay {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  padding: 1.5rem 1rem 1rem;
+  background: linear-gradient(transparent, rgba(10,2,5,0.75));
+  text-align: center;
+}
+.category-name { font-family: var(--font-display); font-size: 1.1rem; font-weight: 600; color: var(--cream); letter-spacing: 0.03em; }
+.category-count { font-size: 0.72rem; color: var(--gold-light); margin-top: 2px; letter-spacing: 0.06em; }
+
+/* ── OFFER BANNER ── */
+.offer-banner {
+  background: linear-gradient(135deg, var(--maroon-dark) 0%, #3D0715 50%, var(--maroon-dark) 100%);
+  padding: 5rem 1.5rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.offer-banner::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M20 0L25 8L33 8L27 13L29 21L20 16L11 21L13 13L7 8L15 8z'/%3E%3C/g%3E%3C/svg%3E");
+  pointer-events: none;
+}
+.offer-banner-inner { position: relative; max-width: 700px; margin: 0 auto; }
+.offer-eyebrow {
+  display: inline-block;
+  background: var(--gold);
+  color: var(--maroon-dark);
+  padding: 0.3rem 1rem;
+  border-radius: 20px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+.offer-title { font-family: var(--font-display); font-size: clamp(2.2rem, 5vw, 3.5rem); color: var(--cream); margin-bottom: 0.75rem; font-weight: 700; }
+.offer-desc { color: rgba(255,255,255,0.7); font-size: 0.95rem; margin-bottom: 1.25rem; }
+.offer-code {
+  display: inline-block;
+  background: rgba(201,168,76,0.15);
+  border: 2px dashed var(--gold);
+  color: var(--gold-light);
+  padding: 0.6rem 2rem;
+  border-radius: var(--radius-sm);
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  margin-bottom: 0.5rem;
+  font-family: var(--font-display);
+  cursor: pointer;
+  transition: background var(--transition);
+}
+.offer-code:hover { background: rgba(201,168,76,0.25); }
+
+/* ── COUNTDOWN ── */
+.countdown {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin: 1.25rem 0;
+}
+.countdown-item { text-align: center; }
+.countdown-number {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 2.8rem;
+  font-weight: 700;
+  color: var(--gold-light);
+  line-height: 1;
+  min-width: 3.5rem;
+}
+.countdown-label { font-size: 0.68rem; color: rgba(255,255,255,0.5); letter-spacing: 0.1em; text-transform: uppercase; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 1024px) {
+  .categories-grid { grid-template-columns: repeat(3, 1fr); }
+  .hero-card-1, .hero-card-2 { display: none; }
+}
+@media (max-width: 900px) {
+  .hero-content { grid-template-columns: 1fr; gap: 2.5rem; text-align: center; }
+  .hero-image-wrapper { order: -1; }
+  .hero-image-main { max-width: 380px; }
+  .hero-desc { margin: 0 auto 2rem; }
+  .hero-cta, .hero-trust-badges { justify-content: center; }
+}
+@media (max-width: 640px) {
+  .categories-grid { grid-template-columns: repeat(2, 1fr); }
+  .categories-grid .category-card:last-child { grid-column: span 2; aspect-ratio: 16/9; }
+  .countdown { gap: 0.75rem; }
+  .countdown-number { font-size: 2rem; min-width: 2.5rem; }
+}
+@media (max-width: 480px) {
+  .hero-content { padding: 2.5rem 1rem; }
+  .hero-title { font-size: 2.5rem; }
+}
