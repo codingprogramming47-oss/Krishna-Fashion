@@ -683,6 +683,102 @@
             </div>
           </div>
 
+          <!-- NAVBAR LOGO -->
+          <div class="admin-panel" style="margin-bottom:1.5rem">
+            <div class="admin-panel-header">
+              <div class="admin-panel-title"><i class="fa-solid fa-image" style="color:var(--gold);margin-right:0.4rem"></i> Navbar Logo</div>
+              <span style="font-size:0.75rem;color:var(--text-light)">Top-left logo shown on all pages</span>
+            </div>
+            <div class="admin-panel-body">
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:start">
+
+                <!-- Left: controls -->
+                <div>
+                  <!-- Mode toggle -->
+                  <div class="form-group">
+                    <label style="font-weight:700;margin-bottom:0.6rem;display:block">Logo Type</label>
+                    <div style="display:flex;gap:0.75rem">
+                      <label style="display:flex;align-items:center;gap:0.4rem;cursor:pointer;font-size:0.85rem;font-weight:600">
+                        <input type="radio" name="logo-type" id="logo-type-image" value="image" checked style="accent-color:var(--maroon)" />
+                        <i class="fa-regular fa-image" style="color:var(--maroon)"></i> Image / Photo
+                      </label>
+                      <label style="display:flex;align-items:center;gap:0.4rem;cursor:pointer;font-size:0.85rem;font-weight:600">
+                        <input type="radio" name="logo-type" id="logo-type-text" value="text" style="accent-color:var(--maroon)" />
+                        <i class="fa-solid fa-font" style="color:var(--maroon)"></i> Text Only
+                      </label>
+                    </div>
+                  </div>
+
+                  <!-- Image mode -->
+                  <div id="logo-image-fields">
+                    <div class="form-group">
+                      <label>Upload Logo Image</label>
+                      <div style="display:flex;gap:0.5rem;align-items:center;margin-bottom:0.5rem;flex-wrap:wrap">
+                        <label class="btn btn-outline btn-sm" style="cursor:pointer;display:inline-flex;align-items:center;gap:0.4rem;margin:0">
+                          <i class="fa-solid fa-upload"></i> Upload from Phone / PC
+                          <input type="file" id="logo-file-input" accept="image/*" style="display:none" />
+                        </label>
+                        <span id="logo-upload-status" style="font-size:0.78rem;color:var(--text-light)">or paste a URL below</span>
+                      </div>
+                      <input type="url" class="form-control" id="logo-url-input" placeholder="https://example.com/logo.png" />
+                      <small style="font-size:0.72rem;color:var(--text-light);margin-top:0.3rem;display:block">Recommended: square image, min 100×100px. Black background auto-hidden.</small>
+                    </div>
+                    <div style="display:flex;gap:1rem;flex-wrap:wrap">
+                      <div class="form-group" style="margin-bottom:0;flex:1;min-width:120px">
+                        <label>Logo Size <small style="font-weight:400;color:var(--text-light)">(height px)</small></label>
+                        <input type="number" class="form-control" id="logo-size-input" value="48" min="24" max="80" />
+                      </div>
+                      <div class="form-group" style="margin-bottom:0;flex:1;min-width:120px">
+                        <label>Border Radius <small style="font-weight:400;color:var(--text-light)">(0 = square)</small></label>
+                        <input type="number" class="form-control" id="logo-radius-input" value="50" min="0" max="50" />
+                        <small style="font-size:0.7rem;color:var(--text-light)">50 = full circle</small>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Text mode -->
+                  <div id="logo-text-fields" style="display:none">
+                    <div class="form-group">
+                      <label>Brand Name <small style="font-weight:400;color:var(--text-light)">(big text)</small></label>
+                      <input type="text" class="form-control" id="logo-text-name" placeholder="Krishna" value="Krishna" />
+                    </div>
+                    <div class="form-group" style="margin-bottom:0">
+                      <label>Tagline <small style="font-weight:400;color:var(--text-light)">(small text below)</small></label>
+                      <input type="text" class="form-control" id="logo-text-tagline" placeholder="Fashion" value="Fashion" />
+                    </div>
+                  </div>
+
+                  <button class="btn btn-primary" id="save-logo-btn" style="margin-top:1.25rem;min-width:160px">
+                    <i class="fa-solid fa-floppy-disk"></i> Save Logo
+                  </button>
+                </div>
+
+                <!-- Right: live preview -->
+                <div style="background:var(--cream);border-radius:var(--radius-md);padding:1.5rem;border:1px solid var(--border-light)">
+                  <div style="font-size:0.75rem;font-weight:700;color:var(--text-light);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:1rem;text-align:center">Live Preview</div>
+                  <!-- Simulated navbar strip -->
+                  <div style="background:#fff;border:1px solid var(--border);border-radius:8px;padding:0.75rem 1rem;display:flex;align-items:center;gap:0.75rem;box-shadow:0 2px 8px rgba(0,0,0,0.06)">
+                    <div id="logo-preview-wrap" style="display:flex;align-items:center;gap:0.5rem">
+                      <img id="logo-preview-img" src="" alt="Logo Preview"
+                           style="height:48px;width:48px;object-fit:cover;border-radius:50%;display:none;mix-blend-mode:multiply" />
+                      <div id="logo-preview-text" style="display:flex;flex-direction:column;line-height:1.1">
+                        <span id="logo-prev-name" style="font-size:1.1rem;font-weight:800;color:var(--maroon);font-family:Georgia,serif">Krishna</span>
+                        <span id="logo-prev-tagline" style="font-size:0.65rem;font-weight:600;letter-spacing:0.12em;color:var(--text-light);text-transform:uppercase">Fashion</span>
+                      </div>
+                    </div>
+                    <div style="flex:1;display:flex;gap:0.5rem;justify-content:flex-end">
+                      <div style="width:32px;height:8px;background:var(--border);border-radius:4px"></div>
+                      <div style="width:32px;height:8px;background:var(--border);border-radius:4px"></div>
+                      <div style="width:32px;height:8px;background:var(--border);border-radius:4px"></div>
+                    </div>
+                  </div>
+                  <p style="font-size:0.72rem;color:var(--text-light);text-align:center;margin-top:0.75rem">This is how it appears in the top navbar</p>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
           <!-- Payment QR Code -->
           <div class="admin-panel">
             <div class="admin-panel-header">
@@ -2048,6 +2144,53 @@
         }
       };
 
+      // ── LOGO SETTINGS ──
+      const logoData = (await getConfig('navbarLogo')) || {};
+
+      // Restore saved values
+      const logoType = logoData.type || 'image';
+      document.getElementById(logoType === 'text' ? 'logo-type-text' : 'logo-type-image').checked = true;
+      document.getElementById('logo-image-fields').style.display = logoType === 'text' ? 'none' : 'block';
+      document.getElementById('logo-text-fields').style.display  = logoType === 'text' ? 'block' : 'none';
+      if (logoData.imageUrl)  document.getElementById('logo-url-input').value      = logoData.imageUrl;
+      if (logoData.size)      document.getElementById('logo-size-input').value     = logoData.size;
+      if (logoData.radius !== undefined) document.getElementById('logo-radius-input').value = logoData.radius;
+      if (logoData.brandName) document.getElementById('logo-text-name').value      = logoData.brandName;
+      if (logoData.tagline)   document.getElementById('logo-text-tagline').value   = logoData.tagline;
+
+      // Update live preview on load
+      _updateLogoPreview(logoData);
+
+      // Mode switch
+      document.querySelectorAll('input[name="logo-type"]').forEach(r => {
+        r.addEventListener('change', () => {
+          const isImg = document.getElementById('logo-type-image').checked;
+          document.getElementById('logo-image-fields').style.display = isImg ? 'block' : 'none';
+          document.getElementById('logo-text-fields').style.display  = isImg ? 'none'  : 'block';
+          _updateLogoPreview();
+        });
+      });
+
+      // Live preview on any input change
+      ['logo-url-input','logo-size-input','logo-radius-input','logo-text-name','logo-text-tagline'].forEach(id => {
+        document.getElementById(id)?.addEventListener('input', () => _updateLogoPreview());
+      });
+
+      // Save
+      document.getElementById('save-logo-btn').onclick = async () => {
+        const isImg = document.getElementById('logo-type-image').checked;
+        const logoConfig = {
+          type:      isImg ? 'image' : 'text',
+          imageUrl:  document.getElementById('logo-url-input').value.trim(),
+          size:      parseInt(document.getElementById('logo-size-input').value) || 48,
+          radius:    parseInt(document.getElementById('logo-radius-input').value) ?? 50,
+          brandName: document.getElementById('logo-text-name').value.trim(),
+          tagline:   document.getElementById('logo-text-tagline').value.trim(),
+        };
+        await setConfig('navbarLogo', logoConfig);
+        showToast('Logo saved! ✅ Refresh your website to see changes.', 'success');
+      };
+
       document.getElementById('preview-qr-btn').onclick = () => {
         const url   = document.getElementById('qr-url-input').value.trim();
         const upiId = document.getElementById('qr-upi-id').value.trim();
@@ -2415,7 +2558,62 @@
         this.value = '';
       });
 
+      /* Logo file upload */
+      document.getElementById('logo-file-input')?.addEventListener('change', async function () {
+        const file = this.files?.[0];
+        if (!file) return;
+        const status = document.getElementById('logo-upload-status');
+        status.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Processing…';
+        try {
+          const dataUrl = await imageFileToBase64(file, 400, 0.90);
+          document.getElementById('logo-url-input').value = dataUrl;
+          _updateLogoPreview();
+          status.innerHTML = '<span style="color:#2D7B4F"><i class="fa-solid fa-circle-check"></i> Image ready — click <strong>Save Logo</strong></span>';
+        } catch(err) {
+          status.innerHTML = '<span style="color:#C45C00">Upload failed — try a smaller image</span>';
+        }
+        this.value = '';
+      });
+
     });
+
+    /* ═══════════════════════════════════════
+       LOGO PREVIEW HELPER
+    ══════════════════════════════════════════ */
+    function _updateLogoPreview(data) {
+      const isImg   = data ? data.type !== 'text' : document.getElementById('logo-type-image')?.checked;
+      const url     = data?.imageUrl  || document.getElementById('logo-url-input')?.value    || '';
+      const size    = data?.size      || parseInt(document.getElementById('logo-size-input')?.value)   || 48;
+      const radius  = data?.radius !== undefined ? data.radius : (parseInt(document.getElementById('logo-radius-input')?.value) ?? 50);
+      const name    = data?.brandName || document.getElementById('logo-text-name')?.value    || 'Krishna';
+      const tagline = data?.tagline   || document.getElementById('logo-text-tagline')?.value || 'Fashion';
+
+      const imgEl     = document.getElementById('logo-preview-img');
+      const textEl    = document.getElementById('logo-preview-text');
+      const prevName  = document.getElementById('logo-prev-name');
+      const prevTag   = document.getElementById('logo-prev-tagline');
+
+      if (!imgEl) return;
+
+      if (isImg && url) {
+        imgEl.src = url;
+        imgEl.style.height       = size + 'px';
+        imgEl.style.width        = size + 'px';
+        imgEl.style.borderRadius = radius + '%';
+        imgEl.style.display      = 'block';
+        if (textEl) textEl.style.display = 'none';
+      } else if (!isImg) {
+        imgEl.style.display = 'none';
+        if (textEl) textEl.style.display = 'flex';
+        if (prevName)  prevName.textContent  = name;
+        if (prevTag)   prevTag.textContent   = tagline;
+      } else {
+        // image mode but no URL yet — show text fallback
+        imgEl.style.display = 'none';
+        if (textEl) textEl.style.display = 'flex';
+      }
+    }
+
   </script>
 </body>
 </html>

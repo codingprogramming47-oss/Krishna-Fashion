@@ -320,7 +320,7 @@
     <div class="section-divider">
       <span></span><i class="fa-brands fa-instagram"></i><span></span>
     </div>
-    <h2 class="section-title" id="insta-hashtag">#KrishnaFashion</h2>
+    <h2 class="section-title" id="insta-hashtag">#krishna_fashion.gj1</h2>
     <p class="section-subtitle" id="insta-subtitle" style="color:rgba(245,237,214,0.7)">Tag us on Instagram and get featured!</p>
     <div class="instagram-grid" id="instagram-grid">
       <!-- Populated dynamically from Firestore instagram -->
@@ -461,7 +461,7 @@
         topbar, heroContent, heroCards, heroImg, banner, sections,
         socialProof, catSection, catImages, featSection, newSection,
         reviews, instagram, newsletter, footerContent,
-        whyUs, statsBar, siteSettings
+        whyUs, statsBar, siteSettings, navbarLogo
       ] = await Promise.all([
         getConfig('topbar'),
         getConfig('heroContent'),
@@ -481,7 +481,33 @@
         getConfig('whyUs'),
         getConfig('statsBar'),
         getConfig('settings'),
+        getConfig('navbarLogo'),
       ]);
+
+      // ── NAVBAR LOGO ──
+      if (navbarLogo) {
+        const logoLinks = document.querySelectorAll('a.nav-logo');
+        logoLinks.forEach(link => {
+          link.innerHTML = ''; // clear existing content
+          if (navbarLogo.type === 'text' || !navbarLogo.imageUrl) {
+            // Text mode
+            const name    = navbarLogo.brandName || 'Krishna';
+            const tagline = navbarLogo.tagline   || 'Fashion';
+            link.innerHTML = `<span class="brand-name">${name}</span><span class="brand-tagline">${tagline}</span>`;
+          } else {
+            // Image mode
+            const size   = navbarLogo.size   || 48;
+            const radius = navbarLogo.radius !== undefined ? navbarLogo.radius : 50;
+            link.innerHTML = `<img src="${navbarLogo.imageUrl}" alt="Logo"
+              style="height:${size}px;width:${size}px;object-fit:cover;border-radius:${radius}%;display:block;mix-blend-mode:multiply;" />`;
+          }
+        });
+        // Mobile nav header brand name too
+        const mobileNames = document.querySelectorAll('.mobile-nav-header .brand-name');
+        mobileNames.forEach(el => {
+          if (navbarLogo.brandName) el.textContent = navbarLogo.brandName;
+        });
+      }
 
       // ── TOP BAR ──
       if (topbar) {
