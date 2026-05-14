@@ -40,6 +40,9 @@
   <!-- ── DASHBOARD ── -->
   <div id="admin-dashboard" class="admin-layout" style="display:none">
 
+    <!-- Mobile overlay backdrop -->
+    <div id="sidebar-overlay" class="sidebar-overlay"></div>
+
     <!-- SIDEBAR -->
     <aside class="admin-sidebar" id="admin-sidebar">
       <div class="admin-logo">
@@ -98,7 +101,7 @@
         <div id="section-dashboard">
           <div class="admin-stats" id="admin-stats"></div>
 
-          <div style="display:grid;grid-template-columns:1fr 320px;gap:1.5rem">
+          <div class="dashboard-grid-main">
             <div class="admin-panel">
               <div class="admin-panel-header">
                 <div class="admin-panel-title">Recent Orders</div>
@@ -1034,8 +1037,18 @@
       });
 
       // Sidebar toggle
-      document.getElementById('sidebar-toggle')?.addEventListener('click', () => {
-        document.getElementById('admin-sidebar').classList.toggle('open');
+      const _sidebar = document.getElementById('admin-sidebar');
+      const _overlay = document.getElementById('sidebar-overlay');
+      function openSidebar()  { _sidebar.classList.add('open');    if (_overlay) _overlay.classList.add('visible'); }
+      function closeSidebar() { _sidebar.classList.remove('open'); if (_overlay) _overlay.classList.remove('visible'); }
+      function toggleSidebar(){ _sidebar.classList.contains('open') ? closeSidebar() : openSidebar(); }
+
+      document.getElementById('sidebar-toggle')?.addEventListener('click', toggleSidebar);
+      if (_overlay) _overlay.addEventListener('click', closeSidebar);
+
+      // Close sidebar on mobile when a nav section link is clicked
+      document.querySelectorAll('.admin-nav a[data-section]').forEach(link => {
+        link.addEventListener('click', () => { if (window.innerWidth <= 900) closeSidebar(); });
       });
 
       // Logout
