@@ -415,6 +415,20 @@
     <div class="whatsapp-float-btn"><i class="fa-brands fa-whatsapp"></i></div>
   </a>
 
+  <!-- ADMIN CORNER LINK — fixed bottom-left, far from WhatsApp float button -->
+  <a id="admin-corner-link" href="admin.html" title="Admin Panel"
+     style="display:none;position:fixed;bottom:18px;left:14px;z-index:900;
+            align-items:center;gap:5px;
+            background:rgba(0,0,0,0.28);backdrop-filter:blur(4px);
+            color:rgba(255,255,255,0.45);font-size:0.62rem;letter-spacing:0.07em;
+            padding:5px 10px;border-radius:20px;text-decoration:none;
+            border:1px solid rgba(255,255,255,0.12);
+            transition:opacity 0.2s,background 0.2s"
+     onmouseover="this.style.background='rgba(0,0,0,0.5)';this.style.color='rgba(255,255,255,0.85)'"
+     onmouseout="this.style.background='rgba(0,0,0,0.28)';this.style.color='rgba(255,255,255,0.45)'">
+    <i class="fa-solid fa-lock" style="font-size:0.55rem"></i> Admin
+  </a>
+
   <!-- SCROLL TO TOP -->
   <button class="scroll-top" aria-label="Scroll to top"><i class="fa-solid fa-arrow-up"></i></button>
 
@@ -826,11 +840,10 @@
         bottomEl.innerHTML = bottomLinks.map(l =>
           `<a href="${l.href || '#'}">${l.label}</a>`
         ).join('');
-        bottomEl.innerHTML +=
-          `<a href="admin.html"
-              style="color:rgba(255,255,255,0.18);font-size:0.65rem;letter-spacing:0.05em"
-              title="Admin Panel">Admin</a>`;
       }
+      // Admin link — fixed to bottom-LEFT corner, far from the WhatsApp float button
+      const adminLink = document.getElementById('admin-corner-link');
+      if (adminLink) adminLink.style.display = 'flex';
 
       // ── WHATSAPP: fetch live number from Firestore → update float button ──
       // Button starts disabled (href="#", pointer-events:none) and is only enabled

@@ -355,6 +355,28 @@
               <span style="font-size:0.75rem;color:var(--text-light)">Right-side model image on homepage</span>
             </div>
             <div class="admin-panel-body">
+              <!-- Upload from device -->
+              <div style="margin-bottom:1rem">
+                <label style="font-size:0.78rem;font-weight:600;color:var(--text-mid);display:block;margin-bottom:0.5rem">
+                  <i class="fa-solid fa-upload" style="color:var(--maroon);margin-right:0.3rem"></i>
+                  Upload from Phone / PC
+                </label>
+                <label for="hero-img-file-input"
+                       style="display:inline-flex;align-items:center;gap:0.5rem;padding:0.55rem 1rem;background:var(--cream);border:2px dashed var(--maroon);border-radius:var(--radius-sm);cursor:pointer;font-size:0.84rem;color:var(--maroon);font-weight:600;transition:background 0.2s"
+                       onmouseover="this.style.background='var(--beige)'" onmouseout="this.style.background='var(--cream)'">
+                  <i class="fa-solid fa-camera"></i> Choose Image
+                  <input type="file" id="hero-img-file-input" accept="image/*" style="display:none" />
+                </label>
+                <span style="font-size:0.72rem;color:var(--text-light);margin-left:0.6rem">JPG, PNG, WEBP — max ~10 MB</span>
+                <div id="hero-img-upload-status" style="margin-top:0.4rem;font-size:0.8rem;min-height:1.2em"></div>
+              </div>
+
+              <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1rem">
+                <div style="flex:1;height:1px;background:var(--border)"></div>
+                <span style="font-size:0.72rem;color:var(--text-light);white-space:nowrap">or paste a URL</span>
+                <div style="flex:1;height:1px;background:var(--border)"></div>
+              </div>
+
               <div style="display:grid;grid-template-columns:1fr auto;gap:1rem;align-items:end">
                 <div class="form-group" style="margin-bottom:0">
                   <label>Image URL <small style="color:var(--text-light);font-weight:400">— paste any image link</small></label>
@@ -2569,6 +2591,27 @@
         textarea.value = (existing ? existing + '\n' : '') + dataUrls.join('\n');
         status.innerHTML = `<span style="color:#2D7B4F"><i class="fa-solid fa-circle-check"></i> ${dataUrls.length} photo${dataUrls.length > 1 ? 's' : ''} added — save the product to apply</span>`;
         this.value = '';
+      });
+
+      /* Hero image file upload */
+      document.getElementById('hero-img-file-input')?.addEventListener('change', async function () {
+        const file = this.files?.[0];
+        if (!file) return;
+        const status = document.getElementById('hero-img-upload-status');
+        status.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Processing image…';
+        try {
+          const dataUrl = await imageFileToBase64(file, 1200, 0.85);
+          document.getElementById('hero-img-url-input').value = dataUrl;
+          // Show preview
+          const previewWrap = document.getElementById('hero-img-preview');
+          const previewEl   = document.getElementById('hero-img-preview-el');
+          previewEl.src     = dataUrl;
+          previewWrap.style.display = 'block';
+          status.innerHTML = '<span style="color:#2D7B4F"><i class="fa-solid fa-circle-check"></i> Image ready — click <strong>Save Image</strong> to apply</span>';
+        } catch (err) {
+          status.innerHTML = '<span style="color:#C45C00"><i class="fa-solid fa-triangle-exclamation"></i> Upload failed — try a smaller image</span>';
+        }
+        this.value = ''; // allow re-selecting same file
       });
 
       /* Logo file upload */
