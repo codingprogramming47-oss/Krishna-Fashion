@@ -102,10 +102,10 @@ export function renderProductCard(product) {
   <div class="product-card" data-id="${product.id}">
     <div class="product-card-img">
       <a href="product.html?id=${product.id}">
-        <img src="${product.images?.[0] || 'https://placehold.co/400x533/f5edd6/7b1d2e?text=Aarohi'}"
+        <img src="${product.images?.[0] || 'https://placehold.co/400x533/f5edd6/7b1d2e?text=Krishna'}"
              data-hover="${product.images?.[1] || product.images?.[0]}"
              alt="${product.name}" loading="lazy"
-             onerror="this.src='https://placehold.co/400x533/f5edd6/7b1d2e?text=Aarohi'">
+             onerror="this.src='https://placehold.co/400x533/f5edd6/7b1d2e?text=Krishna'">
       </a>
       <div class="product-card-badges">${badges}</div>
       <button class="product-card-wishlist ${inWish ? 'active' : ''}"

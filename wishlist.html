@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>My Wishlist — Aarohi Fashion</title>
+  <title>My Wishlist — Krishna Fashion</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <link rel="stylesheet" href="main.css" />
   <link rel="stylesheet" href="cart.css" />
@@ -11,7 +11,7 @@
 <body>
 
   <div id="page-loader" class="page-loader">
-    <span class="brand-name">Aarohi</span>
+    <span class="brand-name">Krishna</span>
     <div class="spinner"></div>
   </div>
 
@@ -19,8 +19,8 @@
   <header class="site-header">
     <div class="navbar">
       <a href="index.html" class="nav-logo">
-        <span class="brand-name">Aarohi</span>
-        <span class="brand-tagline">Ethnic Fashion</span>
+        <span class="brand-name">Krishna</span>
+        <span class="brand-tagline">Fashion</span>
       </a>
       <nav class="nav-links">
         <a href="index.html">Home</a>
@@ -42,7 +42,7 @@
 
   <nav class="mobile-nav">
     <div class="mobile-nav-header">
-      <span class="brand-name">Aarohi</span>
+      <span class="brand-name">Krishna</span>
       <button class="mobile-nav-close"><i class="fa-solid fa-xmark"></i></button>
     </div>
     <div class="mobile-nav-links">
@@ -50,7 +50,7 @@
       <a href="shop.html">All Products</a>
       <a href="cart.html">Cart</a>
       <a href="orders.html">My Orders</a>
-      </div>
+    </div>
   </nav>
 
   <!-- PAGE BANNER -->
@@ -94,85 +94,194 @@
   <!-- FOOTER -->
   <footer class="site-footer">
     <div class="footer-grid">
+
+      <!-- Brand column -->
       <div class="footer-col footer-brand">
         <a href="index.html" class="nav-logo">
-          <span class="brand-name">Aarohi</span>
-          <span class="brand-tagline" style="color:rgba(255,255,255,0.4)">Ethnic Fashion</span>
+          <span class="brand-name">Krishna</span>
+          <span class="brand-tagline" style="color:rgba(255,255,255,0.4)">Fashion</span>
         </a>
-        <p>Celebrating the beauty of Indian ethnic wear.</p>
-        <div class="footer-social">
-          <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
-          <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
-          <a href="#" aria-label="Pinterest"><i class="fa-brands fa-pinterest-p"></i></a>
+        <p id="footer-about">Celebrating the beauty of Indian ethnic wear with handcrafted, premium quality clothing for every occasion.</p>
+        <div class="footer-social" id="footer-social">
+          <!-- Populated dynamically from Firestore footerContent.socials -->
         </div>
       </div>
+
+      <!-- Shop column — categories from products DB -->
       <div class="footer-col">
         <h4>Shop</h4>
-        <ul>
-          <li><a href="shop.html?category=Dresses">Dresses</a></li>
-          <li><a href="shop.html?category=Co-ord+Sets">Co-ord Sets</a></li>
-          <li><a href="shop.html?category=Wedding+Wear">Wedding Wear</a></li>
-          <li><a href="shop.html?category=Festive+Collection">Festive Collection</a></li>
+        <ul id="footer-shop-links">
+          <li><span style="color:rgba(255,255,255,0.3);font-size:0.8rem">Loading…</span></li>
         </ul>
       </div>
+
+      <!-- Help column — from Firestore footerContent.helpLinks -->
       <div class="footer-col">
         <h4>Help</h4>
-        <ul>
-          <li><a href="#">Shipping Policy</a></li>
-          <li><a href="returns.html">Returns</a></li>
-          <li><a href="orders.html">Track Order</a></li>
+        <ul id="footer-help-links">
+          <li><span style="color:rgba(255,255,255,0.3);font-size:0.8rem">Loading…</span></li>
         </ul>
       </div>
+
+      <!-- Contact column -->
       <div class="footer-col">
-        <h4>Contact</h4>
-        <div class="footer-contact-item"><i class="fa-solid fa-phone"></i><span>+91 98765 43210</span></div>
-        <div class="footer-contact-item"><i class="fa-solid fa-envelope"></i><span>hello@aarohifashion.com</span></div>
+        <h4>Contact Us</h4>
+        <div class="footer-contact-item" id="footer-phone-row" style="display:none">
+          <i class="fa-solid fa-phone"></i>
+          <span id="footer-phone"></span>
+        </div>
+        <div class="footer-contact-item" id="footer-email-row" style="display:none">
+          <i class="fa-solid fa-envelope"></i>
+          <span id="footer-email"></span>
+        </div>
+        <div class="footer-contact-item" id="footer-address-row" style="display:none">
+          <i class="fa-solid fa-location-dot"></i>
+          <span id="footer-address"></span>
+        </div>
+        <div class="footer-contact-item" id="footer-whatsapp-row" style="display:none">
+          <i class="fa-brands fa-whatsapp"></i>
+          <span id="footer-whatsapp"></span>
+        </div>
       </div>
+
     </div>
     <div class="footer-bottom">
-      <p>© 2025 Aarohi Fashion. All rights reserved.</p>
-      <div class="footer-bottom-links"><a href="privacy.html">Privacy</a><a href="returns.html">Terms</a></div>
+      <p id="footer-copyright">© 2026 Krishna Fashion. All rights reserved. Made with ❤️ in India.</p>
+      <div class="footer-bottom-links" id="footer-bottom-links">
+        <!-- Populated dynamically from Firestore footerContent.bottomLinks -->
+      </div>
     </div>
   </footer>
 
-  <a href="https://wa.me/919876543210" class="whatsapp-float" target="_blank" rel="noopener">
-    <span class="whatsapp-label">Chat with us</span>
+  <!-- FLOATING WHATSAPP -->
+  <a id="whatsapp-float-link" href="#" class="whatsapp-float" target="_blank" rel="noopener" title="Chat on WhatsApp" style="pointer-events:none;opacity:0.4">
+    <span class="whatsapp-label" id="whatsapp-label">Chat with us</span>
     <div class="whatsapp-float-btn"><i class="fa-brands fa-whatsapp"></i></div>
   </a>
+
   <button class="scroll-top" aria-label="Scroll to top"><i class="fa-solid fa-arrow-up"></i></button>
 
   <script type="module">
-    import { initNavbar, initScrollTop, hideLoader, showToast } from './utils.js';
-    import { sampleProducts, renderProductCard, initWishlistUI, updateCartBadge, getWishlist, saveWishlist } from './products.js';
+    import { initNavbar, initScrollTop, hideLoader, showToast, LS } from './utils.js';
+    import { getProducts, renderProductCard, initWishlistUI, updateCartBadge, getWishlist, saveWishlist } from './products.js';
     import { addToCart } from './cart.js';
+    import { getConfig } from './firebase.js';
 
-    document.addEventListener('DOMContentLoaded', () => {
+    function set(id, val) { const el = document.getElementById(id); if (el && val) el.textContent = val; }
+
+    document.addEventListener('DOMContentLoaded', async () => {
       setTimeout(hideLoader, 400);
       initNavbar();
       initScrollTop();
       updateCartBadge();
 
-      renderWishlist();
+      // Load products + footer config in parallel
+      const [allProducts, footerContent, siteSettings] = await Promise.all([
+        getProducts(),
+        getConfig('footerContent'),
+        getConfig('settings'),
+      ]);
+
+      // ── DYNAMIC FOOTER ──
+      if (footerContent) {
+        if (footerContent.about)     set('footer-about',     footerContent.about);
+        if (footerContent.copyright) set('footer-copyright', footerContent.copyright);
+        if (footerContent.whatsappLabel) set('whatsapp-label', footerContent.whatsappLabel);
+
+        // Social icons
+        if (footerContent.socials?.length) {
+          const socialEl = document.getElementById('footer-social');
+          if (socialEl) {
+            socialEl.innerHTML = footerContent.socials.map(s =>
+              `<a href="${s.href || '#'}" aria-label="${s.label || ''}"
+                  ${s.href && s.href !== '#' ? 'target="_blank" rel="noopener"' : ''}>
+                 <i class="${s.icon}"></i></a>`
+            ).join('');
+          }
+        }
+
+        // Contact rows
+        const showRow = (rowId, spanId, val) => {
+          if (!val) return;
+          set(spanId, val);
+          const row = document.getElementById(rowId);
+          if (row) row.style.display = '';
+        };
+        showRow('footer-phone-row',   'footer-phone',   footerContent.phone);
+        showRow('footer-email-row',   'footer-email',   footerContent.email);
+        showRow('footer-address-row', 'footer-address', footerContent.address);
+
+        const waNum = siteSettings?.whatsappNumber || '';
+        if (waNum || footerContent.phone) {
+          showRow('footer-whatsapp-row', 'footer-whatsapp',
+            footerContent.phone ? `WhatsApp: ${footerContent.phone}` : `WhatsApp: +${waNum}`);
+        }
+
+        // Help links
+        const DEFAULT_HELP = [
+          { label: 'Returns & Exchange', href: 'return.html'  },
+          { label: 'Privacy Policy',     href: 'privacy.html' },
+        ];
+        const helpLinks = footerContent?.helpLinks?.length ? footerContent.helpLinks : DEFAULT_HELP;
+        const helpList  = document.getElementById('footer-help-links');
+        if (helpList) {
+          helpList.innerHTML = helpLinks.map(l =>
+            `<li><a href="${l.href || '#'}">${l.label}</a></li>`
+          ).join('');
+        }
+
+        // Bottom links
+        const DEFAULT_BOTTOM = [{ label: 'Privacy Policy', href: 'privacy.html' }];
+        const bottomLinks = footerContent?.bottomLinks?.length ? footerContent.bottomLinks : DEFAULT_BOTTOM;
+        const bottomEl    = document.getElementById('footer-bottom-links');
+        if (bottomEl) {
+          bottomEl.innerHTML = bottomLinks.map(l =>
+            `<a href="${l.href || '#'}">${l.label}</a>`
+          ).join('');
+        }
+      }
+
+      // Shop links — unique categories from products
+      const shopList = document.getElementById('footer-shop-links');
+      if (shopList) {
+        const cats = [...new Set(allProducts.map(p => p.category).filter(Boolean))].sort();
+        shopList.innerHTML = cats.length
+          ? cats.map(c => `<li><a href="shop.html?category=${encodeURIComponent(c)}">${c}</a></li>`).join('')
+          : `<li><a href="shop.html">All Products</a></li>`;
+      }
+
+      // WhatsApp float button
+      const liveWaNum = siteSettings?.whatsappNumber || '';
+      const waFloatLink = document.getElementById('whatsapp-float-link');
+      if (liveWaNum && waFloatLink) {
+        const _s = LS.get('aarohi_settings') || {};
+        _s.whatsappNumber = liveWaNum;
+        LS.set('aarohi_settings', _s);
+        waFloatLink.href = `https://wa.me/${liveWaNum}`;
+        waFloatLink.style.pointerEvents = '';
+        waFloatLink.style.opacity = '';
+      }
+      renderWishlist(allProducts);
 
       document.getElementById('clear-wish-btn')?.addEventListener('click', () => {
         if (!confirm('Clear your entire wishlist?')) return;
         saveWishlist([]);
-        renderWishlist();
+        renderWishlist(allProducts);
         showToast('Wishlist cleared', 'info');
       });
 
       document.getElementById('add-all-btn')?.addEventListener('click', () => {
         const list     = getWishlist();
-        const products = sampleProducts.filter(p => list.includes(p.id));
-        products.forEach(p => addToCart({ ...p, selectedSize: p.sizes[1] || p.sizes[0], quantity: 1 }));
+        const products = allProducts.filter(p => list.includes(p.id));
+        products.forEach(p => addToCart({ ...p, selectedSize: p.sizes?.[1] || p.sizes?.[0], quantity: 1 }));
         updateCartBadge();
         showToast(`${products.length} items added to bag! 🛍️`, 'success');
       });
     });
 
-    function renderWishlist() {
-      const list = getWishlist();
-      const grid = document.getElementById('wish-grid');
+    function renderWishlist(allProducts) {
+      const list    = getWishlist();
+      const grid    = document.getElementById('wish-grid');
       const emptyEl = document.getElementById('wish-empty');
       const toolbar = document.getElementById('wish-toolbar');
       const countEl = document.getElementById('wish-count');
@@ -184,12 +293,12 @@
         return;
       }
 
-      emptyEl.style.display  = 'none';
-      toolbar.style.display  = 'flex';
+      emptyEl.style.display = 'none';
+      toolbar.style.display = 'flex';
       if (countEl) countEl.textContent = list.length;
 
       const products = list
-        .map(id => sampleProducts.find(p => p.id === id))
+        .map(id => allProducts.find(p => p.id === id))
         .filter(Boolean);
 
       if (grid) {
@@ -199,9 +308,7 @@
         // Re-render when an item is un-wishlisted from this page
         grid.addEventListener('click', e => {
           const wishBtn = e.target.closest('.product-card-wishlist');
-          if (wishBtn) {
-            setTimeout(() => renderWishlist(), 100);
-          }
+          if (wishBtn) setTimeout(() => renderWishlist(allProducts), 100);
         });
       }
     }
