@@ -227,8 +227,7 @@ export async function buildWhatsAppMessage(formData) {
     `  ${i+1}. ${item.name}` +
     `\n      Size: ${item.selectedSize || 'N/A'}` +
     `\n      Qty: ${item.quantity || 1}` +
-    `\n      Price: ${formatCurrency(item.price * (item.quantity||1))}` +
-    (item.images?.[0] ? `\n      🖼️ Image: ${item.images[0]}` : '')
+    `\n      Price: ${formatCurrency(item.price * (item.quantity||1))}`
   ).join('\n\n');
 
   const orderId   = generateOrderId();
