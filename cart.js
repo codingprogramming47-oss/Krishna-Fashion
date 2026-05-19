@@ -225,6 +225,7 @@ export async function buildWhatsAppMessage(formData) {
 
   const itemLines = cart.map((item, i) =>
     `  ${i+1}. ${item.name}` +
+    `\n      SKU: ${item.sku || item.id || 'N/A'}` +
     `\n      Size: ${item.selectedSize || 'N/A'}` +
     `\n      Qty: ${item.quantity || 1}` +
     `\n      Price: ${formatCurrency(item.price * (item.quantity||1))}`
