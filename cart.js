@@ -268,8 +268,19 @@ Thank you for shopping with ${storeName}! 🌸
 
 /* ── PLACE ORDER ─────────────────────────────────────────── */
 export async function placeOrderViaWhatsApp(formData) {
+  const cart = getCart();
+  if (!cart.length) { showToast('Your cart is empty', 'error'); return null; }
+
+  // Open a blank window IMMEDIATELY (synchronous, before any await)
+  // so mobile browsers don't block it as a popup.
+  const waWindow = window.open('', '_blank');
+
   const result = await buildWhatsAppMessage(formData);
-  if (!result) { showToast('Your cart is empty', 'error'); return null; }
+  if (!result) {
+    if (waWindow) waWindow.close();
+    showToast('Something went wrong. Please try again.', 'error');
+    return null;
+  }
 
   const orderData = {
     id:      result.orderId,
@@ -285,7 +296,15 @@ export async function placeOrderViaWhatsApp(formData) {
   LS.set('aarohi_orders', orders);
 
   const encoded = encodeURIComponent(result.message);
-  window.open(`https://wa.me/${result.waNumber}?text=${encoded}`, '_blank');
+  const waUrl   = `https://wa.me/${result.waNumber}?text=${encoded}`;
+
+  // Point the already-open window to WhatsApp — mobile won't block this
+  if (waWindow) {
+    waWindow.location.href = waUrl;
+  } else {
+    // Fallback if window.open returned null (some browsers/apps)
+    window.location.href = waUrl;
+  }
 
   clearCart();
   return result.orderId;
