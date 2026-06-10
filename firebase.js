@@ -1,5 +1,5 @@
 // ============================================================
-//   AAROHI FASHION — firebase.js
+//   KRISHNA FASHION — firebase.js
 //   Firebase used for:
 //     • products (Firestore collection: "products")
 //     • site config — coupons, hero, banner, categories,
@@ -8,18 +8,15 @@
 //
 //   Orders → localStorage (WhatsApp-based, no server needed)
 //   Wishlist / Cart → localStorage (device-local)
-//
-//   SETUP:
-//   1. https://console.firebase.google.com → New project
-//   2. Firestore Database → Create (test mode is fine)
-//   3. Project Settings → Web App → copy config below
 // ============================================================
 
-import { initializeApp }  from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
 import { getFirestore, doc, getDoc, setDoc }
   from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged }
+  from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
 
-// ── REPLACE WITH YOUR FIREBASE CONFIG ──────────────────────
+// ── YOUR FIREBASE CONFIG ────────────────────────────────────
 const firebaseConfig = {
   apiKey:            "AIzaSyBuW8A24NcY9neNmjo6HPKAKGvoylRYZAQ",
   authDomain:        "krishna-fashion-94f72.firebaseapp.com",
@@ -31,14 +28,41 @@ const firebaseConfig = {
 
 const app       = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
+export const auth = getAuth(app);
 export default app;
+
+// ── AUTH HELPERS ────────────────────────────────────────────
+
+/**
+ * Log in as admin using Firebase Authentication.
+ * Throws on wrong credentials.
+ */
+export async function adminLogin(email, password) {
+  return await signInWithEmailAndPassword(auth, email, password);
+}
+
+/**
+ * Log out the current admin.
+ */
+export async function adminLogout() {
+  return await signOut(auth);
+}
+
+/**
+ * Listen for auth state changes.
+ * Callback receives a Firebase User object (or null if logged out).
+ * Returns the unsubscribe function.
+ */
+export function onAdminAuthChange(callback) {
+  return onAuthStateChanged(auth, callback);
+}
 
 // ── SITE CONFIG HELPERS ─────────────────────────────────────
 // All non-product admin data lives in Firestore under
 // collection "siteConfig", one document per key.
 // Keys used:
 //   coupons                 → { list: [...] }
-//   settings                → { storeName, whatsappNumber, adminPassword, ... }
+//   settings                → { storeName, whatsappNumber, ... }
 //
 //   — Hero —
 //   heroImage               → { url: "..." }

@@ -999,10 +999,12 @@
     import { getProducts, addProduct, updateProduct, deleteProduct, seedProducts, invalidateProductCache,
              getCategories, saveCategories, getAvailableTags, saveTags, getAvailableSizes, saveSizes } from './products.js';
     import { getConfig, setConfig } from './firebase.js';
+    import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged }
+      from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+    import app from './firebase.js';
 
     /* ── AUTH ── */
-    const ADMIN_KEY = 'aarohi_admin';
-    let ADMIN_CREDS = { email: 'admin@krishnafashion.com', password: 'admin123' };
+    const auth = getAuth(app);
 
     const STATUS_CLASSES = {
       confirmed:  'status-confirmed',
@@ -1015,16 +1017,15 @@
     document.addEventListener('DOMContentLoaded', () => {
       setTimeout(hideLoader, 400);
 
-      // Load saved admin password
-      const savedSettings = LS.get('aarohi_settings');
-      if (savedSettings?.adminPassword) ADMIN_CREDS.password = savedSettings.adminPassword;
-
-      const adminUser = LS.get(ADMIN_KEY);
-      if (adminUser) {
-        showDashboard(adminUser);
-      } else {
-        document.getElementById('admin-login-screen').style.display = 'flex';
-      }
+      // Listen for Firebase Auth state — show dashboard or login screen accordingly
+      onAuthStateChanged(auth, (user) => {
+        if (user) {
+          document.getElementById('admin-login-screen').style.display = 'none';
+          showDashboard({ email: user.email, name: user.displayName || user.email.split('@')[0] });
+        } else {
+          document.getElementById('admin-login-screen').style.display = 'flex';
+        }
+      });
 
       // Login
       document.getElementById('admin-login-btn')?.addEventListener('click', doLogin);
@@ -1035,21 +1036,21 @@
       async function doLogin() {
         const email = document.getElementById('admin-email').value.trim();
         const pass  = document.getElementById('admin-pass').value;
-        // Always fetch latest credentials from Firestore so saved admin email/pass work immediately
-        let firestoreSettings = {};
-        try { firestoreSettings = (await getConfig('settings')) || {}; } catch(e) {}
-        const lsSettings = LS.get('aarohi_settings') || {};
-        const merged = { ...lsSettings, ...firestoreSettings };
-        LS.set('aarohi_settings', merged);
-        const adminEmail = merged.adminEmail    || ADMIN_CREDS.email;
-        const pw         = merged.adminPassword || ADMIN_CREDS.password;
-        if (email === adminEmail && pass === pw) {
-          const admin = { email, name: 'Admin' };
-          LS.set(ADMIN_KEY, admin);
-          document.getElementById('admin-login-screen').style.display = 'none';
-          showDashboard(admin);
-        } else {
-          showToast('Invalid credentials', 'error');
+        if (!email || !pass) { showToast('Enter email and password', 'warning'); return; }
+        const btn = document.getElementById('admin-login-btn');
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Logging in…';
+        try {
+          await signInWithEmailAndPassword(auth, email, pass);
+          // onAuthStateChanged above will handle showing the dashboard
+        } catch (err) {
+          let msg = 'Login failed. Check your credentials.';
+          if (err.code === 'auth/invalid-credential' || err.code === 'auth/wrong-password') msg = 'Wrong email or password.';
+          if (err.code === 'auth/user-not-found')    msg = 'No account found with this email.';
+          if (err.code === 'auth/too-many-requests')  msg = 'Too many attempts. Try again later.';
+          showToast(msg, 'error');
+          btn.disabled = false;
+          btn.innerHTML = '<i class="fa-solid fa-arrow-right-to-bracket"></i> Login to Dashboard';
         }
       }
 
@@ -1074,15 +1075,16 @@
       });
 
       // Logout
-      document.getElementById('admin-logout-btn')?.addEventListener('click', () => {
-        LS.remove(ADMIN_KEY); window.location.reload();
+      document.getElementById('admin-logout-btn')?.addEventListener('click', async () => {
+        await signOut(auth);
+        window.location.reload();
       });
     });
 
     /* ── SHOW DASHBOARD ── */
     async function showDashboard(admin) {
       document.getElementById('admin-dashboard').style.display = 'flex';
-      document.getElementById('admin-user-name').textContent  = admin.name || admin.email?.split('@')[0];
+      document.getElementById('admin-user-name').textContent  = admin.name || admin.email?.split('@')[0] || 'Admin';
       document.getElementById('admin-avatar').textContent     = (admin.name || admin.email || 'A')[0].toUpperCase();
 
       const orders = LS.get('aarohi_orders') || [];
